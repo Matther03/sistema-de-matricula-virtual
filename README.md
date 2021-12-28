@@ -1,6 +1,6 @@
 # **Sistema de matrícula virtual para un colegio**
 
-Un sistema de matrícula virtual para un colegio / escuela. Trabajo de universidad para el curso POO II (Desarrollo web II) - V ciclo académico.
+Un sistema de matrícula virtual para un colegio / escuela. Trabajo de universidad para el curso POO II (Desarrollo web II) - V ciclo académico - Ingeniería de sistemas.
 
 ## **Estructura del proyecto principal y tecnologías**
 
