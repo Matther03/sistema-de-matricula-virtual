@@ -78,6 +78,7 @@ CREATE TABLE shift(
     PRIMARY KEY (code_shift)
 );
 
+
 DROP TABLE IF EXISTS section;
 CREATE TABLE section(
     code_section TINYINT(2) AUTO_INCREMENT,
@@ -155,3 +156,26 @@ CREATE TABLE enrollment(
     FOREIGN KEY (code_classroom) REFERENCES classroom(code_classroom),
     FOREIGN KEY (code_type_school) REFERENCES type_school(code_type_school)
 );
+
+-- INSERT DATA
+
+INSERT INTO banck (_name) VALUES ('BBVA');
+INSERT INTO banck (_name) VALUES ('BCP');
+
+INSERT INTO shift (category) VALUES ('MAÑANA');
+INSERT INTO shift (category) VALUES ('TARDE');
+
+INSERT INTO grade (name_grade) VALUES ('PRIMERO');
+INSERT INTO grade (name_grade) VALUES ('SEGUNDO');
+INSERT INTO grade (name_grade) VALUES ('TERCERO');
+INSERT INTO grade (name_grade) VALUES ('CUARTO');
+INSERT INTO grade (name_grade) VALUES ('QUINTO');
+
+INSERT INTO section (letter,code_shift) VALUES ('A','1');
+INSERT INTO section (letter,code_shift) VALUES ('B','1');
+INSERT INTO section (letter,code_shift) VALUES ('C','1');
+INSERT INTO section (letter,code_shift) VALUES ('D','1');
+INSERT INTO section (letter,code_shift) VALUES ('E','2');
+INSERT INTO section (letter,code_shift) VALUES ('F','2');
+INSERT INTO section (letter,code_shift) VALUES ('G','2');
+INSERT INTO section (letter,code_shift) VALUES ('H','2');
