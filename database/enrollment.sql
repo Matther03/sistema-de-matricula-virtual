@@ -159,8 +159,8 @@ CREATE TABLE enrollment(
 
 -- INSERT DATA
 
-INSERT INTO banck (_name) VALUES ('BBVA');
-INSERT INTO banck (_name) VALUES ('BCP');
+INSERT INTO bank (_name) VALUES ('BBVA');
+INSERT INTO bank (_name) VALUES ('BCP');
 
 INSERT INTO shift (category) VALUES ('MAÑANA');
 INSERT INTO shift (category) VALUES ('TARDE');
