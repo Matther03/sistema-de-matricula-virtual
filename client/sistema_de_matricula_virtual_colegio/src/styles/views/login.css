@@ -1,0 +1,37 @@
+#section-login {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    min-height: 100vh;
+}
+#section-login .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    gap: 10px;
+}
+#section-login .content header,
+#section-login .content form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+#section-login .content form .fields {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+#cbx-remember-me {
+    display: flex;
+    gap: 5px;
+}
+.btn-custom {
+    padding: 10px;
+    border: 0;
+    border-radius: 5px;
+}
+#section-login .content form input[type="submit"] {
+    width: 100%;
+}
