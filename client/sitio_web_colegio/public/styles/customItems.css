@@ -249,13 +249,13 @@ header #responsive-menu button:hover {
     background-color: #C4C4C490;
 }
 /*Footer*/
-#footer-home {
+footer {
     background-color: #22242A;
     position: relative;
     z-index: 5000;
     overflow: hidden;
 }
-#footer-home::after {
+footer::after {
     content: "";
     position: absolute;
     bottom: 0;
@@ -327,11 +327,11 @@ header #responsive-menu button:hover {
     margin: 0;
     padding: 0;
 }
-#footer-home hr {
+footer hr {
     margin: 0;
     border: 1px solid #B1B5BB;
 }
-#footer-home .copy p {
+footer .copy p {
     margin: 0;
     padding: 30px 40px;
     color: #FFFFFF;
