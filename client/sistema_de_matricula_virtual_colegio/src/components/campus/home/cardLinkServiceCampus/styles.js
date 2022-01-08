@@ -1,6 +1,7 @@
-// Libraries
+//#region Libraries
 import styled from "styled-components";
 import { Link } from 'react-router-dom';
+//#endregion
 
 export const ContainerCardLinkServiceCampus = styled(Link)`
     text-decoration: none !important;

@@ -1,5 +1,6 @@
-// Styles
-import { ContainerMainFooter } from './StylesMainFooter';
+//#region Styles
+import { ContainerMainFooter } from './styles';
+//#endregion
 
 const MainFooter = () => {
     return (

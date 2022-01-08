@@ -1,5 +1,6 @@
-// Libraries
+//#region Libraries
 import styled from "styled-components";
+//#endregion
 
 export const ContainerNavbar = styled.nav`
     background-color: var(--fourth-color);

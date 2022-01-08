@@ -1,7 +1,7 @@
 const changeTitle = (currentPageName) => {
     document
         .querySelector('title')
-            .innerText = `I.E. Victor Manuel Maurtua | ${currentPageName}`;
+            .innerText = `${currentPageName} | I.E. Victor Manuel Maurtua`;
 };
 
 export default changeTitle;

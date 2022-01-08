@@ -1,5 +1,6 @@
-// Libraries
+//#region Libraries
 import styled from "styled-components";
+//#endregion
 
 export const ContainerSectionHome = styled.section`
     display: flex;

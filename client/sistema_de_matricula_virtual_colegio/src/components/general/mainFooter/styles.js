@@ -1,5 +1,6 @@
-// Libraries
+//#region Libraries
 import styled from "styled-components";
+//#endregion
 
 export const ContainerMainFooter = styled.footer`
     background-color: #3C3C3C;
