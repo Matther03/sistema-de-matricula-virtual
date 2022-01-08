@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/static/css/main.39aff797.css",
+    "main.js": "/static/js/main.a23f7cc5.js",
+    "static/media/school_symbol.png": "/static/media/school_symbol.2b157f941b5c91fd2172.png",
+    "static/media/school_img.jpg": "/static/media/school_img.91099f233948f868af9b.jpg",
+    "index.html": "/index.html",
+    "main.39aff797.css.map": "/static/css/main.39aff797.css.map",
+    "main.a23f7cc5.js.map": "/static/js/main.a23f7cc5.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.39aff797.css",
+    "static/js/main.a23f7cc5.js"
+  ]
+}

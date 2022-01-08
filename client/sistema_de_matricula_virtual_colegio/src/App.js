@@ -1,3 +1,6 @@
+// Styles
+import './customize.css';
+// Components
 import Main from "./controllers/Main";
 
 const App = () => {
@@ -5,4 +8,5 @@ const App = () => {
     <Main/>
   );
 }
+
 export default App;
