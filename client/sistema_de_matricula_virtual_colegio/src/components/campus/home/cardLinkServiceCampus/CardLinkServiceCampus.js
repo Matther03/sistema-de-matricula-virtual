@@ -1,9 +1,10 @@
-// Styles
+//#region Styles
 import { 
     ContainerCardLinkServiceCampus, 
     HeaderCardLinkServiceCampus, 
     DescriptionCardLinkServiceCampus
-} from './StylesCardLinkServiceCampus';
+} from './styles';
+//#endregion
 
 const CardLinkServiceCampus = ({ 
     to, 

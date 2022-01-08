@@ -1,6 +1,7 @@
-// Libraries
+//#region Libraries
 import Dialog  from '@mui/material/Dialog'; 
 import styled from "styled-components";
+//#endregion
 
 export const ContainerCustomDialogAlert = styled(Dialog)`
     & .MuiPaper-root {

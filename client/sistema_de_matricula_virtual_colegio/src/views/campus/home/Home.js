@@ -3,30 +3,33 @@ import {
     ContainerSectionHome, 
     HeaderSectionHome, 
     ContentSectionHome 
-} from './StylesHome';
-// Libraries
+} from './styles';
+//#region Libraries
 import { 
-    useState, 
-    useEffect, 
+    // useState, 
+    useEffect 
 } from 'react';
-import {
-    Button
-} from '@mui/material';
-// Icons
+// import {
+//     Button
+// } from '@mui/material';
+//#endregion
+//#region Icons
 import { Icon } from '@iconify/react';
-// Images
-import symbolSchoolImg from '../../../img/school_symbol.png';
-// Components
-import DialogAlert from '../../../components/general/dialogAlert/DialogAlert';
-import CardLinkServiceCampus from '../../../components/home/cardLinkServiceCampus/CardLinkServiceCampus';
-// Utils
-import changeTitle from '../../../utils/changeTitle';
+//#endregion
+//#region Images
+import symbolSchoolImg from '../../../img/general/school-symbol.png';
+//#endregion
+//#region Components
+// import DialogAlert from '../../../components/general/dialogAlert/DialogAlert';
+import CardLinkServiceCampus from '../../../components/campus/home/cardLinkServiceCampus/CardLinkServiceCampus';
+//#endregion
 
 const Home = () => {
-    
-    const [open, setOpen] = useState(false);
-    const handleOpen = (toOpen = true) => setOpen(toOpen);
-
+    //#region States
+    // const [open, setOpen] = useState(false);
+    // const handleOpen = (toOpen = true) => setOpen(toOpen);
+    //#endregion
+    //#region Functions
     const addClassMainHome = () => {
         const mainElement = document.querySelector('main');
         mainElement.classList.add('home');
@@ -34,13 +37,15 @@ const Home = () => {
             mainElement.classList.remove('home');
         }
     }
-
+    //#endregion
+    //#region Effects
     useEffect(() => {
         const removeClassMainHome = addClassMainHome();
         return () => {
             removeClassMainHome();
         };
     });
+    //#endregion
 
     return (
         <ContainerSectionHome>

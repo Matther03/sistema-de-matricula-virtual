@@ -1,7 +1,9 @@
-// Styles
-import { ContainerNavbar, TitleNavbar } from './StylesNavbar';
-// Images
-import symbolSchoolImg from '../../img/school_symbol.png';
+//#region Styles
+import { ContainerNavbar, TitleNavbar } from './styles';
+//#endregion
+//#region Images
+import symbolSchoolImg from '../../../../img/general/school-symbol.png';
+//#endregion
 
 const Navbar = () => {
     return (

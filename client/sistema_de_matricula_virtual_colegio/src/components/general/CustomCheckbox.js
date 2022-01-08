@@ -1,8 +1,9 @@
-// Libraries
+//#region Libraries
 import { 
     Checkbox,
     FormControlLabel 
 } from '@mui/material';
+//#endregion
 
 const CustomCheckbox = ({ 
     label,
@@ -19,7 +20,7 @@ const CustomCheckbox = ({
                     name={name && name}/>
             }
             label={label && label}/>
-    )
+    );
 }
 
 export default CustomCheckbox;

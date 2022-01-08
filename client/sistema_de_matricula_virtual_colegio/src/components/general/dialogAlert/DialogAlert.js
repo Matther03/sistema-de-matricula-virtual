@@ -1,17 +1,20 @@
-// Libraries
+//#region Libraries
 import { forwardRef } from 'react';
 import {
     Slide,
     Button
 } from '@mui/material';
-// Styles
+//#endregion
+//#region Styles
 import { 
     ContainerCustomDialogAlert, 
     HeaderCustomDialogAlert,
     FooterCustomDialogAlert
-} from './StylesDialogAlert.js';
-// Icons
+} from './styles';
+//#endregion
+//#region Icons
 import { Icon } from '@iconify/react';
+//#endregion
 
 const Transition = forwardRef((props, ref) => {
     return <Slide direction="up" ref={ref} {...props} />;

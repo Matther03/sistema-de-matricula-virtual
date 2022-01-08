@@ -1,15 +1,19 @@
-// Styles
+//#region Styles
 import './login.css';
-// Libraries
+//#endregion
+//#region Libraries
 import { 
     TextField, 
     Button 
 } from '@mui/material';
-// Images
-import schoolImg from '../../../img/school_img.jpg';
-// Components
+//#endregion
+//#region Images
+import schoolImg from '../../../img/campus/login/school-img.jpg';
+//#endregion
+//#region Components
 import CustomCheckbox from '../../../components/general/CustomCheckbox.js';
-import Navbar from "../../../components/navbar/Navbar.js";
+import Navbar from "../../../components/campus/login/navbar/Navbar.js";
+//#endregion
 
 const Login = () => {
     return (
