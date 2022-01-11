@@ -1,8 +1,13 @@
 //#region Styles
-import './login.css';
+import { 
+    ContainerSectionLogin,
+    ContentSectionLogin,
+    ContentHeaderSectionLogin,
+    ContentFormSectionLogin
+} from './styles';
 //#endregion
 //#region Libraries
-import { 
+import {
     TextField, 
     Button 
 } from '@mui/material';
@@ -19,14 +24,14 @@ const Login = () => {
     return (
         <>
             <Navbar/>
-            <section id="section-login"> {/*ContainerSectionLogin*/}
+            <ContainerSectionLogin>
                 <img src={schoolImg} alt="escuela, colegio"/>
-                <article className="content">  {/* ContentSectionLogin */}
-                    <header> {/* ContentHeaderSectionLogin */}
+                <ContentSectionLogin>  {/* ContentSectionLogin */}
+                    <ContentHeaderSectionLogin> {/* ContentHeaderSectionLogin */}
                         <h2 className="custom-title-2">INICIAR SESIÓN</h2>
                         <h4 className="custom-title-4">Introduce tu información</h4>
-                    </header>
-                    <form action="#"> {/* ContentFormSectionLogin */}
+                    </ContentHeaderSectionLogin>
+                    <ContentFormSectionLogin action="#"> {/* ContentFormSectionLogin */}
                         <section className="fields">
                             <TextField 
                                 className="custom-input-text"
@@ -47,9 +52,9 @@ const Login = () => {
                                 className="custom-btn" 
                                 variant="contained">Ingresar</Button>
                         </footer>
-                    </form>
-                </article>
-            </section>
+                    </ContentFormSectionLogin>
+                </ContentSectionLogin>
+            </ContainerSectionLogin>
         </>
     )
 }
