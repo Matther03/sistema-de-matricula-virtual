@@ -8,6 +8,18 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <script>
+            const TryGet = async () => {
+                try {
+                    const res = await fetch("http://localhost:8080/api_rest_sistema_matricula/test-controller");
+                    const data = await res.json();
+                    console.log(data);
+                }
+                catch (err) {
+                    console.log(err);
+                }
+            }
+            TryGet();
+        </script>
     </body>
 </html>
