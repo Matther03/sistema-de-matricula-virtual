@@ -10,7 +10,11 @@ import {
 //#region Components
 import Login from "../views/campus/login/Login";
 import Home from "../views/campus/home/Home";
+<<<<<<< HEAD
+import Matricula from '../views/campus/enrollment/Enrollment';
+=======
 import Enrollment from '../views/campus/enrollment/Enrollment';
+>>>>>>> e88610ce8b34364f78d1746fed8087e9c1cd0bf2
 import Intranet from '../views/campus/intranet/Intranet';
 import AulaVirtual from '../views/campus/aula-virtual/AulaVirtual';
 //#endregion

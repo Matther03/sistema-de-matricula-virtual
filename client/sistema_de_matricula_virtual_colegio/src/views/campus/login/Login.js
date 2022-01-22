@@ -26,12 +26,12 @@ const Login = () => {
             <Navbar/>
             <ContainerSectionLogin>
                 <img src={schoolImg} alt="escuela, colegio"/>
-                <ContentSectionLogin>  {/* ContentSectionLogin */}
-                    <ContentHeaderSectionLogin> {/* ContentHeaderSectionLogin */}
+                <ContentSectionLogin>
+                    <ContentHeaderSectionLogin>
                         <h2 className="custom-title-2">INICIAR SESIÓN</h2>
                         <h4 className="custom-title-4">Introduce tu información</h4>
                     </ContentHeaderSectionLogin>
-                    <ContentFormSectionLogin action="#"> {/* ContentFormSectionLogin */}
+                    <ContentFormSectionLogin action="#">
                         <section className="fields">
                             <TextField 
                                 className="custom-input-text"

@@ -8,6 +8,10 @@
     --fifth-color: #3C3C3C;
     --sixth-color: #696969;
     --seventh-color: #EE3042;
+    --seventh-color-dark: #cf2435;
+    --eighth-color: #737373;
+    --secondary-blue: #165FC8;
+    --verification: #01B613;
 }
 /* General */
 * {
