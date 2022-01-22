@@ -2,7 +2,6 @@
 
 # dependencies
 /client/sistema_de_matricula_virtual_colegio/node_modules
-/server/api_rest_sistema_matricula/target
 /.pnp
 .pnp.js
 

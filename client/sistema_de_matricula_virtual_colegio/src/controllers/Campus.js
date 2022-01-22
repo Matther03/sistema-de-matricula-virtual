@@ -10,7 +10,7 @@ import {
 //#region Components
 import Login from "../views/campus/login/Login";
 import Home from "../views/campus/home/Home";
-import Matricula from '../views/campus/matricula/Matricula';
+import Enrollment from '../views/campus/enrollment/Enrollment';
 import Intranet from '../views/campus/intranet/Intranet';
 import AulaVirtual from '../views/campus/aula-virtual/AulaVirtual';
 //#endregion
@@ -28,7 +28,7 @@ const Campus = () => {
         <Routes>
             <Route path="home" element={<Home/>}/>
             <Route path="login" element={<Login/>}/>
-            <Route path="matricula" element={<Matricula/>}/>
+            <Route path="matricula" element={<Enrollment/>}/>
             <Route path="intranet" element={<Intranet/>}/>
             <Route path="aula-virtual" element={<AulaVirtual/>}/>
             <Route path="*" element={<Login/>}/>
