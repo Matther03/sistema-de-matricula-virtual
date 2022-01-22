@@ -10,10 +10,9 @@ import {
 } from "react-router-dom";
 //#endregion
 //#region Components
-import InternalNav 
-from '../../../components/campus/enrollment/components/internalNav/InternalNav';
-import EnrollmentInformation 
-from '../../../components/campus/enrollment/information/EnrollmentInformation';
+import InternalNav from '../../../components/campus/enrollment/components/internalNav/InternalNav';
+import EnrollmentInformation from '../../../components/campus/enrollment/information/EnrollmentInformation';
+import EnrollmentRoot from '../../../components/campus/enrollment/root/EnrollmentRoot';
 //#endregion
 //#region Utils
 //#endregion
@@ -53,9 +52,7 @@ const Enrollment = () => {
                     }/>
                 <Route
                     path="*"
-                    element={
-                        <h1>Matrícula</h1>
-                    }/>
+                    element={<EnrollmentRoot/>}/>
             </Routes>
         </>
     );

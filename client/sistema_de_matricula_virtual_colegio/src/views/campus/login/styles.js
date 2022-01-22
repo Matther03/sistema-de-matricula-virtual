@@ -55,5 +55,3 @@ export const ContentFormSectionLogin = styled.form`
         width: 100%;
     }
 `;
-
-
