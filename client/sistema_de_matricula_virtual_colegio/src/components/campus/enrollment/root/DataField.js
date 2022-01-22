@@ -15,7 +15,7 @@ const DataField = () => {
                 <ContentDataField>
                     <div>
                         <h4 className="data-type">Código</h4>
-                        <h4 className="data-content">20226666</h4>
+                        <h4 className="data-content">20226669</h4>
                     </div>
                     <div className='student-name'>
                         <h4 className="data-type">Alumno</h4>

@@ -16,8 +16,8 @@ import {
 import schoolImg from '../../../img/campus/login/school-img.jpg';
 //#endregion
 //#region Components
-import CustomCheckbox from '../../../components/general/CustomCheckbox.js';
-import Navbar from "../../../components/campus/login/navbar/Navbar.js";
+import CustomCheckbox from '../../../components/general/CustomCheckbox';
+import Navbar from "../../../components/campus/login/navbar/Navbar";
 //#endregion
 
 const Login = () => {
