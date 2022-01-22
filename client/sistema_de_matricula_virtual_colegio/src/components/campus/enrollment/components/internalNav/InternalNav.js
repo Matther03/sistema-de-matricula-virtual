@@ -1,16 +1,34 @@
-import { ContainerNav, LinkNav, ArrowNav } from './styles';
+import { ContainerNav, NavLink, ArrowNav } from './styles';
 
-const InternalNav = () => {
+const InternalNav = ({ paths }) => {
     return (
         <ContainerNav>
             <ul>
-                <li><LinkNav to="/">INICIO</LinkNav></li>
-                <ArrowNav>{">"}</ArrowNav>
-                <li><LinkNav to="/">MATRÍCULA</LinkNav></li>
-                <ArrowNav>{">"}</ArrowNav>
-                <li><LinkNav to="/">INFORMACIÓN</LinkNav></li>
+                <InternalNavLink 
+                    text="INICIO"
+                    to={paths[0]}
+                    end={!paths[1]}/>
+                {paths[1] && 
+                    <InternalNavLink 
+                        text="MATRÍCULA"
+                        to={paths[1]}
+                        end={!paths[2]}/>}
+                 {paths[2] && 
+                    <InternalNavLink 
+                        text="INFORMACIÓN"
+                        to={paths[2]}
+                        end={true}/>}
             </ul>
         </ContainerNav>
+    );
+}
+
+const InternalNavLink = ({ text, to, end }) => {
+    return (
+        <>
+            <li><NavLink to={to}>{text}</NavLink></li>
+            {!end && <ArrowNav>{">"}</ArrowNav>}
+        </>
     );
 }
 

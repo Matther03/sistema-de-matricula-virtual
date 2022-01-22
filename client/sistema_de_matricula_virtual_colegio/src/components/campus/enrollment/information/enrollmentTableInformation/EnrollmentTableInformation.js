@@ -18,13 +18,30 @@ const tableData = {
     rows: createRandomData(5)
 };
 
+const tableDataVacancies = {
+    fields: ["Sección", "Vacantes", "Turno"],
+    rows: [
+        { section: "A", quantity: 20, shift: "Mañana" }, 
+        { section: "B", quantity: 30, shift: "Mañana" }, 
+        { section: "C", quantity: 26, shift: "Mañana" },
+        { section: "D", quantity: 33, shift: "Tarde" },
+        { section: "E", quantity: 40, shift: "Tarde" }
+    ] 
+}; 
+
 const EnrollmentTableInformation = () => {
     return (
+        <>
         <CustomDataTable 
             rows={tableData.rows} 
             fields={tableData.fields}
             caption={tableData.caption}
             width="70%"/>
+        <CustomDataTable 
+            rows={tableDataVacancies.rows} 
+            fields={tableDataVacancies.fields}
+            width="70%"/>
+        </>
     );
 }
 
