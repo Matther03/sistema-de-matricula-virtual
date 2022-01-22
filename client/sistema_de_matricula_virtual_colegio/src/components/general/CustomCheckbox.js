@@ -8,16 +8,14 @@ import {
 const CustomCheckbox = ({ 
     label,
     checked,
-    handleChange,
-    name 
+    onChange,
 }) => {
     return (
         <FormControlLabel
             control={
                 <Checkbox 
                     checked={checked && checked} 
-                    onChange={handleChange && handleChange} 
-                    name={name && name}/>
+                    onChange={onChange && onChange} />
             }
             label={label && label}/>
     );

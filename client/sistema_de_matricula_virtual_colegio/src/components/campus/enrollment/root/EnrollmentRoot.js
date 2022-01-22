@@ -5,16 +5,16 @@ import {
 } from './styles';
 //#endregion
 //#region Components
-import Header from '../../../../components/campus/enrollment/header/Header.js';
-import DataField from '../../../../components/campus/enrollment/root/DataField.js';
-import PopupMessage from '../../../../components/general/popupMessage/popupMessage.js'
+import Header from '../components/header/Header';
+import DataField from '../components/dataField/DataField';
+import PopupMessage from '../../../general/popupMessage/PopupMessage';
 //#endregion
 //#region mui
 import {
     Button 
 } from '@mui/material';
 //#endregion
-const RootEnrollment = () => {
+const EnrollmentRoot = () => {
     return (
         <>
             <Header/>
@@ -47,4 +47,4 @@ const RootEnrollment = () => {
     );
 }
 
-export default RootEnrollment;
+export default EnrollmentRoot;

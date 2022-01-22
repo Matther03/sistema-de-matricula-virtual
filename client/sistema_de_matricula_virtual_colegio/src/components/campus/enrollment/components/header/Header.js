@@ -4,6 +4,7 @@ import { ContainerHeader, ContainerProfile } from './styles';
 //#region Icons
 import { Icon } from '@iconify/react';
 //#endregion
+
 const Header = () => {
     return (
         <ContainerHeader>
