@@ -28,7 +28,7 @@ const Campus = () => {
         <Routes>
             <Route path="home" element={<Home/>}/>
             <Route path="login" element={<Login/>}/>
-            <Route path="matricula" element={<Enrollment/>}/>
+            <Route path="matricula/*" element={<Enrollment/>}/>
             <Route path="intranet" element={<Intranet/>}/>
             <Route path="aula-virtual" element={<AulaVirtual/>}/>
             <Route path="*" element={<Login/>}/>

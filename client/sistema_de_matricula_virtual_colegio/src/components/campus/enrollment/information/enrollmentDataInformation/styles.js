@@ -11,7 +11,6 @@ export const ContainerEnrollmentDataInformation = styled.section`
 export const HeaderEnrollmentDataInformation = styled.header`
     width: 100%;
     & h2 {
-        color: var(--secondary-2-color);
         text-align: center;
     }
     & hr {
@@ -21,7 +20,8 @@ export const HeaderEnrollmentDataInformation = styled.header`
 export const ContentEnrollmentDataInformation = styled.article`
     display: flex;
     justify-content: center;
-    gap: 20px;
+    column-gap: 150px;
+    row-gap: 25px;
     width: 100%;
     & .column {
         display: flex;

@@ -13,7 +13,7 @@ const CardLinkServiceCampus = ({
     icon 
 }) => {
     return (
-        <ContainerCardLinkServiceCampus to={to || "/"}>
+        <ContainerCardLinkServiceCampus to={to || "./"}>
             <HeaderCardLinkServiceCampus>
                 <h4 className="custom-title-4">{title || "Título"}</h4>
                 {icon && icon}

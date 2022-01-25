@@ -36,7 +36,7 @@ CREATE TABLE student(
 DROP TABLE IF EXISTS account;
 CREATE TABLE account(
     code_account INT(10) AUTO_INCREMENT,
-    _password VARCHAR(25) NOT NULL,
+    _password CHAR(60) NOT NULL,
     code_student INT(6) NOT NULL,
     PRIMARY KEY(code_account),
     FOREIGN KEY (code_student) REFERENCES student(code_student)
@@ -431,3 +431,35 @@ INSERT INTO classroom_vacancy(quantity,code_classroom) VALUES('35','40');
 
 INSERT INTO type_school(type_s) VALUES ('Estatal');
 INSERT INTO type_school(type_s) VALUES ('Particular');
+
+
+/*Ejemplo 1*/
+DROP PROCEDURE IF EXISTS sp_get_password;
+DELIMITER //
+CREATE PROCEDURE sp_get_password(
+    IN __code_student INT(5)
+)
+BEGIN
+    DECLARE __password CHAR(60);
+    SET __password = (SELECT _password FROM account WHERE code_student = __code_student);  
+    IF __password IS NULL THEN
+        SELECT 'NOT FOUND' AS 'ERROR';
+    END IF;
+END//
+
+/*Ejemplo2*/
+DROP PROCEDURE IF EXISTS sp_get_password;
+DELIMITER //
+CREATE PROCEDURE sp_get_password(
+    IN __code_student INT(5)
+)
+BEGIN
+    DECLARE __password CHAR(60);
+    SELECT _password INTO __password FROM account WHERE code_student = __code_student;  
+    IF __password IS NULL THEN
+        SELECT 'NOT FOUND' AS 'ERROR';
+    END IF;
+END//
+
+CALL sp_get_password(1);
+
