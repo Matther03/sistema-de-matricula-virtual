@@ -5,9 +5,7 @@ import styled from "styled-components";
 export const ContainerSectionEnrollment = styled.section`
     display: flex;
     flex-direction: column;
-    margin-top: 58.95px;
     align-items: center;
-
     & .ok-btn {
         background-color: var(--seventh-color);
         width: 200px;
@@ -23,22 +21,13 @@ export const ContainerSectionEnrollment = styled.section`
     
 `;
 export const TaskInfo = styled.article`
-    padding: 40px 280px 0 320px;
-    & h3 {
-        color: var(--secondary-blue);
-        font-weight: 600;
-        font-size: 24px;
-    }
+    padding: 10px;
+    width: 70%;
+
     & p {
         font-size: 22px;
     }
-    @media (max-width: 1300px) {
-        padding: 40px 200px 0 200px;
-    }
-    @media (max-width: 900px) {
-        padding: 40px 100px 0 100px;
-    }
     @media (max-width: 650px) {
-        padding: 40px 20px 0 20px;
+        width: 80%;
     }
 `
