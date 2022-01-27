@@ -26,7 +26,7 @@ import { Icon } from '@iconify/react';
 //#endregion
 //#region Components
 import CustomCheckbox from '../../../components/general/CustomCheckbox';
-import Navbar from "../../../components/campus/login/navbar/Navbar";
+import SymbolHeader from "../../../components/campus/components/symbolHeader/SymbolHeader";
 //#endregion
 
 const regex = {
@@ -83,7 +83,7 @@ const Login = () => {
     //#endregion
     return (
         <>
-            <Navbar/>
+            <SymbolHeader showTitle={true}/>
             <ContainerSectionLogin>
                 <img src={schoolImg} alt="escuela, colegio"/>
                 <ContentSectionLogin>
