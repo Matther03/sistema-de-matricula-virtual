@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 //#endregion
 //#region Components
+import HeaderUser from '../../../components/campus/enrollment/components/headerUser/HeaderUser';
 import InternalNav from '../../../components/campus/enrollment/components/internalNav/InternalNav';
 import EnrollmentInformation from '../../../components/campus/enrollment/information/EnrollmentInformation';
 import EnrollmentRoot from '../../../components/campus/enrollment/root/EnrollmentRoot';
@@ -43,6 +44,7 @@ const Enrollment = () => {
     //#endregion
     return (
         <>
+            <HeaderUser/>
             <InternalNav paths={paths}/>
             <Routes>
                 <Route 

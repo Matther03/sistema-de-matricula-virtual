@@ -3,15 +3,28 @@ import styled from "styled-components";
 //#endregion
 
 export const ContainerHeader = styled.section`
-    background-color: var(--secondary-2-color);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    padding: 0 150px;
+    z-index: 400;
+    & .container-symbol-header-enrollment {
+        position: relative !important;
+        height: 45px;
+        & h3 {
+            font-size: 13px;
+        }
+        & img {
+            width: 30px;
+        }
+    }
+`;
+export const ContainerHeaderUser = styled.section`
+    background-color: var(--secondary-2-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 120px;
     & > h3 {
         font-weight: normal;
         font-size: 22px;
@@ -41,4 +54,7 @@ export const ContainerProfile = styled.article`
         font-size: 45px;
         cursor: pointer;
     }
+`;
+export const OffSetHeader = styled.div`
+    height: 120px;
 `;
