@@ -3,8 +3,8 @@ import {
     useState,
     useEffect
 } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 import {
-    TextField, 
     Button,
     InputAdornment,
     IconButton
@@ -26,7 +26,11 @@ import { Icon } from '@iconify/react';
 //#endregion
 //#region Components
 import CustomCheckbox from '../../../components/general/CustomCheckbox';
+import CustomTextField from '../../../components/general/customTextField/CustomTextField';
 import SymbolHeader from "../../../components/campus/components/symbolHeader/SymbolHeader";
+//#endregion
+//#region Services
+import { loginStudent, isLoggedStudent } from '../../../services/auth';
 //#endregion
 
 const regex = {
@@ -36,7 +40,7 @@ const regex = {
 
 const Login = () => {
     //#region States
-    const [student, setStudent] = useState({
+    const [form, setForm] = useState({
         dni: "",
         password: ""
     });
@@ -48,6 +52,15 @@ const Login = () => {
     });
     //#endregion
     //#region Effects
+    useEffect(() => {
+        validateField("dni");
+    }, [form.dni]);
+    useEffect(() => {
+        validateField("password");
+    }, [form.password]);
+    //#endregion
+    //#region Extra hooks
+    const navigate = useNavigate();
     //#endregion
     //#region Functions
     const handleKeyPressOnlyNumbers = (e) => {
@@ -56,15 +69,9 @@ const Login = () => {
     }
     const handleChangeTextField = (e, field) => {
         const { value } = e.target;
-        setStudent(prev => ({
+        setForm(prev => ({
             ...prev,
             [field]: value
-        }))
-    }
-    const resetError = (field) => {
-        setErrors(prev => ({
-            ...prev,
-            [field]: false
         }));
     }
     const toggleShowPassword = () => {
@@ -73,16 +80,24 @@ const Login = () => {
     const handleRememberMe = () => {
         setRememberMe(prev => (!prev));
     }
+    const validateField = (field) => {
+        setErrors(prev => ({
+            ...prev,
+            [field]: !regex[field].test(form[field])
+        }));
+    }
     const handleLogin = (e) => {
         e.preventDefault();
-        setErrors(prev => ({
-            dni: !regex.dni.test(student.dni),
-            password: !regex.dni.test(student.password)
-        }));
+        loginStudent({ 
+            dni: form.dni, 
+            password: form.password 
+        });
+        isLoggedStudent() && navigate("/home");
     }
     //#endregion
     return (
         <>
+            {isLoggedStudent() && <Navigate to="../home" replace={true}/>}
             <SymbolHeader showTitle={true}/>
             <ContainerSectionLogin>
                 <img src={schoolImg} alt="escuela, colegio"/>
@@ -94,31 +109,28 @@ const Login = () => {
                     <ContentFormSectionLogin 
                         onSubmit={handleLogin}>
                         <section className="fields">
-                            <TextField 
-                                className="custom-input-text"
+                            <CustomTextField 
                                 type="text"
                                 label="Número de DNI"
-                                value={student.dni}
+                                value={form.dni}
                                 onChange={(e) => handleChangeTextField(e, "dni")}
                                 onKeyPress={handleKeyPressOnlyNumbers}
-                                onFocus={() => resetError("dni")}
-                                variant="filled"
+                                // onFocus={() => resetError("dni")}
                                 error={errors.dni}
                                 helperText={errors.dni && "Deben haber 8 dígitos"}
                                 inputProps={{
                                     maxLength: 8
                                 }}/>
-                            <TextField 
-                                className="custom-input-text"
+                            <CustomTextField 
                                 type={showPassword ? "text" : "password"}
                                 label="Contraseña"
-                                value={student.password}
+                                value={form.password}
                                 onChange={(e) => handleChangeTextField(e, "password")}
-                                onFocus={() => resetError("password")}
-                                variant="filled"
+                                // onFocus={() => resetError("password")}
                                 error={errors.password}
                                 helperText={errors.password && "Deben haber 16 dígitos"}
                                 inputProps={{
+                                    minLength: 8, 
                                     maxLength: 16
                                 }}
                                 InputProps={{ 
@@ -142,6 +154,7 @@ const Login = () => {
                             <Button 
                                 type="submit"
                                 className="custom-btn" 
+                                disabled={errors.dni || errors.password}
                                 variant="contained">Ingresar</Button>
                         </footer>
                     </ContentFormSectionLogin>

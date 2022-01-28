@@ -10,7 +10,7 @@ import {
 } from './styles';
 //#endregion
 //#region Components
-import DataField from '../components/dataField/DataField';
+import DataEnrollment from '../components/dataEnrollment/DataEnrollment';
 import PopupMessage from '../../../general/popupMessage/PopupMessage';
 import CustomDataTable from '../../../general/customDataTable/CustomDataTable';
 //#endregion
@@ -35,15 +35,15 @@ const EnrollmentRoot = () => {
                     Rellene el siguiente formulario con los datos solicitados para realizar la matrícula. Recuerde que solo se puede realizar una vez, por lo tanto no se puede modificar.
                 </p>
             </TaskInfo>
-            <DataField></DataField>
+            <DataEnrollment/>
             <PopupMessage 
                 color="var(--verification)"
                 message="La matrícula se ha realizado correctamente" 
-                iconName="bi:check-circle-fill"></PopupMessage>
+                iconName="bi:check-circle-fill"/>
             <PopupMessage 
                 color="var(--seventh-color)"
                 message="Error, debes seleccionar la sección" 
-                iconName="clarity:error-line"></PopupMessage>
+                iconName="clarity:error-line"/>
             <Button 
                 type="submit"
                 className="ok-btn" 
@@ -51,7 +51,7 @@ const EnrollmentRoot = () => {
             <PopupMessage 
                 className="register"
                 message="Ver registro de matrícula" 
-                iconName="el:eye-open"></PopupMessage>
+                iconName="el:eye-open"/>
             <CustomDataTable 
                 rows={tableDataVacancies.rows} 
                 fields={tableDataVacancies.fields}

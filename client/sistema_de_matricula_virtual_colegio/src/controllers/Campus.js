@@ -13,6 +13,8 @@ import Home from "../views/campus/home/Home";
 import Enrollment from '../views/campus/enrollment/Enrollment';
 import Intranet from '../views/campus/intranet/Intranet';
 import AulaVirtual from '../views/campus/aula-virtual/AulaVirtual';
+
+import { RouteProtectedStudent } from '../components/general/RouteProtected';
 //#endregion
 //#region Utils
 import changeTitle from '../utils/changeTitle.js';
@@ -26,11 +28,23 @@ const Campus = () => {
     //#endregion
     return (
         <Routes>
-            <Route path="home" element={<Home/>}/>
             <Route path="login" element={<Login/>}/>
-            <Route path="matricula/*" element={<Enrollment/>}/>
-            <Route path="intranet" element={<Intranet/>}/>
-            <Route path="aula-virtual" element={<AulaVirtual/>}/>
+            <Route path="home" element={
+                <RouteProtectedStudent>
+                    <Home/>
+                </RouteProtectedStudent>}/>
+            <Route path="matricula/*" element={
+                <RouteProtectedStudent>
+                    <Enrollment/>
+                </RouteProtectedStudent>}/>
+            <Route path="intranet" element={
+                <RouteProtectedStudent>
+                    <Intranet/>
+                </RouteProtectedStudent>}/>
+            <Route path="aula-virtual" element={
+                <RouteProtectedStudent>
+                    <AulaVirtual/>
+                </RouteProtectedStudent>}/>
             <Route path="*" element={<Login/>}/>
         </Routes>
     );

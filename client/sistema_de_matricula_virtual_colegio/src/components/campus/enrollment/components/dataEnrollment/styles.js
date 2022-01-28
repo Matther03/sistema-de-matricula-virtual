@@ -2,12 +2,12 @@
 import styled from "styled-components";
 //#endregion
 
-export const ContainerDataField = styled.section`
+export const ContainerDataEnrollment = styled.section`
     display: flex;
     padding: 40px 0;
     justify-content: center;
 `;
-export const FrameDataField = styled.section`
+export const FrameDataEnrollment = styled.section`
     display: flex;
     flex-direction: column;
     gap: 30px;
@@ -31,32 +31,23 @@ export const FrameDataField = styled.section`
         padding: 50px 100px 80px 100px;
     }
 `
-export const ContentDataField = styled.section`
+export const ContainerDataField = styled.div`
     display: flex;
-    justify-content: space-between;
-    gap: 100px;
-    & div {
-        display: flex;
-        flex-direction: column;
-    }
-    & .data-type {
-        display: flex;
-        justify-content: space-between;
+    flex-direction: column;
+    & .description {
         padding: 0 50px 0 20px;
         font-size: 20px;
         color: #737373;
         font-weight: 400;
         margin: 0;
     }
-    & .data-content {
-        display: flex;
-        justify-content: space-between;
+    & .value {
         padding: 0 0 0 40px;
         font-size: 19px;
         font-weight: 400;
         margin: 5px 0 0 0;
     }
-    & .student-name {
+    &.student-name {
         padding: 0 0 0 115px;
         @media (max-width: 1200px) {
             padding: 0 0 0 30px;
@@ -67,15 +58,6 @@ export const ContentDataField = styled.section`
         @media (max-width: 567px) {
             padding: 0 0 0 40px;
         }
-    }
-    @media (max-width: 973px) {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 30px;
-    }
-    @media (max-width: 850px) {
-        flex-direction: column;
     }
     & .section-selection {
         padding: 0 0 0 30px;
@@ -92,5 +74,19 @@ export const ContentDataField = styled.section`
     }
     & .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
         padding: 5px 0 5px 15px;
+    }
+`;
+export const ContentDataEnrollment = styled.section`
+    display: flex;
+    justify-content: space-between;
+    gap: 100px;
+    @media (max-width: 973px) {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 30px;
+    }
+    @media (max-width: 850px) {
+        flex-direction: column;
     }
 `;
