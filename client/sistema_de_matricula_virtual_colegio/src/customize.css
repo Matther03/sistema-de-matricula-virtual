@@ -55,10 +55,6 @@ main {
 .custom-title-6 {
     color: var(--third-color);
 }
-/* Field text */
-.custom-input-text input {
-    font-size: 18px !important;
-}
 /* Buttons */
 .custom-btn {
     padding: 10px;

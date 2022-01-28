@@ -18,27 +18,28 @@ import SymbolHeader from '../../../components/symbolHeader/SymbolHeader';
 const HeaderUser = ({name}) => {
     const [logout, setLogout] = useState(false);
 
-    const setShowOptions = () => setLogout(prev => (!prev));
+    const showLogout = () => setLogout(prev => (!prev));
     return (
         <header>
             <ContainerHeader>
                 <SymbolHeader className="container-symbol-header-enrollment small"/>
                 <ContainerHeaderUser>
-                    <ContainerProfile onClick={setShowOptions}>
-                        <h3 className="custom-title-6">{name || "NOMBRE DEL ALUMNO"}</h3>
+                    <ContainerProfile onClick={showLogout}>
+                        <span className="custom-title-6">{name || "NOMBRE DEL ALUMNO"}</span>
                         <div>
                             <Icon icon="bx:bxs-user"/>
-                            <p>{logout ? <i class="arrow up"></i> : <i class="arrow"></i>}</p>
+                            <i className={logout 
+                                ? "arrow up"
+                                : "arrow"}/>
                         </div>
                     </ContainerProfile>
                 </ContainerHeaderUser>
             </ContainerHeader>
             <OffSetHeader/>
             {logout 
-                ? <LogoutContainer>
+                && <LogoutContainer>
                     <LogoutButton/>
-                </LogoutContainer>
-                : <span></span>}
+                </LogoutContainer>}
         </header>
     );
 }

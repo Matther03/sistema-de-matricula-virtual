@@ -17,7 +17,7 @@ const Main = () => {
             <BrowserRouter>
                 <Routes>
                     <Route path="campus/*" element={<Campus/>}/>
-                    <Route path="administrador/*" element={<Administrator/>}/>
+                    <Route path="admin/*" element={<Administrator/>}/>
                     <Route path="*" element={<Campus/>}/>
                 </Routes>
                 <MainFooter/>
