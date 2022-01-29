@@ -44,7 +44,7 @@ const Enrollment = () => {
     //#endregion
     return (
         <>
-            <HeaderUser name="LUJÁN CARRIÓN, MAYIMBÚ"/>
+            <HeaderUser nameUser="LUJÁN CARRIÓN, MAYIMBÚ"/>
             <InternalNav paths={paths}/>
             <Routes>
                 <Route

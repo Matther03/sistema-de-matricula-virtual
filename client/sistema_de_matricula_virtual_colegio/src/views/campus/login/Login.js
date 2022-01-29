@@ -92,7 +92,7 @@ const Login = () => {
             dni: form.dni, 
             password: form.password 
         });
-        isLoggedStudent() && navigate("/home");
+        isLoggedStudent() && navigate("/campus/home");
     }
     //#endregion
     return (

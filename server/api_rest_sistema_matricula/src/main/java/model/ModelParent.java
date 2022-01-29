@@ -30,6 +30,7 @@ public abstract class ModelParent {
             }
             return table;
         } catch (SQLException ex) {
+            MESSAGE = ex.getMessage();
             return null;
         }
     }

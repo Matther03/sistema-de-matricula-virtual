@@ -15,7 +15,7 @@ public class EnvEntries {
             env = null;
         }
     }
-    //<editor-fold defaultstate="collapsed" desc="HELPER METHODS">
+    //<editor-fold defaultstate="collapsed" desc="Helper Methods">
     private String getEntry(String key) {
         try {
             return env == null ? null : (String) env.lookup(key);
@@ -24,12 +24,12 @@ public class EnvEntries {
         } 
     }
     //</editor-fold>
-    //<editor-fold defaultstate="collapsed" desc="AUTHENTICATION">
+    //<editor-fold defaultstate="collapsed" desc="Authentication">
     public String getSecretKeyJWT() {
         return getEntry("SECRET_KEY");
     }
     //</editor-fold>
-    //<editor-fold defaultstate="collapsed" desc="DATABASE CREDENTIALS">
+    //<editor-fold defaultstate="collapsed" desc="Database Credentials">
     public String getDBName() {
         return getEntry("DB_NAME");
     }

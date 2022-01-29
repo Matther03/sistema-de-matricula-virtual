@@ -5,10 +5,11 @@ import java.sql.DriverManager;
 import utils.authentication.EnvEntries;
 
 public class ConnectionDB {
+    
     //<editor-fold defaultstate="collapsed" desc="Properties"> 
     private Connection cn;
-    public String MESSAGE;
-    private EnvEntries envEntries;
+    public static String MESSAGE;
+    private final EnvEntries envEntries;
     //</editor-fold>
     
     public ConnectionDB() {
@@ -19,7 +20,6 @@ public class ConnectionDB {
 
     public Connection connect() {
         try {
-                
             if (cn != null && !cn.isClosed()) {
                 MESSAGE = "Error: Already connected DB";
                 return null;
