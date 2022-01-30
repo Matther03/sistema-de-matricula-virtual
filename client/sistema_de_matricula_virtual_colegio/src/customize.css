@@ -55,23 +55,6 @@ main {
 .custom-title-6 {
     color: var(--third-color);
 }
-/* Buttons */
-.custom-btn {
-    padding: 10px;
-    border: 0;
-    border-radius: 5px;
-    background-color: var(--primary-color) !important;
-}
-.custom-btn.secondary {
-    border-color: var(--primary-color) !important;
-    background-color: var(--third-color) !important;
-    color: var(--primary-color) !important;
-}
-.custom-btn.secondary:hover {
-    background-color: var(--primary-color) !important;
-    color: var(--third-color) !important;
-}
-
 
 /* Extra */
 /* Home */
