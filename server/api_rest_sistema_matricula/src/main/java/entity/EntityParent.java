@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import utils.delegates.DelegateReturnWithOneParameter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.regex.Pattern;
 
 public final class EntityParent<T> {
     public ArrayList<T> hashMapArrayListToDTOArrayList(
@@ -19,5 +20,8 @@ public final class EntityParent<T> {
         if (!jObj.has(property))
             return true;
         return jObj.get(property).isJsonNull();
+    }
+    public static boolean regexIsMatched(String regex, final String str) {
+        return Pattern.compile(regex).matcher(str).find();
     }
 }

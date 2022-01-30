@@ -31,7 +31,7 @@ public class FilterAuthentication implements Filter {
         // Obteniendo ruta actual
         final String currentPath = ((HttpServletRequest) request).getRequestURI();
         // Continuar si no son las rutas controladores o en la ruta de login
-        if (!isPathController(currentPath) || isInThisPath(currentPath, "/login")) {
+        if (!isPathController(currentPath)) {
             chain.doFilter(request, response);
             return;
         }
@@ -50,12 +50,9 @@ public class FilterAuthentication implements Filter {
         if (token == null || !token.startsWith("bearer ")) 
             return false;
         String tokenWithoutBearer = token.split("bearer ")[1].trim();
-        return jwtAuth.verifyToken(tokenWithoutBearer, RoleAuthJWT.ADMIN_ROLE);
+        return jwtAuth.verifyToken(tokenWithoutBearer, RoleAuthJWT.STUDENT_ROLE);
     }
     private boolean isPathController(final String currentPath) {
-        return Arrays.stream(ControllerPatterns.PATHS).anyMatch(PATH -> currentPath.equals("/TestAPIRestServlet/api" + PATH));
-    }
-    private boolean isInThisPath(final String currentPath, final String thisPath) {
-        return currentPath.equals("/TestAPIRestServlet/api" + thisPath);
+        return Arrays.stream(ControllerPatternsAuthenticated.STUDENT_PATHS).anyMatch(PATH -> currentPath.equals("/TestAPIRestServlet/api" + PATH));
     }
 }
