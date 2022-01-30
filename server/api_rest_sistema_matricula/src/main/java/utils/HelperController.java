@@ -2,6 +2,7 @@ package utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,6 +10,7 @@ import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class HelperController {
@@ -19,6 +21,7 @@ public class HelperController {
         SetStatusResponse(res, formatJsonResponse.getStatus());
         // Agregando headers de autorización
         res.addHeader("Access-Control-Allow-Origin", "http://localhost:80");
+        res.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
         // Estableciendo contenido a responder
         res.setContentType("application/json");
         // Respondiendo json body
@@ -32,6 +35,15 @@ public class HelperController {
                         new InputStreamReader(
                                 servInpStream, 
                                 StandardCharsets.UTF_8)), typeClass);
+    }
+    public static JsonObject getRequestBody(final HttpServletRequest req) {
+        try {
+            // Convirtiendo a DogDTO y validando parámetros de entrada
+            return (JsonObject) HelperController
+                    .fromBodyToObject(req.getInputStream(), JsonObject.class);
+        } catch (Exception ex) {
+            return null;
+        }
     }
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Helpers">
