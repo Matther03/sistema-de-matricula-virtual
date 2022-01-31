@@ -12,17 +12,16 @@ export const StyledButton = styled(Button)`
         border-radius: 5px;
         background-color: var(--primary-color) !important;
     }
+    &.secondary {
+        border-radius: 5px;
+        background-color: var(--seventh-color) !important;
+        color: var(--third-color) !important;
+    }
+    &.secondary:hover {
+        background-color: var(--seventh-color-dark) !important;
+    }
     &:disabled {
         color: #b5b5b5 !important;
         background-color: #353535 !important;
-    }
-    &.secondary {
-        border-color: var(--primary-color) !important;
-        background-color: var(--third-color) !important;
-        color: var(--primary-color) !important;
-    }
-    &.secondary:hover {
-        background-color: var(--primary-color) !important;
-        color: var(--third-color) !important;
     }
 `;

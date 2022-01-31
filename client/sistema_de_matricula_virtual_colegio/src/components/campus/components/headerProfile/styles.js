@@ -4,15 +4,6 @@ import styled from "styled-components";
 
 export const ContainerProfile = styled.article`
     position: relative;
-    & .content {
-        display: flex;
-        align-items: center;
-        padding: 5px 20px;
-        gap: 15px;
-        cursor: pointer;
-        user-select: none;
-        transition: 0.25s;
-    }
     & .icons {
         display: flex;
         align-items: center;
@@ -27,6 +18,18 @@ export const ContainerProfile = styled.article`
         font-size: 45px;
         cursor: pointer;
     }
+    & .content:hover {
+        background-color: var(--secondary-blue);
+    }
+`;
+export const ContentProfile = styled.article`
+    display: flex;
+    align-items: center;
+    padding: 5px 20px;
+    gap: 15px;
+    cursor: pointer;
+    user-select: none;
+    transition: 0.25s;
     & .arrow {
         width: 0;
         height: 0;
@@ -40,10 +43,10 @@ export const ContainerProfile = styled.article`
     & .up {
         transform: rotate(-180deg);
     }
-    & .content:hover {
+    &:hover {
         background-color: var(--secondary-blue);
     }
-`;
+`
 export const ContainerLogoutBtn = styled.button`
     display: flex;
     align-items: center;
