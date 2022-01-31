@@ -1,20 +1,20 @@
 
 package dto.classroom;
 
-public class ClassroomVacancy {
+public class ClassroomVacancyDTO {
     
     //<editor-fold defaultstate="collapsed" desc="Properties">
     private Integer code, quantity;
     private ClassroomDTO classroom;
     //</editor-fold>
 
-    public ClassroomVacancy() {
+    public ClassroomVacancyDTO() {
         code = null;
         quantity = null;
         classroom = null;
     }
 
-    public ClassroomVacancy(Integer code, Integer quantity, ClassroomDTO classroom) {
+    public ClassroomVacancyDTO(Integer code, Integer quantity, ClassroomDTO classroom) {
         this.code = code;
         this.quantity = quantity;
         this.classroom = classroom;
