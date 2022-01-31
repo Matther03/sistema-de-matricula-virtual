@@ -24,7 +24,7 @@ import adminImg from '../../../img/administrator/login/admin-icon.png';
 import { Icon } from '@iconify/react';
 //#endregion
 //#region Components
-import SymbolHeader from "../../../components/campus/components/symbolHeader/SymbolHeader";
+import SymbolHeader from "../../../components/general/symbolHeader/SymbolHeader";
 import CustomTextField from '../../../components/general/customTextField/CustomTextField';
 import CustomButton from '../../../components/general/customButton/CustomButton';
 //#endregion
@@ -87,7 +87,7 @@ const Login = () => {
     //#endregion
     return (
         <>
-            {isLoggedAdmin() && <Navigate to="../home" replace={true}/>}
+            {isLoggedAdmin() && <Navigate to="/admin/home" replace={true}/>}
             <SymbolHeader className="adminHeader"/>
             <ContainerSectionLogin>
                 <ContentSectionLogin>
@@ -113,7 +113,7 @@ const Login = () => {
                                 error={errors.password}
                                 InputProps={{ 
                                     endAdornment: (
-                                        <InputAdornment >
+                                        <InputAdornment position="end">
                                             <IconButton
                                             onClick={toggleShowPassword}>
                                                 <Icon icon={showPassword 
