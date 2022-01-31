@@ -29,7 +29,8 @@ export const ContentSectionLogin = styled.article`
 export const AdminImgContainer = styled.div`
     position: absolute;
     top: -18%;
-    left: 31%;
+    left: 50%;
+    transform: translateX(-50%);
     background-color: var(--fourth-color);
     border-radius: 50%;
     padding: 25px;

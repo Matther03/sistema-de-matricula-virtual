@@ -112,7 +112,6 @@ const Login = () => {
                             <div>
                                 <InputLabel className="admin-input-label">Contraseña</InputLabel>
                                 <CustomTextField 
-                                    className="admin-input"
                                     type={showPassword ? "text" : "password"}
                                     value={form.password}
                                     onChange={(e) => handleChangeTextField(e, "password")}
