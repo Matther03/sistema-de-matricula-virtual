@@ -1,10 +1,13 @@
 package model;
 
+import database.ConnectionDB;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import utils.delegates.DelegateReturnWithTwoParametersThrowsSQLException;
 
 public abstract class ModelParent {
     
@@ -58,5 +61,22 @@ public abstract class ModelParent {
         prSt.setNull(idxParam, typeSQL);
         return true;
     }
+    protected ArrayList<HashMap<String, String>> doActionQuery(
+            DelegateReturnWithTwoParametersThrowsSQLException<PreparedStatement, Connection, PreparedStatement> doTask) {
+        final ConnectionDB cnDB = new ConnectionDB();
+        final Connection cnObj = cnDB.connect();
+        try {
+            PreparedStatement prSt = null;
+            prSt = doTask.Execute(cnObj, prSt);
+            final ResultSet rs = prSt.executeQuery();
+            return getHashMapArrayFrom(rs);
+        } catch (SQLException ex) {
+            MESSAGE = ex.getMessage();
+            return null;
+        }
+        finally {
+            cnDB.disconnect();
+        }
+    }    
     //</editor-fold>
 }

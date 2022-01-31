@@ -6,7 +6,7 @@ public class StudentDTO {
     //<editor-fold defaultstate="collapsed" desc="Properties">
     private Integer code;
     private String name;
-    private String father_surname;
+    private String fatherSurname;
     private String mother_surname;
     private Integer age;
     private String id_card;
@@ -17,7 +17,7 @@ public class StudentDTO {
     public StudentDTO(){
         this.code = null;
         this.name = null;
-        this.father_surname = null;
+        this.fatherSurname = null;
         this.mother_surname = "";
         this.age = 0;
         this.id_card = null;
@@ -28,7 +28,7 @@ public class StudentDTO {
     public StudentDTO(Integer code, String name, String father_surname, String mother_surname, Integer age, String id_card, String direction, Integer code_representative) {
         this.code = code;
         this.name = name;
-        this.father_surname = father_surname;
+        this.fatherSurname = father_surname;
         this.mother_surname = mother_surname;
         this.age = age;
         this.id_card = id_card;
@@ -54,12 +54,12 @@ public class StudentDTO {
         this.name = name;
     }
 
-    public String getFather_surname() {
-        return father_surname;
+    public String getFatherSurname() {
+        return fatherSurname;
     }
 
     public void setFather_surname(String father_surname) {
-        this.father_surname = father_surname;
+        this.fatherSurname = father_surname;
     }
 
     public String getMother_surname() {
@@ -78,11 +78,11 @@ public class StudentDTO {
         this.age = age;
     }
 
-    public String getId_card() {
+    public String getIdCard() {
         return id_card;
     }
 
-    public void setId_card(String id_card) {
+    public void setIdCard(String id_card) {
         this.id_card = id_card;
     }
 

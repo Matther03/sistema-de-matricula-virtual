@@ -28,7 +28,7 @@ const InternalNav = ({ information }) => {
             }
             return prev;
         });    
-    },[location.pathname]);
+    }, [location.pathname]);
     //#endregion
     //#region Functions
     const equalsWithSlash = (areEquals, pathname) => 

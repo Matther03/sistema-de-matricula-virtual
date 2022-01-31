@@ -21,6 +21,7 @@ public class HelperController {
         SetStatusResponse(res, formatJsonResponse.getStatus());
         // Agregando headers de autorización
         res.addHeader("Access-Control-Allow-Origin", "http://localhost:80");
+        res.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
         // Estableciendo contenido a responder
         res.setContentType("application/json");
         // Respondiendo json body

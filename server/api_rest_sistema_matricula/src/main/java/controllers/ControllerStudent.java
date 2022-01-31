@@ -1,6 +1,6 @@
 package controllers;
 
-import entity.StudentEntity;
+import entity.ClassroomEntity;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,10 +17,11 @@ public class ControllerStudent extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HelperController.templatePrintable(
-                FormatResponse.getSuccessResponse(new StudentEntity().accounts), response);
+                FormatResponse.getSuccessResponse(new ClassroomEntity().getSections()), response);
     }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.getWriter().println("Gaaaaaaaaaaaaaaaaaaa");
     }
 }

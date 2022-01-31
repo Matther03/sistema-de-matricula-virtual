@@ -8,6 +8,21 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <script>
+            const doSomething = async (body) => {
+                const res = await fetch("http://localhost:8080/api_rest_sistema_matricula/api/student/login", {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify(body)
+                });
+                const resJson = await res.json();
+                console.log(resJson);
+            }
+            doSomething({ dni: "70290308", password: "sajdshdsha" });
+            
+        </script>
     </body>
 </html>
