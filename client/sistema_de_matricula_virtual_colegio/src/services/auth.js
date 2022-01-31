@@ -13,4 +13,15 @@ export const logoutStudent = () => {
 }
 
 // Admin
+export const loginAdmin = (admin) => {
+    if (admin.user !== "70290308" || admin.password !== "manuelrivera")
+        return;
+    saveTokenAdmin("kjckzxkcnjjenjwka");
+}
 export const isLoggedAdmin = () => sessionStorage.getItem("tokenAdmin") ? true : false;
+const saveTokenAdmin = (token) => {
+    sessionStorage.setItem("tokenAdmin", token);
+}
+export const logoutAdmin = () => {
+    sessionStorage.removeItem("tokenAdmin");
+}

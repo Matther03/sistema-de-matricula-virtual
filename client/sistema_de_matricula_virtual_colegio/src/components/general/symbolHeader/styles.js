@@ -20,6 +20,11 @@ export const ContainerHeader = styled.header`
     @media (max-width: 700px) {
         flex-direction: column;
     }
+    &.adminHeader {
+        padding: 20px 60px;
+        background-color: #ffffff;
+        z-index: 1000;
+    }
 `;
 export const TitleNavbar = styled.a`
     display: flex;

@@ -28,7 +28,7 @@ import { Icon } from '@iconify/react';
 import DialogAlert from '../../../components/general/dialogAlert/DialogAlert';
 import CustomTextField from '../../../components/general/customTextField/CustomTextField';
 import CustomButton from '../../../components/general/customButton/CustomButton';
-import SymbolHeader from "../../../components/campus/components/symbolHeader/SymbolHeader";
+import SymbolHeader from "../../../components/general/symbolHeader/SymbolHeader";
 //#endregion
 //#region Services
 import { loginStudent, isLoggedStudent } from '../../../services/auth';

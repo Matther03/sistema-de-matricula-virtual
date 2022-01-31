@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 //#region Styles
 import { 
     ContainerProfile,
+    ContentProfile,
     ContainerLogoutBtn } from './styles';
 //#endregion
 //#region Icons
@@ -23,7 +24,7 @@ const HeaderProfile = ({ nameUser }) => {
     //#endregion
     return (
         <ContainerProfile onClick={toggleShowLogout}>
-            <div className="content">
+            <ContentProfile>
                 <span className="custom-title-6">{nameUser || "NOMBRE DEL ALUMNO"}</span>
                 <div className="icons">
                     <Icon icon="bx:bxs-user"/>
@@ -31,7 +32,7 @@ const HeaderProfile = ({ nameUser }) => {
                         ? "arrow up"
                         : "arrow"}/>
                 </div>
-            </div>
+            </ContentProfile>
             <LogoutButton className={
                 showLogout ? "active" : ""}/>
         </ContainerProfile>
