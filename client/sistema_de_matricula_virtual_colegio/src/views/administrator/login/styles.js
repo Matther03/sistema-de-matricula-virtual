@@ -51,18 +51,4 @@ export const ContentFormSectionLogin = styled.form`
         gap: 15px;
         width: 100%;
     }
-    & .login-btn {
-        background-color: var(--seventh-color);
-        width: 150px;
-        border-radius: 4px;
-    }
-    & .login-btn:hover {
-        background-color: var(--seventh-color-dark);
-    }
-    & .login-btn:active {
-        box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);
-    }
-    & .admin-input-label {
-        font-weight: 700;
-    }
 `

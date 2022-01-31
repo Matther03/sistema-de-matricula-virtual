@@ -3,10 +3,8 @@ import {
     useState,
     useEffect
 } from 'react';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import {
-    InputLabel,
-    Button,
     InputAdornment,
     IconButton
 } from '@mui/material';
@@ -28,6 +26,7 @@ import { Icon } from '@iconify/react';
 //#region Components
 import SymbolHeader from "../../../components/campus/components/symbolHeader/SymbolHeader";
 import CustomTextField from '../../../components/general/customTextField/CustomTextField';
+import CustomButton from '../../../components/general/customButton/CustomButton';
 //#endregion
 //#region Services
 import { loginAdmin, isLoggedAdmin } from '../../../services/auth';
@@ -99,42 +98,38 @@ const Login = () => {
                     <ContentFormSectionLogin
                         onSubmit={handleLogin}>
                         <section className="fields">
-                            <div>
-                                <InputLabel className="admin-input-label">Usuario</InputLabel>
-                                <CustomTextField 
-                                        className="admin-input"
-                                        variant="outlined"
-                                        value={form.user}
-                                        onChange={(e) => handleChangeTextField(e, "user")}
-                                        error={errors.user}
-                                        />
-                            </div>
-                            <div>
-                                <InputLabel className="admin-input-label">Contraseña</InputLabel>
-                                <CustomTextField 
-                                    type={showPassword ? "text" : "password"}
-                                    value={form.password}
-                                    onChange={(e) => handleChangeTextField(e, "password")}
-                                    error={errors.password}
-                                    InputProps={{ 
-                                        endAdornment: (
-                                            <InputAdornment >
-                                                <IconButton
-                                                onClick={toggleShowPassword}>
-                                                    <Icon icon={showPassword 
-                                                        ? "ic:sharp-visibility-off"
-                                                        : "ic:round-visibility"} />
-                                                </IconButton>
-                                            </InputAdornment>
-                                        )
-                                    }}/>
-                            </div>
+                            <CustomTextField 
+                                variant="outlined"
+                                value={form.user}
+                                label="Usuario"
+                                onChange={(e) => handleChangeTextField(e, "user")}
+                                error={errors.user}
+                                />
+                            <CustomTextField 
+                                type={showPassword ? "text" : "password"}
+                                value={form.password}
+                                label="Contraseña"
+                                onChange={(e) => handleChangeTextField(e, "password")}
+                                error={errors.password}
+                                InputProps={{ 
+                                    endAdornment: (
+                                        <InputAdornment >
+                                            <IconButton
+                                            onClick={toggleShowPassword}>
+                                                <Icon icon={showPassword 
+                                                    ? "ic:sharp-visibility-off"
+                                                    : "ic:round-visibility"} />
+                                            </IconButton>
+                                        </InputAdornment>
+                                    )
+                                }}/>
                         </section>
                         <footer>
-                        <Button 
-                            className="login-btn"
-                            type="submit"
-                            disabled={errors.user || errors.password}>Ingresar</Button>
+                            <CustomButton 
+                                type="submit"
+                                text="INGRESAR"
+                                className="secondary"
+                                disabled={errors.user || errors.password}/>
                         </footer>
                     </ContentFormSectionLogin>
                 </ContentSectionLogin>

@@ -2,10 +2,10 @@
 export const loginStudent = (student) => {
     if (student.dni !== "70290308" || student.password !== "manuelrivera")
         return;
-    saveToken("kjckzxkcnjjenjwka");
+    saveTokenStudent("kjckzxkcnjjenjwka");
 }
 export const isLoggedStudent = () => sessionStorage.getItem("tokenStudent") ? true : false;
-const saveToken = (token) => {
+const saveTokenStudent = (token) => {
     sessionStorage.setItem("tokenStudent", token);
 }
 export const logoutStudent = () => {
