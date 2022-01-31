@@ -2,7 +2,7 @@
 import { ContainerHeader, TitleNavbar } from './styles';
 //#endregion
 //#region Images
-import symbolSchoolImg from '../../../../img/general/school-symbol.png';
+import symbolSchoolImg from '../../../img/general/school-symbol.png';
 //#endregion
 
 const SymbolHeader = ({ className, showTitle }) => {

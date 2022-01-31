@@ -5,7 +5,7 @@ import {
     OffSetHeader } from './styles';
 //#endregion
 //#region Components
-import SymbolHeader from '../../../components/symbolHeader/SymbolHeader';
+import SymbolHeader from '../../../../general/symbolHeader/SymbolHeader';
 import HeaderProfile from '../../../components/headerProfile/HeaderProfile';
 //#endregion
 
