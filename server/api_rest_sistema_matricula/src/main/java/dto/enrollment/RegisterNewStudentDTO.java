@@ -4,17 +4,17 @@ package dto.enrollment;
 public class RegisterNewStudentDTO {
     //<editor-fold defaultstate="collapsed" desc="Properties">
     private Integer code;
-    private PaymentDTO codePayment;
+    private PaymentDTO payment;
     //</editor-fold>
 
     public RegisterNewStudentDTO() {
         this.code = null;
-        this.codePayment = null;
+        this.payment = null;
     }
 
-    public RegisterNewStudentDTO(Integer code, PaymentDTO codePayment) {
+    public RegisterNewStudentDTO(Integer code, PaymentDTO payment) {
         this.code = code;
-        this.codePayment = codePayment;
+        this.payment = payment;
     }
     
     
@@ -27,12 +27,12 @@ public class RegisterNewStudentDTO {
         this.code = code;
     }
 
-    public PaymentDTO getCodePayment() {
-        return codePayment;
+    public PaymentDTO getPayment() {
+        return payment;
     }
 
-    public void setCodePayment(PaymentDTO codePayment) {
-        this.codePayment = codePayment;
+    public void setPayment(PaymentDTO payment) {
+        this.payment = payment;
     }
     //</editor-fold>
     

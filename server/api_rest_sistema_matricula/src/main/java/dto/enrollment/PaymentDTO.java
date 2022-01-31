@@ -7,24 +7,24 @@ public class PaymentDTO {
     private Integer code;
     private String date;
     private Double amountPayment;
-    private BankDTO codeBanck;
-    private StudentDTO codeStudent;
+    private BankDTO bank;
+    private StudentDTO student;
     //</editor-fold>
 
     public PaymentDTO() {
         this.amountPayment = null;
         this.code = null;
-        this.codeBanck = null;
-        this.codeStudent = null;
+        this.bank = null;
+        this.student = null;
         this.date = null;
     }
 
-    public PaymentDTO(Integer code, String date, Double amountPayment, BankDTO codeBanck, StudentDTO codeStudent) {
+    public PaymentDTO(Integer code, String date, Double amountPayment, BankDTO bank, StudentDTO student) {
         this.code = code;
         this.date = date;
         this.amountPayment = amountPayment;
-        this.codeBanck = codeBanck;
-        this.codeStudent = codeStudent;
+        this.bank = bank;
+        this.student = student;
     }
     
     //<editor-fold defaultstate="collapsed" desc="Getters y setters">
@@ -52,20 +52,20 @@ public class PaymentDTO {
         this.amountPayment = amountPayment;
     }
 
-    public BankDTO getCodeBanck() {
-        return codeBanck;
+    public BankDTO getBank() {
+        return bank;
     }
 
-    public void setCodeBanck(BankDTO codeBanck) {
-        this.codeBanck = codeBanck;
+    public void setBank(BankDTO bank) {
+        this.bank = bank;
     }
 
-    public StudentDTO getCodeStudent() {
-        return codeStudent;
+    public StudentDTO getStudent() {
+        return student;
     }
 
-    public void setCodeStudent(StudentDTO codeStudent) {
-        this.codeStudent = codeStudent;
+    public void setStudent(StudentDTO student) {
+        this.student = student;
     }
     //</editor-fold>
     

@@ -5,20 +5,20 @@ public class CourseTeacherDTO {
 
     //<editor-fold defaultstate="collapsed" desc="Properties">
     private Integer code;
-    private TeacherDTO codeTeacher;
-    private CourseDTO codeCourse;
+    private TeacherDTO teacher;
+    private CourseDTO course;
     //</editor-fold>
 
     public CourseTeacherDTO() {
         this.code = null;
-        this.codeTeacher = null;
-        this.codeCourse = null;
+        this.teacher = null;
+        this.course = null;
     }
 
-    public CourseTeacherDTO(Integer code, TeacherDTO codeTeacher, CourseDTO codeCourse) {
+    public CourseTeacherDTO(Integer code, TeacherDTO teacher, CourseDTO course) {
         this.code = code;
-        this.codeTeacher = codeTeacher;
-        this.codeCourse = codeCourse;
+        this.teacher = teacher;
+        this.course = course;
     }
     
     //<editor-fold defaultstate="collapsed" desc="Getters y setters">
@@ -31,20 +31,20 @@ public class CourseTeacherDTO {
         this.code = code;
     }
 
-    public TeacherDTO getCodeTeacher() {
-        return codeTeacher;
+    public TeacherDTO getTeacher() {
+        return teacher;
     }
 
-    public void setCodeTeacher(TeacherDTO codeTeacher) {
-        this.codeTeacher = codeTeacher;
+    public void setTeacher(TeacherDTO teacher) {
+        this.teacher = teacher;
     }
 
-    public CourseDTO getCodeCourse() {
-        return codeCourse;
+    public CourseDTO getCourse() {
+        return course;
     }
 
-    public void setCodeCourse(CourseDTO codeCourse) {
-        this.codeCourse = codeCourse;
+    public void setCourse(CourseDTO course) {
+        this.course = course;
     }
     
     //</editor-fold>

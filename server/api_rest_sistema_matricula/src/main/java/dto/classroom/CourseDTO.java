@@ -6,19 +6,19 @@ public class CourseDTO {
      //<editor-fold defaultstate="collapsed" desc="Properties">
     private Integer code;
     private String name;
-    private GradeDTO codeGrade;    
+    private GradeDTO grade;    
     //</editor-fold>
 
     public CourseDTO() {
         code = null;
         name = null;
-        codeGrade = null;
+        grade = null;
     }
 
-    public CourseDTO(Integer code, String name, GradeDTO codeGrade) {
+    public CourseDTO(Integer code, String name, GradeDTO grade) {
         this.code = code;
         this.name = name;
-        this.codeGrade = codeGrade;
+        this.grade = grade;
     }
     
      //<editor-fold defaultstate="collapsed" desc="Getters y setters">
@@ -39,12 +39,12 @@ public class CourseDTO {
         this.name = name;
     }
 
-    public GradeDTO getCodeGrade() {
-        return codeGrade;
+    public GradeDTO getGrade() {
+        return grade;
     }
 
-    public void setCodeGrade(GradeDTO codeGrade) {
-        this.codeGrade = codeGrade;
+    public void setGrade(GradeDTO grade) {
+        this.grade = grade;
     }
      //</editor-fold>
     

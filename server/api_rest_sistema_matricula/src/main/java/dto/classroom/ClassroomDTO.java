@@ -6,23 +6,23 @@ public class ClassroomDTO {
 
     //<editor-fold defaultstate="collapsed" desc="Properties">
     private Integer code;
-    private SectionDTO codeSection;
-    private GradeDTO codeGrade;
-    private TeacherDTO codeTeacher;
+    private SectionDTO section;
+    private GradeDTO grade;
+    private TeacherDTO teacher;
     //</editor-fold>
 
     public ClassroomDTO() {
         this.code = null;
-        this.codeSection = null;
-        this.codeGrade = null;
-        this.codeTeacher = null;
+        this.section = null;
+        this.grade = null;
+        this.teacher = null;
     }
 
-    public ClassroomDTO(Integer code, SectionDTO codeSection, GradeDTO codeGrade, TeacherDTO codeTeacher) {
+    public ClassroomDTO(Integer code, SectionDTO section, GradeDTO grade, TeacherDTO teacher) {
         this.code = code;
-        this.codeSection = codeSection;
-        this.codeGrade = codeGrade;
-        this.codeTeacher = codeTeacher;
+        this.section = section;
+        this.grade = grade;
+        this.teacher = teacher;
     }
     
     //<editor-fold defaultstate="collapsed" desc="Getters y setters">
@@ -35,28 +35,28 @@ public class ClassroomDTO {
         this.code = code;
     }
 
-    public SectionDTO getCodeSection() {
-        return codeSection;
+    public SectionDTO getSection() {
+        return section;
     }
 
-    public void setCodeSection(SectionDTO codeSection) {
-        this.codeSection = codeSection;
+    public void setSection(SectionDTO section) {
+        this.section = section;
     }
 
-    public GradeDTO getCodeGrade() {
-        return codeGrade;
+    public GradeDTO getGrade() {
+        return grade;
     }
 
-    public void setCodeGrade(GradeDTO codeGrade) {
-        this.codeGrade = codeGrade;
+    public void setGrade(GradeDTO grade) {
+        this.grade = grade;
     }
 
-    public TeacherDTO getCodeTeacher() {
-        return codeTeacher;
+    public TeacherDTO getTeacher() {
+        return teacher;
     }
 
-    public void setCodeTeacher(TeacherDTO codeTeacher) {
-        this.codeTeacher = codeTeacher;
+    public void setTeacher(TeacherDTO teacher) {
+        this.teacher = teacher;
     }
     //</editor-fold>
 

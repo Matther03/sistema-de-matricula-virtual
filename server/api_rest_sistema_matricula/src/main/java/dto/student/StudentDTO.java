@@ -11,7 +11,7 @@ public class StudentDTO {
     private Integer age;
     private String idCard;
     private String direction;
-    private RepresentativeDTO codeRepresentative;
+    private RepresentativeDTO representative;
     //</editor-fold>  
 
     public StudentDTO(){
@@ -22,10 +22,10 @@ public class StudentDTO {
         this.age = 0;
         this.idCard = null;
         this.direction = null;
-        this.codeRepresentative = null;
+        this.representative = null;
     }
 
-    public StudentDTO(Integer code, String name, String fatherSurname, String motherSurname, Integer age, String idCard, String direction, RepresentativeDTO codeRepresentative) {
+    public StudentDTO(Integer code, String name, String fatherSurname, String motherSurname, Integer age, String idCard, String direction, RepresentativeDTO representative) {
         this.code = code;
         this.name = name;
         this.fatherSurname = fatherSurname;
@@ -33,7 +33,7 @@ public class StudentDTO {
         this.age = age;
         this.idCard = idCard;
         this.direction = direction;
-        this.codeRepresentative = codeRepresentative;
+        this.representative = representative;
     }
     
 
@@ -94,12 +94,12 @@ public class StudentDTO {
         this.direction = direction;
     }
     
-    public RepresentativeDTO getCodeRepresentative() {
-        return codeRepresentative;
+    public RepresentativeDTO getRepresentative() {
+        return representative;
     }
 
-    public void setCodeRepresentative(RepresentativeDTO codeRepresentative) {
-        this.codeRepresentative = codeRepresentative;
+    public void setRepresentative(RepresentativeDTO representative) {
+        this.representative = representative;
     }
     
     //</editor-fold>  

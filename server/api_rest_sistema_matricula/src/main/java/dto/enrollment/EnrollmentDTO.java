@@ -7,27 +7,27 @@ public class EnrollmentDTO {
     private Integer code;
     private String date;
     private Boolean repeater;
-    private PaymentDTO codePayment;
-    private ClassroomDTO codeClassroom;
-    private TypeSchoolDTO nameTypeSChool;
+    private PaymentDTO payment;
+    private ClassroomDTO classroom;
+    private TypeSchoolDTO typeSChool;
     //</editor-fold>
 
     public EnrollmentDTO() {
         this.code = null;
-        this.codeClassroom = null;
-        this.codePayment= null;
+        this.classroom = null;
+        this.payment= null;
         this.date = null;
-        this.nameTypeSChool = null;
+        this.typeSChool = null;
         this.repeater= false;
     }
 
-    public EnrollmentDTO(Integer code, String date, Boolean repeater, PaymentDTO codePayment, ClassroomDTO codeClassroom, TypeSchoolDTO nameTypeSChool) {
+    public EnrollmentDTO(Integer code, String date, Boolean repeater, PaymentDTO payment, ClassroomDTO classroom, TypeSchoolDTO typeSChool) {
         this.code = code;
         this.date = date;
         this.repeater = repeater;
-        this.codePayment = codePayment;
-        this.codeClassroom = codeClassroom;
-        this.nameTypeSChool = nameTypeSChool;
+        this.payment = payment;
+        this.classroom = classroom;
+        this.typeSChool = typeSChool;
     }
     //<editor-fold defaultstate="collapsed" desc="Getters y setters">
 
@@ -55,28 +55,28 @@ public class EnrollmentDTO {
         this.repeater = repeater;
     }
 
-    public PaymentDTO getCodePayment() {
-        return codePayment;
+    public PaymentDTO getPayment() {
+        return payment;
     }
 
-    public void setCodePayment(PaymentDTO codePayment) {
-        this.codePayment = codePayment;
+    public void setPayment(PaymentDTO payment) {
+        this.payment = payment;
     }
 
-    public ClassroomDTO getCodeClassroom() {
-        return codeClassroom;
+    public ClassroomDTO getClassroom() {
+        return classroom;
     }
 
-    public void setCodeClassroom(ClassroomDTO codeClassroom) {
-        this.codeClassroom = codeClassroom;
+    public void setClassroom(ClassroomDTO classroom) {
+        this.classroom = classroom;
     }
 
-    public TypeSchoolDTO getNameTypeSChool() {
-        return nameTypeSChool;
+    public TypeSchoolDTO getTypeSChool() {
+        return typeSChool;
     }
 
-    public void setNameTypeSChool(TypeSchoolDTO nameTypeSChool) {
-        this.nameTypeSChool = nameTypeSChool;
+    public void setTypeSChool(TypeSchoolDTO typeSChool) {
+        this.typeSChool = typeSChool;
     }
     //</editor-fold>
     

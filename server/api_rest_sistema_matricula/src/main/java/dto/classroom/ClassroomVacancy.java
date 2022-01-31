@@ -5,19 +5,19 @@ public class ClassroomVacancy {
     
     //<editor-fold defaultstate="collapsed" desc="Properties">
     private Integer code, quantity;
-    private ClassroomDTO codeClassroom;
+    private ClassroomDTO classroom;
     //</editor-fold>
 
     public ClassroomVacancy() {
         code = null;
         quantity = null;
-        codeClassroom = null;
+        classroom = null;
     }
 
-    public ClassroomVacancy(Integer code, Integer quantity, ClassroomDTO codeClassroom) {
+    public ClassroomVacancy(Integer code, Integer quantity, ClassroomDTO classroom) {
         this.code = code;
         this.quantity = quantity;
-        this.codeClassroom = codeClassroom;
+        this.classroom = classroom;
     }
     
     //<editor-fold defaultstate="collapsed" desc="Getters y setters">
@@ -38,12 +38,12 @@ public class ClassroomVacancy {
         this.quantity = quantity;
     }
 
-    public ClassroomDTO getCodeClassroom() {
-        return codeClassroom;
+    public ClassroomDTO getClassroom() {
+        return classroom;
     }
 
-    public void setCodeClassroom(ClassroomDTO codeClassroom) {
-        this.codeClassroom = codeClassroom;
+    public void setClassroom(ClassroomDTO classroom) {
+        this.classroom = classroom;
     }
     //</editor-fold>
 
