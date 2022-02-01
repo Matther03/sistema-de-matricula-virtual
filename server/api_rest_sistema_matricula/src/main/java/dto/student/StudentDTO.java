@@ -7,42 +7,42 @@ public class StudentDTO {
     private Integer code;
     private String name;
     private String fatherSurname;
-    private String mother_surname;
+    private String motherSurname;
     private Integer age;
-    private String id_card;
+    private String idCard;
     private String direction;
-    private Integer code_representative;
+    private RepresentativeDTO representative;
     //</editor-fold>  
 
     public StudentDTO(){
         this.code = null;
         this.name = null;
         this.fatherSurname = null;
-        this.mother_surname = "";
+        this.motherSurname = "";
         this.age = 0;
-        this.id_card = null;
+        this.idCard = null;
         this.direction = null;
-        this.code_representative = 0;
+        this.representative = null;
     }
 
-    public StudentDTO(Integer code, String name, String father_surname, String mother_surname, Integer age, String id_card, String direction, Integer code_representative) {
+    public StudentDTO(Integer code, String name, String fatherSurname, String motherSurname, Integer age, String idCard, String direction, RepresentativeDTO representative) {
         this.code = code;
         this.name = name;
-        this.fatherSurname = father_surname;
-        this.mother_surname = mother_surname;
+        this.fatherSurname = fatherSurname;
+        this.motherSurname = motherSurname;
         this.age = age;
-        this.id_card = id_card;
+        this.idCard = idCard;
         this.direction = direction;
-        this.code_representative = code_representative;
+        this.representative = representative;
     }
     
 
     //<editor-fold defaultstate="collapsed" desc="Getters and Setters">  
-    public Integer getId() {
+    public Integer getCode() {
         return code;
     }
 
-    public void setId(Integer code) {
+    public void setCode(Integer code) {
         this.code = code;
     }
 
@@ -58,16 +58,16 @@ public class StudentDTO {
         return fatherSurname;
     }
 
-    public void setFather_surname(String father_surname) {
-        this.fatherSurname = father_surname;
+    public void setFatherSurname(String fatherSurname) {
+        this.fatherSurname = fatherSurname;
     }
 
-    public String getMother_surname() {
-        return mother_surname;
+    public String getMotherSurname() {
+        return motherSurname;
     }
 
-    public void setMother_surname(String mother_surname) {
-        this.mother_surname = mother_surname;
+    public void setMotherSurname(String motherSurname) {
+        this.motherSurname = motherSurname;
     }
 
     public Integer getAge() {
@@ -79,11 +79,11 @@ public class StudentDTO {
     }
 
     public String getIdCard() {
-        return id_card;
+        return idCard;
     }
 
-    public void setIdCard(String id_card) {
-        this.id_card = id_card;
+    public void setIdCard(String idCard) {
+        this.idCard = idCard;
     }
 
     public String getDirection() {
@@ -93,14 +93,17 @@ public class StudentDTO {
     public void setDirection(String direction) {
         this.direction = direction;
     }
-
-    public Integer getCode_representative() {
-        return code_representative;
+    
+    public RepresentativeDTO getRepresentative() {
+        return representative;
     }
 
-    public void setCode_representative(Integer code_representative) {
-        this.code_representative = code_representative;
+    public void setRepresentative(RepresentativeDTO representative) {
+        this.representative = representative;
     }
+    
     //</editor-fold>  
+
+    
 
 }
