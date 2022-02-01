@@ -179,7 +179,11 @@ const Login = () => {
                         <CustomButton
                             variant="outlined"
                             text="VER MÁS"/>
-                    </a>
+                    </a>,
+                    () => <CustomButton
+                        variant="outlined"
+                        onClick={() => setShowDialogRememberRegister(false)}
+                        text="Cerrar"/>
                 ]}
                 description={
                     <ul>

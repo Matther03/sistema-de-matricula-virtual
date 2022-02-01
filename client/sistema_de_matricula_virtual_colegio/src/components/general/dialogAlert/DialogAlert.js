@@ -44,10 +44,6 @@ const DialogAlert = ({
             </article>
             <FooterCustomDialogAlert>
                 {buttons.length && buttons.map((ButtonMapping, idx) => <ButtonMapping key={idx}/>)}
-                <CustomButton
-                    variant="outlined"
-                    onClick={handleClose}
-                    text="Cerrar"/>
             </FooterCustomDialogAlert>
         </ContainerCustomDialogAlert>
     );
