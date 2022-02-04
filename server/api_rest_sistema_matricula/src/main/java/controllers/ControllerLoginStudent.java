@@ -30,13 +30,6 @@ public class ControllerLoginStudent extends HttpServlet {
         final JsonObject body = HelperController.getRequestBody(request);
         HelperController.templatePrintable(verifyAccount(body), response);
     }
-    @Override
-    protected void doPut(HttpServletRequest request, HttpServletResponse response) 
-            throws ServletException, IOException {
-        final JsonObject body = HelperController.getRequestBody(request);
-        final String resStr = body.get("dni").getAsString() + " | " + body.get("password").getAsString();
-        HelperController.templatePrintable(FormatResponse.getSuccessResponse(resStr), response);
-    }
     //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Helpers HTTP methods">
     private FormatResponse verifyAccount(final JsonObject body) {
@@ -54,7 +47,7 @@ public class ControllerLoginStudent extends HttpServlet {
         student.setIdCard(dni.getAsString());
         accountToLogin.setStudent(student);
         
-        StudentEntity studentEntity = new StudentEntity();
+        final StudentEntity studentEntity = new StudentEntity();
         final boolean isValid = studentEntity.isValidAccount(accountToLogin);
         if (!isValid)
             return FormatResponse.getErrorResponse("The parameters body aren't valid.", 400);
@@ -63,7 +56,7 @@ public class ControllerLoginStudent extends HttpServlet {
         final String token = studentEntity.verifyAccount(accountToLogin, jwtAuth);
         // Mostrando error de no coincidir
         if (token == null)
-            return FormatResponse.getErrorResponse("User and password doesn't match", 401);
+            return FormatResponse.getErrorResponse("The account credentials don't match.", 401);
         // Respondiendo token
         final JsonObject objToken = new JsonObject();
         objToken.addProperty("token", token);

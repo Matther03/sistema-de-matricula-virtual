@@ -3,19 +3,19 @@ package entity;
 import dto.classroom.SectionDTO;
 import dto.classroom.ShiftDTO;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import model.ClassroomModel;
 
 public class ClassroomEntity {
 
     //<editor-fold defaultstate="defaultstate" desc="Action Methods">
-    public ArrayList<SectionDTO> getSections() {
-        return toArrayListSectionDTOs(new ClassroomModel().getSections());
+    public SectionDTO[] getSections() {
+        return toArraySectionDTOs(new ClassroomModel().getSections());
     }
     //</editor-fold>
-    
     //<editor-fold defaultstate="defaultstate" desc="Helpers">
-    protected SectionDTO getDTOforRowHashMap(HashMap<String, String> row) {
+    private SectionDTO getDTOforRowHashMap(HashMap<String, String> row) {
         return new SectionDTO(
                 Integer.parseInt(row.get("CODE_SECTION")),
                 row.get("LETTER"),
@@ -25,11 +25,12 @@ public class ClassroomEntity {
                 )
         );
     }
-    private ArrayList<SectionDTO> toArrayListSectionDTOs(ArrayList<HashMap<String, String>> table) {
-        return new EntityParent<SectionDTO>().hashMapArrayListToDTOArrayList(
+    private SectionDTO[] toArraySectionDTOs(ArrayList<HashMap<String, String>> table) {
+        final Object[] objArray = EntityHelper.hashMapArrayListToObjArray(
                 table, 
                 (HashMap<String, String> row) -> getDTOforRowHashMap(row)
         );
+        return Arrays.copyOf(objArray, objArray.length, SectionDTO[].class);
     }
     //</editor-fold>
 }

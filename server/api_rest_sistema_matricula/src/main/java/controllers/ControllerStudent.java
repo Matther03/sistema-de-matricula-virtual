@@ -19,9 +19,4 @@ public class ControllerStudent extends HttpServlet {
         HelperController.templatePrintable(
                 FormatResponse.getSuccessResponse(new ClassroomEntity().getSections()), response);
     }
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.getWriter().println("Gaaaaaaaaaaaaaaaaaaa");
-    }
 }

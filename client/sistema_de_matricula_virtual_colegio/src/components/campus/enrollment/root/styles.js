@@ -6,6 +6,7 @@ export const ContainerSectionEnrollment = styled.section`
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: 20px 10px 100px 10px;
     & .ok-btn {
         background-color: var(--seventh-color);
         width: 200px;

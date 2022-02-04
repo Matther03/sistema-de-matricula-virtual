@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import utils.delegates.DelegateReturnWithTwoParametersThrowsSQLException;
+import utils.delegates.DelegateWithTwoParametersReturn2ndParameterThrowsSQLException;
 
 public abstract class ModelParent {
     
@@ -62,12 +62,12 @@ public abstract class ModelParent {
         return true;
     }
     protected ArrayList<HashMap<String, String>> doActionQuery(
-            DelegateReturnWithTwoParametersThrowsSQLException<PreparedStatement, Connection, PreparedStatement> doTask) {
+            DelegateWithTwoParametersReturn2ndParameterThrowsSQLException<Connection, PreparedStatement> doTask) {
         final ConnectionDB cnDB = new ConnectionDB();
         final Connection cnObj = cnDB.connect();
         try {
             PreparedStatement prSt = null;
-            prSt = doTask.Execute(cnObj, prSt);
+            prSt = doTask.execute(cnObj, prSt);
             final ResultSet rs = prSt.executeQuery();
             return getHashMapArrayFrom(rs);
         } catch (SQLException ex) {

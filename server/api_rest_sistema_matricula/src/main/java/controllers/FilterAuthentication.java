@@ -29,13 +29,18 @@ public class FilterAuthentication implements Filter {
             ServletResponse response, FilterChain chain)
         throws IOException, ServletException {
         // Obteniendo ruta actual
-        final String currentPath = ((HttpServletRequest) request).getRequestURI();
+        final HttpServletRequest httpRequest = (HttpServletRequest) request;
+        if (httpRequest.getMethod().equals("OPTIONS")) {
+            ((HttpServletResponse) response).setStatus(HttpServletResponse.SC_OK);
+            return;
+        }
+        final String currentPath = httpRequest.getRequestURI();
         // Continuar si no son las rutas controladores o en la ruta de login
         if (!isPathController(currentPath)) {
             chain.doFilter(request, response);
             return;
         }
-        final String token = ((HttpServletRequest) request).getHeader("Authorization");
+        final String token = httpRequest.getHeader("Authorization");
         if (isValidToken(token)) {
             chain.doFilter(request, response);
             return;
@@ -47,12 +52,13 @@ public class FilterAuthentication implements Filter {
     @Override
     public void destroy() { jwtAuth = null; }
     private boolean isValidToken(String token) {
-        if (token == null || !token.startsWith("bearer ")) 
+        if (token == null || !token.startsWith("Bearer ")) 
             return false;
-        String tokenWithoutBearer = token.split("bearer ")[1].trim();
+        String tokenWithoutBearer = token.split("Bearer ")[1].trim();
         return jwtAuth.verifyToken(tokenWithoutBearer, RoleAuthJWT.STUDENT_ROLE);
     }
     private boolean isPathController(final String currentPath) {
-        return Arrays.stream(ControllerPatternsAuthenticated.STUDENT_PATHS).anyMatch(PATH -> currentPath.equals("/TestAPIRestServlet/api" + PATH));
+        return Arrays.stream(ControllerAuthenticationPatterns.STUDENT_PATHS).anyMatch(
+                (String PATH) -> currentPath.equals(ControllerAuthenticationPatterns.ROOT + PATH));
     }
 }

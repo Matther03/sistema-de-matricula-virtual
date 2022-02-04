@@ -6,15 +6,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
-public final class EntityParent<T> {
-    public ArrayList<T> hashMapArrayListToDTOArrayList(
+public final class EntityHelper {
+    public static Object[] hashMapArrayListToObjArray(
             final ArrayList<HashMap<String, String>> table, 
-            final DelegateReturnWithOneParameter<T, HashMap<String, String>> delegate) {
-        ArrayList<T> array = new ArrayList<>();
-        table.forEach((HashMap<String, String> row) -> {
-            array.add(delegate.Execute(row));
-        });
-        return array;
+            final DelegateReturnWithOneParameter<Object, HashMap<String, String>> delegate) {
+        return table.stream().map(
+                (HashMap<String, String> row) -> { 
+                    return delegate.execute(row); 
+                }).toArray(Object[]::new);
     }
     public static boolean isNullPropertyOfJson(JsonObject jObj, String property) {
         if (!jObj.has(property))

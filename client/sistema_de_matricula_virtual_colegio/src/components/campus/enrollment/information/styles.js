@@ -5,5 +5,5 @@ export const ContainerEnrollmentInformation = styled.section`
     flex-direction: column;
     align-items: center;
     gap: 40px;
-    padding: 10px;
+    margin: 20px 10px 100px 10px;
 `;
