@@ -1,5 +1,6 @@
 import { Navigate } from 'react-router-dom';
-import { isLoggedAdmin, isLoggedStudent } from '../../services/auth';
+import { isLoggedStudent } from '../../services/campus/auth';
+import { isLoggedAdmin } from '../../services/admin/auth';
 
 const RouteProtected = ({ element, isLogged, to }) => {
     return isLogged()

@@ -1,5 +1,7 @@
 package model;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -7,7 +9,7 @@ public class ClassroomModel extends ModelParent {
     
     //<editor-fold defaultstate="default" desc="Access Methods">
     public ArrayList<HashMap<String, String>> getSections() {
-        return doActionQuery((cnObj, prSt) -> {
+        return doActionQuery((Connection cnObj, PreparedStatement prSt) -> {
             prSt = cnObj.prepareStatement(
                     "SELECT \n" +
                     "	sec.code_section AS 'CODE_SECTION',\n" +

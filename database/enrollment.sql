@@ -13,7 +13,7 @@ CREATE TABLE representative(
     _name VARCHAR(50) NOT NULL,
     father_surname VARCHAR(25) NOT NULL,
     mother_surname VARCHAR(25) NOT NULL,
-    id_card CHAR(8) NOT NULL,
+    dni CHAR(8) NOT NULL,
     email VARCHAR(50) NOT NULL,
     phone CHAR(9) NOT NULL,
     PRIMARY KEY(code_representative)
@@ -25,8 +25,8 @@ CREATE TABLE student(
     _name VARCHAR(50) NOT NULL,
     father_surname VARCHAR(25) NOT NULL,
     mother_surname VARCHAR(25) NOT NULL,
-    age TINYINT(2) NOT NULL,
-    id_card CHAR(8) NOT NULL,
+    date_of_birth DATE NOT NULL,
+    dni CHAR(8) NOT NULL,
     direction VARCHAR(50) NOT NULL,
     code_representative INT(5) NOT NULL,
     PRIMARY KEY(code_student),
@@ -54,7 +54,7 @@ CREATE TABLE bank(
 DROP TABLE IF EXISTS payment;
 CREATE TABLE payment(
     code_payment INT(10) AUTO_INCREMENT,
-    date_payment DATETIME NOT NULL,
+    date_payment DATE NOT NULL,
     amount_payment DECIMAL(5,2) NOT NULL,
     code_bank TINYINT(1) NOT NULL,
     code_student INT(6) NOT NULL,
@@ -66,9 +66,9 @@ CREATE TABLE payment(
 DROP TABLE IF EXISTS register_new_student;
 CREATE TABLE register_new_student(
     code_register INT(5) AUTO_INCREMENT,
-    code_payment INT(10) NOT NULL,
+    code_account INT(10) NOT NULL,
     PRIMARY KEY(code_register),
-    FOREIGN KEY (code_payment) REFERENCES payment(code_payment)
+    FOREIGN KEY (code_account) REFERENCES account(code_account)
 );
 
 DROP TABLE IF EXISTS shift;
@@ -154,16 +154,23 @@ CREATE TABLE type_school(
 DROP TABLE IF EXISTS enrollment;
 CREATE TABLE enrollment(
     code_enrollment INT(10) AUTO_INCREMENT,
-    date_enrolemnt DATETIME NOT NULL,
+    date_enrolemnt DATE NOT NULL,
     repeater BIT NOT NULL,
     code_payment INT(10) NOT NULL,
     code_classroom INT(3) NOT NULL,
     code_type_school TINYINT(1) NULL,
-    name_type_school VARCHAR(50) NULL,
     PRIMARY KEY (code_enrollment),
     FOREIGN KEY (code_payment) REFERENCES payment(code_payment),
-    FOREIGN KEY (code_classroom) REFERENCES classroom(code_classroom),
-    FOREIGN KEY (code_type_school) REFERENCES type_school(code_type_school)
+    FOREIGN KEY (code_classroom) REFERENCES classroom(code_classroom)
+);
+
+DROP TABLE IF EXISTS history_detail_student;
+CREATE TABLE history_detail_student(
+    code_history_detail_student INT(6) AUTO_INCREMENT,
+    _repeat BIT NOT NULL,
+    code_student INT(6) NOT NULL,
+    PRIMARY KEY (code_history_detail_student),
+    FOREIGN KEY (code_student) REFERENCES student(code_student)
 );
 
 -- INSERT DATA
@@ -432,34 +439,71 @@ INSERT INTO classroom_vacancy(quantity,code_classroom) VALUES('35','40');
 INSERT INTO type_school(type_s) VALUES ('Estatal');
 INSERT INTO type_school(type_s) VALUES ('Particular');
 
+INSERT INTO representative(_name,father_surname,mother_surname,dni,email,phone) VALUES('Juan Pablo','Carlos','Setien','78945612','juan_pablo@gmail.com','987654321');
+INSERT INTO representative(_name,father_surname,mother_surname,dni,email,phone) VALUES('Doris Sofia','Huarcaya','Valverde','78945613','doris_valverde@gmail.com','987654322');
+INSERT INTO representative(_name,father_surname,mother_surname,dni,email,phone) VALUES('Freddy','Gonzales','Hoo','78945614','Hoo_freddy@gmail.com','987654323');
 
-/*Ejemplo 1*/
-DROP PROCEDURE IF EXISTS sp_get_password;
+
+INSERT INTO student(_name,father_surname,mother_surname,date_of_birth,dni,direction,code_representative) VALUES('Luis Aldair','Eto','Lucas','2008-01-20','77665501','Av. San Carlos #222','1');
+INSERT INTO student(_name,father_surname,mother_surname,date_of_birth,dni,direction,code_representative) VALUES('Neymar Junior','Pele','Messi','2009-03-20','77665502','Av. San Miguel #152','2');
+INSERT INTO student(_name,father_surname,mother_surname,date_of_birth,dni,direction,code_representative) VALUES('Leonel Jose','Zidane','Robinho','2008-02-14','77665503','Av. San Pollitos #265','3');
+
+INSERT INTO account(_password,code_student) VALUES('$2a$10$JmACanPS43pCL7ogvywlFOrGQyyUBivP6QIf1ly.GOpn/lq05tfWi','1'); -- Contralumno1
+INSERT INTO account(_password,code_student) VALUES('$2a$10$M0uQXWkKGRyTlUEbKyV3XuStDaEpWeemF2iufG1E3gFS53Kf0JOtq','2'); -- Elcrack123
+INSERT INTO account(_password,code_student) VALUES('$2a$10$M0uQXWkKGRyTlUEbKyV3XuStDaEpWeemF2iufG1E3gFS53Kf0JOtq','3'); -- Pirata123
+
+
+--procedures
+
+DROP PROCEDURE IF EXISTS sp_verify_account_student;
 DELIMITER //
-CREATE PROCEDURE sp_get_password(
-    IN __code_student INT(5)
+CREATE PROCEDURE sp_verify_account_student(
+    IN __dni_student CHAR(8)
 )
 BEGIN
     DECLARE __password CHAR(60);
-    SET __password = (SELECT _password FROM account WHERE code_student = __code_student);  
+    SET __password = (  SELECT _password 
+                        FROM student 
+                        INNER JOIN account ON student.code_student = account.code_student 
+                        WHERE student.dni = __dni_student );  
     IF __password IS NULL THEN
         SELECT 'NOT FOUND' AS 'ERROR';
+    ELSE
+        SELECT __password;
     END IF;
 END//
 
-/*Ejemplo2*/
-DROP PROCEDURE IF EXISTS sp_get_password;
+DROP PROCEDURE IF EXISTS sp_get_detail_classroom;
 DELIMITER //
-CREATE PROCEDURE sp_get_password(
-    IN __code_student INT(5)
+CREATE PROCEDURE sp_get_detail_classroom(
+    IN __code_grade TINYINT(1)
 )
 BEGIN
-    DECLARE __password CHAR(60);
-    SELECT _password INTO __password FROM account WHERE code_student = __code_student;  
-    IF __password IS NULL THEN
-        SELECT 'NOT FOUND' AS 'ERROR';
-    END IF;
+    SELECT  classroom.code_grade,
+            section.code_section,
+            section.letter, 
+            classroom_vacancy.quantity, 
+            shift.category 
+            FROM shift
+                INNER JOIN section
+            ON shift.code_shift = section.code_shift
+                INNER JOIN classroom
+            ON section.code_section = classroom.code_section
+                INNER JOIN classroom_vacancy
+            ON classroom.code_classroom = classroom_vacancy.code_classroom
+                WHERE classroom.code_grade = __code_grade;
 END//
 
-CALL sp_get_password(1);
-
+DROP PROCEDURE IF EXISTS sp_get_detail_student;
+DELIMITER //
+CREATE PROCEDURE sp_get_detail_student(
+    IN __dni_student CHAR(8)
+)
+BEGIN
+    SELECT  code_student, 
+            _name,
+            father_surname,
+            mother_surname
+    FROM student
+    WHERE student.dni = __dni_student;
+END//

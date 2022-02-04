@@ -2,16 +2,15 @@ package entity;
 
 import dto.student.StudentDTO;
 import dto.student.AccountDTO;
-import java.util.ArrayList;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
+import java.util.Arrays;
 import utils.Encrypt;
+import utils.RegexPatternsValidation;
 import utils.authentication.JWTAuthentication;
 import utils.authentication.RoleAuthJWT;
 
 public class StudentEntity {
     
-    public ArrayList<AccountDTO> accounts;
+    public AccountDTO[] accounts;
     
     public StudentEntity() {
         accounts = getFakeAccounts();
@@ -20,7 +19,7 @@ public class StudentEntity {
     public String verifyAccount(final AccountDTO accountToLogin, final JWTAuthentication jwtAuth) {
         // 123456780
         final String dni = accountToLogin.getStudent().getIdCard(), password = accountToLogin.getPassword();
-        final boolean matched = accounts.stream().anyMatch((AccountDTO account) -> {
+        final boolean matched = Arrays.stream(accounts).anyMatch((AccountDTO account) -> {
             return account.getStudent().getIdCard().equals(dni) && 
                     Encrypt.matchWithHashedValue(password, account.getPassword());
         });
@@ -34,19 +33,19 @@ public class StudentEntity {
         return isValidPassword(accountToLogin.getPassword());
     }
     private boolean isValidPassword(final String password) {
-        return EntityParent.regexIsMatched("^(?=.*\\d)(?=.*[A-ZÁÉÍÓÚÑ])(?=.*[a-záéíóúñ]).{8,16}$", password);
+        return EntityHelper.regexIsMatched(RegexPatternsValidation.PASSWORD, password);
     }
     private boolean isValidDNI(String dni) {
-        return EntityParent.regexIsMatched("^[0-9]{8}$", dni);
+        return EntityHelper.regexIsMatched(RegexPatternsValidation.DNI, dni);
     }
-    private ArrayList<AccountDTO> getFakeAccounts() {
-        final ArrayList<AccountDTO> fakeAccounts = new ArrayList<>();
+    private AccountDTO[] getFakeAccounts() {
+        final AccountDTO[] fakeAccounts = new AccountDTO[3];
         for (int i = 0; i < 3; i++) {
             StudentDTO studentDTO = new StudentDTO();
-            studentDTO.setIdCard("12345678" + (i*5));
-            String password = "password" + i + (i+3);
+            studentDTO.setIdCard("1234567" + i); 
+            String password = "Password" + i;
             password = Encrypt.doEncrypt(password);
-            fakeAccounts.add(new AccountDTO(i + 1, studentDTO, password));
+            fakeAccounts[i] = new AccountDTO(i + 1, studentDTO, password);
         }
         return fakeAccounts;
     }

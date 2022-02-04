@@ -1,4 +1,4 @@
-//#region libraries
+//#region Libraries
 import { 
     useState,
     useEffect
@@ -29,7 +29,7 @@ import CustomTextField from '../../../components/general/customTextField/CustomT
 import CustomButton from '../../../components/general/customButton/CustomButton';
 //#endregion
 //#region Services
-import { loginAdmin, isLoggedAdmin } from '../../../services/auth';
+import { loginAdmin, isLoggedAdmin } from '../../../services/admin/auth';
 //#endregion
 const regex = {
     user: /^[0-9]{8}$/,
