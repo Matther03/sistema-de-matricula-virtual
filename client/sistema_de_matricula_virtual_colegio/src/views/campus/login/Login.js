@@ -53,6 +53,7 @@ const Login = () => {
     });
     const [showDialogRememberRegister, setShowDialogRememberRegister] = useState(false);
     const [showNoMatchMessageLogin, setShowNoMatchMessageLogin] = useState(false);
+    const [waitingLoginRequest, setWaitingLoginRequest] = useState(false);
     //#endregion
     //#region Effects
     useEffect(() => {
@@ -102,10 +103,12 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         if (fieldsHaveErrors())  return;
+        setWaitingLoginRequest(true);
         await loginStudent({ 
             dni: form.dni, 
             password: form.password 
         });
+        setWaitingLoginRequest(false);
         if (isLoggedStudent()) {
             navigate("/campus/home");
             return;
@@ -171,7 +174,7 @@ const Login = () => {
                                 </NoMatchMessageLogin>}
                             <CustomButton
                                 type="submit"
-                                disabled={errors.dni || errors.password}
+                                disabled={errors.dni || errors.password || waitingLoginRequest}
                                 text="Ingresar"/>
                             <IsNewStudent>
                                 <span className="description">¿Eres nuevo?</span>

@@ -22,7 +22,7 @@ import symbolSchoolImg from '../../../img/general/school-symbol.png';
 //#endregion
 //#region Components
 // import DialogAlert from '../../../components/general/dialogAlert/DialogAlert';
-import CardLinkServiceCampus from '../../../components/campus/home/cardLinkServiceCampus/CardLinkServiceCampus';
+import CardLinkServiceCampus from '../../../components/campus/home/components/cardLinkServiceCampus/CardLinkServiceCampus';
 //#endregion
 
 const Home = () => {
