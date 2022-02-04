@@ -21,6 +21,20 @@ export const ContainerProfile = styled.article`
     & .content:hover {
         background-color: var(--secondary-blue);
     }
+    &.header-home {
+        position: absolute;
+        top: 0;
+        right: 40px;
+        span {
+            color: var(--fifth-color);
+        }
+        .iconify {
+            color: var(--fifth-color);
+        }
+        .arrow {
+            border-top: 6px solid var(--fifth-color); 
+        }
+    }
 `;
 export const ContentProfile = styled.article`
     display: flex;
@@ -46,6 +60,12 @@ export const ContentProfile = styled.article`
     &:hover {
         background-color: var(--secondary-blue);
     }
+    &.header-home {
+        border-radius: 20px;
+    }
+    &.header-home:hover {
+        background-color: #F1F1F1;
+    }
 `
 export const ContainerLogoutBtn = styled.button`
     display: flex;
@@ -68,7 +88,7 @@ export const ContainerLogoutBtn = styled.button`
     visibility: hidden;
     opacity: 0;
     transform: translateY(-100%);
-    z-index: -1;
+    z-index: 0;
     &:hover {
         background-color: #e3e3e3;
     }

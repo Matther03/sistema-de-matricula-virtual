@@ -3,6 +3,7 @@ import styled from "styled-components";
 //#endregion
 
 export const ContainerSectionLogin = styled.section`
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -10,13 +11,41 @@ export const ContainerSectionLogin = styled.section`
     min-height: 100vh;
     margin-top: 81px;
     background-color: var(--secondary-blue);
-    
+    overflow: hidden;
+    &::before{
+        content:"";
+        position: absolute;
+        //top: -200px;
+        //left: -350px;
+        //height: 436px;
+        //width: 850px;
+        top: -32%;
+        left: -25%;
+        height: 70%;
+        width: 65%;
+        background-color: #1653B2;
+        transform: rotate(45deg)
+    }
+    &::after{
+        content:"";
+        position: absolute;
+        //top: -200px;
+        //left: -350px;
+        //height: 436px;
+        //width: 850px;
+        bottom: -45%;
+        right: -5%;
+        height: 600px;
+        width: 600px;
+        background-color: #1653B2;
+        border-radius: 50%;
+    }
 `;
 export const ContentSectionLogin = styled.article`
     display:flex;
     flex-direction: column;
     position: relative;
-    z-index: 0;
+    z-index: 1;
     background-color: var(--third-color);
     padding: 40px;
     border-radius: 30px;

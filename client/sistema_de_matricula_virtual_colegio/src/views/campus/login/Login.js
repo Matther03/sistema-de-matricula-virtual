@@ -172,6 +172,7 @@ const Login = () => {
                 open={showDialogRememberRegister} 
                 handleOpen={handleShowDialogRememberRegister}
                 title="¡RECUERDA!"
+                icons="ci:error-outline"
                 buttons={[
                     () => <a 
                         href="https://google.com"
