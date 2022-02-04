@@ -1,4 +1,7 @@
 //#region Libraries
+import { 
+    useEffect
+} from 'react';
 import {
     Button 
 } from '@mui/material';
@@ -14,6 +17,9 @@ import DataEnrollment from '../components/dataEnrollment/DataEnrollment';
 import PopupMessage from '../../../general/popupMessage/PopupMessage';
 import CustomDataTable from '../../../general/customDataTable/CustomDataTable';
 //#endregion
+//#region Services
+import { getSections } from '../../../../services/campus/enrollment';
+//#endregion
 
 const tableDataVacancies = {
     fields: ["Sección", "Vacantes", "Turno"],
@@ -27,6 +33,12 @@ const tableDataVacancies = {
 }; 
 
 const EnrollmentRoot = () => {
+    useEffect(() => {
+        (async () => {
+            const res = await getSections();
+            console.log(res);
+        })();
+    });
     return (
         <ContainerSectionEnrollment>
             <TaskInfo>

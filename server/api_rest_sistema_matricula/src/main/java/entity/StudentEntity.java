@@ -4,6 +4,7 @@ import dto.student.StudentDTO;
 import dto.student.AccountDTO;
 import java.util.Arrays;
 import utils.Encrypt;
+import utils.RegexPatternsValidation;
 import utils.authentication.JWTAuthentication;
 import utils.authentication.RoleAuthJWT;
 
@@ -32,17 +33,17 @@ public class StudentEntity {
         return isValidPassword(accountToLogin.getPassword());
     }
     private boolean isValidPassword(final String password) {
-        return EntityHelper.regexIsMatched("^(?=.*\\d)(?=.*[A-ZÁÉÍÓÚÑ])(?=.*[a-záéíóúñ]).{8,16}$", password);
+        return EntityHelper.regexIsMatched(RegexPatternsValidation.PASSWORD, password);
     }
     private boolean isValidDNI(String dni) {
-        return EntityHelper.regexIsMatched("^[0-9]{8}$", dni);
+        return EntityHelper.regexIsMatched(RegexPatternsValidation.DNI, dni);
     }
     private AccountDTO[] getFakeAccounts() {
         final AccountDTO[] fakeAccounts = new AccountDTO[3];
         for (int i = 0; i < 3; i++) {
             StudentDTO studentDTO = new StudentDTO();
-            studentDTO.setIdCard("12345678" + i);
-            String password = "password" + i;
+            studentDTO.setIdCard("1234567" + i); 
+            String password = "Password" + i;
             password = Encrypt.doEncrypt(password);
             fakeAccounts[i] = new AccountDTO(i + 1, studentDTO, password);
         }

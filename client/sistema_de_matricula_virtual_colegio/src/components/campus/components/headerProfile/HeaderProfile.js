@@ -12,7 +12,7 @@ import {
 import { Icon } from '@iconify/react';
 //#endregion
 //#region Services
-import { logoutStudent } from '../../../../services/auth';
+import { logoutStudent } from '../../../../services/campus/auth';
 //#endregion
 
 const HeaderProfile = ({ nameUser }) => {

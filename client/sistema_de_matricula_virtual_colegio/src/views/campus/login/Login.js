@@ -3,7 +3,7 @@ import {
     useState,
     useEffect
 } from 'react';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import {
     InputAdornment,
     IconButton
@@ -15,6 +15,7 @@ import {
     ContentSectionLogin,
     ContentHeaderSectionLogin,
     ContentFormSectionLogin,
+    NoMatchMessageLogin,
     IsNewStudent
 } from './styles';
 //#endregion
@@ -31,7 +32,7 @@ import CustomButton from '../../../components/general/customButton/CustomButton'
 import SymbolHeader from "../../../components/general/symbolHeader/SymbolHeader";
 //#endregion
 //#region Services
-import { loginStudent, isLoggedStudent } from '../../../services/auth';
+import { loginStudent, isLoggedStudent } from '../../../services/campus/auth';
 //#endregion
 
 const regex = {
@@ -51,6 +52,7 @@ const Login = () => {
         password: false
     });
     const [showDialogRememberRegister, setShowDialogRememberRegister] = useState(false);
+    const [showNoMatchMessageLogin, setShowNoMatchMessageLogin] = useState(false);
     //#endregion
     //#region Effects
     useEffect(() => {
@@ -80,9 +82,13 @@ const Login = () => {
             ...prev,
             [field]: value
         }));
+        showNoMatchMessageLogin && setShowNoMatchMessageLogin(false);
     }
     const toggleShowPassword = () => {
         setShowPassword(prev => (!prev));
+    }
+    const toggleShowDialogRememberRegister = () => {
+        setShowDialogRememberRegister(prev => !prev);
     }
     const validateField = (field) => {
         setErrors(prev => ({
@@ -90,21 +96,26 @@ const Login = () => {
             [field]: !regex[field].test(form[field])
         }));
     }
-    const handleLogin = (e) => {
+    const fieldsHaveErrors = () => {
+        return Object.values(errors).some(error => error);
+    }
+    const handleLogin = async (e) => {
         e.preventDefault();
-        loginStudent({ 
+        if (fieldsHaveErrors())  return;
+        await loginStudent({ 
             dni: form.dni, 
             password: form.password 
         });
-        isLoggedStudent() && navigate("/campus/home");
-    }
-    const handleShowDialogRememberRegister = () => {
-        setShowDialogRememberRegister(prev => !prev);
+        if (isLoggedStudent()) {
+            navigate("/campus/home");
+            return;
+        }
+        setShowNoMatchMessageLogin(true);
     }
     //#endregion
     return (
         <>
-            {isLoggedStudent() && <Navigate to="../home" replace={true}/>}
+            {isLoggedStudent() && <Navigate to="/campus/home" replace={true}/>}
             <SymbolHeader showTitle={true}/>
             <ContainerSectionLogin>
                 <img src={schoolImg} alt="escuela, colegio"/>
@@ -154,6 +165,10 @@ const Login = () => {
                                 }}/>
                         </section>
                         <footer>
+                            {showNoMatchMessageLogin && 
+                                <NoMatchMessageLogin>
+                                    Las credenciales DNI / Contraseña no coinciden
+                                </NoMatchMessageLogin>}
                             <CustomButton
                                 type="submit"
                                 disabled={errors.dni || errors.password}
@@ -162,7 +177,7 @@ const Login = () => {
                                 <span className="description">¿Eres nuevo?</span>
                                 <span 
                                     className="open-dialog"
-                                    onClick={handleShowDialogRememberRegister}>Presiona aquí</span>
+                                    onClick={toggleShowDialogRememberRegister}>Presiona aquí</span>
                             </IsNewStudent>
                         </footer>
                     </ContentFormSectionLogin>
@@ -170,7 +185,7 @@ const Login = () => {
             </ContainerSectionLogin>
             <DialogAlert 
                 open={showDialogRememberRegister} 
-                handleOpen={handleShowDialogRememberRegister}
+                handleOpen={toggleShowDialogRememberRegister}
                 title="¡RECUERDA!"
                 buttons={[
                     () => <a 

@@ -14,16 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class HelperController {
-
     // <editor-fold defaultstate="collapsed" desc="Methods">
     public static void templatePrintable(FormatResponse formatJsonResponse, HttpServletResponse res) 
             throws ServletException, IOException {
         SetStatusResponse(res, formatJsonResponse.getStatus());
-        // Agregando headers de autorización
-        res.addHeader("Access-Control-Allow-Origin", "http://localhost:80");
-        res.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-        // Estableciendo contenido a responder
-        res.setContentType("application/json");
         // Respondiendo json body
         final PrintWriter out = res.getWriter();
         out.println(formatJsonResponse.toJsonString(new GsonBuilder())); 
@@ -61,5 +55,4 @@ public class HelperController {
         }
     }
     // </editor-fold>
-    
 }
