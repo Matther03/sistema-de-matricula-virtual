@@ -27,7 +27,8 @@ const DialogAlert = ({
         handleOpen,
         title, 
         description,
-        buttons
+        buttons,
+        icons
     }) => {
     const handleClose = () => handleOpen(false);
     return (
@@ -36,7 +37,7 @@ const DialogAlert = ({
             TransitionComponent={Transition}
             onClose={handleClose}>
             <HeaderCustomDialogAlert>
-                <Icon icon="ci:error-outline" />
+                <Icon icon={icons}/*"ci:error-outline"*/ />
                 <h3 className="custom-title-2">{title || " TÍTULO"}</h3>
             </HeaderCustomDialogAlert>
             <article className="content-dialog">

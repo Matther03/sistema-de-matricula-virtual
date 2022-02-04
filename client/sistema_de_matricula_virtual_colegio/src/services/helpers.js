@@ -47,10 +47,9 @@ export const doRequest = async (
     let options = getDefaultOptions(method);
     const [mustReturn, optionsWithAuthorization] = manageAuthorization(authorizationOptions, options.headers);
     if (mustReturn)
-        return [null, "Error pe' gil :u"];
+        return [null, "No token"];
     options.headers = optionsWithAuthorization;
     options = addBodyRequest(method, body, options);
-    console.log(options);
     return await doFetch(endpoint, options);
 }
 //#endregion

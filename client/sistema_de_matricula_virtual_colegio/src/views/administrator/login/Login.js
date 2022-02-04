@@ -88,7 +88,7 @@ const Login = () => {
     return (
         <>
             {isLoggedAdmin() && <Navigate to="/admin/home" replace={true}/>}
-            <SymbolHeader className="adminHeader"/>
+            <SymbolHeader className="admin-header"/>
             <ContainerSectionLogin>
                 <ContentSectionLogin>
                     <AdminImgContainer>
@@ -98,12 +98,13 @@ const Login = () => {
                     <ContentFormSectionLogin
                         onSubmit={handleLogin}>
                         <section className="fields">
-                            <CustomTextField 
+                            <CustomTextField
                                 variant="outlined"
                                 value={form.user}
                                 label="Usuario"
                                 onChange={(e) => handleChangeTextField(e, "user")}
                                 error={errors.user}
+                                helperText={errors.user && "Deben haber 8 dígitos"}
                                 />
                             <CustomTextField 
                                 type={showPassword ? "text" : "password"}
@@ -111,6 +112,7 @@ const Login = () => {
                                 label="Contraseña"
                                 onChange={(e) => handleChangeTextField(e, "password")}
                                 error={errors.password}
+                                helperText={errors.password && "Deben haber 16 dígitos"}
                                 InputProps={{ 
                                     endAdornment: (
                                         <InputAdornment position="end">

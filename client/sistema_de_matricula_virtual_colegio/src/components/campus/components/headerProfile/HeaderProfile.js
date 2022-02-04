@@ -15,7 +15,7 @@ import { Icon } from '@iconify/react';
 import { logoutStudent } from '../../../../services/campus/auth';
 //#endregion
 
-const HeaderProfile = ({ nameUser }) => {
+const HeaderProfile = ({ nameUser, className }) => {
     //#region States
     const [showLogout, setShowLogout] = useState(false);
     //#endregion
@@ -23,8 +23,8 @@ const HeaderProfile = ({ nameUser }) => {
     const toggleShowLogout = () => setShowLogout(prev => (!prev));
     //#endregion
     return (
-        <ContainerProfile onClick={toggleShowLogout}>
-            <ContentProfile>
+        <ContainerProfile className={className} onClick={toggleShowLogout}>
+            <ContentProfile className={className}>
                 <span className="custom-title-6">{nameUser || "NOMBRE DEL ALUMNO"}</span>
                 <div className="icons">
                     <Icon icon="bx:bxs-user"/>
