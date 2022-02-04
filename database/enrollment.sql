@@ -453,7 +453,7 @@ INSERT INTO account(_password,code_student) VALUES('$2a$10$M0uQXWkKGRyTlUEbKyV3X
 INSERT INTO account(_password,code_student) VALUES('$2a$10$M0uQXWkKGRyTlUEbKyV3XuStDaEpWeemF2iufG1E3gFS53Kf0JOtq','3'); -- Pirata123
 
 
---procedures
+-- Procedures
 
 DROP PROCEDURE IF EXISTS sp_verify_account_student;
 DELIMITER //
