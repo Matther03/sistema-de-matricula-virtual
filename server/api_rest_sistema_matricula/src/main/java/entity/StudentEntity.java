@@ -41,4 +41,5 @@ public class StudentEntity {
         return EntityHelper.regexIsMatched(RegexPatternsValidation.DNI, dni);
     }
     
+    
 }

@@ -35,6 +35,5 @@ public class ClassroomEntity {
         );
         return Arrays.copyOf(objArray, objArray.length, SectionDTO[].class);
     }
-
     //</editor-fold>
 }

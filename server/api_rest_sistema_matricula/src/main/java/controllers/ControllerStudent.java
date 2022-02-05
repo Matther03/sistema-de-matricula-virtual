@@ -12,7 +12,6 @@ import utils.HelperController;
 
 @WebServlet(name = "ControllerStudent", urlPatterns = {"/api/student/details-campus"})
 public class ControllerStudent extends HttpServlet {
-    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
