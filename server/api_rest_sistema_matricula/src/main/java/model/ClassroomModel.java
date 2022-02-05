@@ -1,7 +1,9 @@
 package model;
 
+import database.ProceduresDB;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -19,6 +21,13 @@ public class ClassroomModel extends ModelParent {
                     "FROM section sec \n" +
                     "INNER JOIN shift sh\n" +
                     "ON sec.code_shift = sh.code_shift;");
+            return prSt;
+        });
+    }
+    
+    public ArrayList<HashMap<String, String>> getStudents() {
+        return doActionQuery((Connection cnObj, PreparedStatement prSt) -> {
+            prSt = cnObj.prepareStatement(ProceduresDB.GET_DETAIL_STUDENT);
             return prSt;
         });
     }
