@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import utils.FormatResponse;
 import utils.HelperController;
 
-@WebServlet(name = "ControllerStudent", urlPatterns = {"/api/student"})
+@WebServlet(name = "ControllerStudent", urlPatterns = {"/api/student/details-campus"})
 public class ControllerStudent extends HttpServlet {
     
     @Override
@@ -18,6 +18,5 @@ public class ControllerStudent extends HttpServlet {
             throws ServletException, IOException {
         HelperController.templatePrintable(
                 FormatResponse.getSuccessResponse(new ClassroomEntity().getSections()), response);
-        //FormatResponse.getSuccessResponse(new ClassroomEntity().getSections()), response);
     }
 }

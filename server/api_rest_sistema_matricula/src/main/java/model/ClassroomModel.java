@@ -24,12 +24,6 @@ public class ClassroomModel extends ModelParent {
             return prSt;
         });
     }
-    
-    public ArrayList<HashMap<String, String>> getStudents() {
-        return doActionQuery((Connection cnObj, PreparedStatement prSt) -> {
-            prSt = cnObj.prepareStatement(ProceduresDB.GET_DETAIL_STUDENT);
-            return prSt;
-        });
-    }
+
     //</editor-fold>
 }

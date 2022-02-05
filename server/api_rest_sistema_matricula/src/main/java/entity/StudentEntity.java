@@ -3,6 +3,7 @@ package entity;
 import database.ProceduresDB;
 import dto.student.StudentDTO;
 import dto.student.AccountDTO;
+import dto.student.RepresentativeDTO;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -27,6 +28,7 @@ public class StudentEntity {
             return null;
         return jwtAuth.getToken(dni, RoleAuthJWT.STUDENT_ROLE);
     } 
+    
     public boolean isValidAccount(final AccountDTO accountToLogin) {
         if (!isValidDNI(accountToLogin.getStudent().getDni())) 
             return false;
@@ -38,4 +40,5 @@ public class StudentEntity {
     private boolean isValidDNI(String dni) {
         return EntityHelper.regexIsMatched(RegexPatternsValidation.DNI, dni);
     }
+    
 }
