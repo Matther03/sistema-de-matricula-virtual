@@ -1,10 +1,17 @@
-import { StyledButton } from "./styled";
+//#region Styles
+import { StyledCustomLoader, StyledButton } from "./styled";
+//#endregion
 
-const CustomButton = ({ text, variant, ...props }) => {
+const CustomButton = ({ text, variant, loading, ...props }) => {
     return (
         <StyledButton 
             {...props}
-            variant={variant || "contained"}>{text}</StyledButton>
+            variant={variant || "contained"}>
+            {loading && <StyledCustomLoader size={4} spacing={4}/>}
+            <span style={{ 
+                visibility: loading ? 'hidden' : 'visible',
+                opacity: loading ? 0 : 1 }}>{text}</span>
+        </StyledButton>
     );
 }
 export default CustomButton;

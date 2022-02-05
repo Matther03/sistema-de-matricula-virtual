@@ -34,17 +34,13 @@ const Home = () => {
     const addClassMainHome = () => {
         const mainElement = document.querySelector('main');
         mainElement.classList.add('home');
-        return () => {
-            mainElement.classList.remove('home');
-        }
+        return () => mainElement.classList.remove('home');
     }
     //#endregion
     //#region Effects
     useEffect(() => {
         const removeClassMainHome = addClassMainHome();
-        return () => {
-            removeClassMainHome();
-        };
+        return () => removeClassMainHome();
     });
     //#endregion
 
