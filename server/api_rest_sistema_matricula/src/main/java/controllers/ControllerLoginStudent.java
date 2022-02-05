@@ -8,11 +8,14 @@ import entity.StudentEntity;
 import utils.FormatResponse;
 import utils.HelperController;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.StudentModel;
 import utils.authentication.JWTAuthentication;
 
 @WebServlet(name = "ControllerLoginStudent", urlPatterns = {"/api/student/login"})
@@ -44,9 +47,9 @@ public class ControllerLoginStudent extends HttpServlet {
         final AccountDTO accountToLogin = new AccountDTO();
         accountToLogin.setPassword(password.getAsString());
         final StudentDTO student = new StudentDTO();
-        student.setIdCard(dni.getAsString());
+        student.setDni(dni.getAsString());
         accountToLogin.setStudent(student);
-        
+
         final StudentEntity studentEntity = new StudentEntity();
         final boolean isValid = studentEntity.isValidAccount(accountToLogin);
         if (!isValid)
