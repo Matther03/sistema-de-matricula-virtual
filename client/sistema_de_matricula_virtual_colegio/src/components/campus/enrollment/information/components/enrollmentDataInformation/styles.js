@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-
 export const ContainerEnrollmentDataInformation = styled.section`
     width: 80%;
     display: flex;

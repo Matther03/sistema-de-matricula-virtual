@@ -6,9 +6,9 @@ import {
 //#region Styles
 import { 
     ContainerDataField, 
-    ContainerDataEnrollment,
-    FrameDataEnrollment, 
-    ContentDataEnrollment } from './styles';
+    ContainerEnrollmentData,
+    FrameEnrollmentData, 
+    ContentEnrollmentData } from './styles';
 //#endregion
 //#region mui
 import {
@@ -25,24 +25,24 @@ const DataField = ({ className, input, description, value }) => {
         </ContainerDataField>
     );
 }
-const DataEnrollment = () => {
+const EnrollmentData = () => {
     //#region States
     const [section, setSection] = useState(0);
     //#endregion
     return (
-        <ContainerDataEnrollment>
-            <FrameDataEnrollment>
+        <ContainerEnrollmentData>
+            <FrameEnrollmentData>
                 <h3>DATOS DEL ALUMNO</h3>
-                <ContentDataEnrollment>
+                <ContentEnrollmentData>
                     <DataField 
                         description="DNI" value="70290308"/>
                     <DataField 
                         className="student-name" 
                         description="Alumno" 
                         value="Salazar Carbajal Yoni Raymundo"/>
-                </ContentDataEnrollment>
+                </ContentEnrollmentData>
                 <h3>MATRÍCULA</h3>
-                <ContentDataEnrollment>
+                <ContentEnrollmentData>
                     <DataField 
                         description="Grado" value="1ero Sec"/>
                     <DataField 
@@ -61,10 +61,10 @@ const DataEnrollment = () => {
                         }/>
                     <DataField 
                         description="Turno" value="Mañana"/>
-                </ContentDataEnrollment>
-            </FrameDataEnrollment>
-        </ContainerDataEnrollment>
+                </ContentEnrollmentData>
+            </FrameEnrollmentData>
+        </ContainerEnrollmentData>
     )
 }
 
-export default DataEnrollment;
+export default EnrollmentData;

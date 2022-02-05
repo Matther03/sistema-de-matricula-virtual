@@ -2,12 +2,12 @@
 import styled from "styled-components";
 //#endregion
 
-export const ContainerDataEnrollment = styled.section`
+export const ContainerEnrollmentData = styled.section`
     display: flex;
     padding: 40px 0;
     justify-content: center;
 `;
-export const FrameDataEnrollment = styled.section`
+export const FrameEnrollmentData = styled.section`
     display: flex;
     flex-direction: column;
     gap: 30px;
@@ -76,7 +76,7 @@ export const ContainerDataField = styled.div`
         padding: 5px 0 5px 15px;
     }
 `;
-export const ContentDataEnrollment = styled.section`
+export const ContentEnrollmentData = styled.section`
     display: flex;
     justify-content: space-between;
     gap: 100px;
