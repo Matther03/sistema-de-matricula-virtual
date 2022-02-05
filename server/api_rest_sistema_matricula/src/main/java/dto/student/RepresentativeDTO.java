@@ -4,7 +4,7 @@ public class RepresentativeDTO {
     
      //<editor-fold defaultstate="collapsed" desc="Properties">
     private Integer code;
-    private String name, fatherSurname, motherSurname, idCard, email,phone;
+    private String name, fatherSurname, motherSurname, dni, email,phone;
     //</editor-fold>
 
     public RepresentativeDTO() {
@@ -12,17 +12,17 @@ public class RepresentativeDTO {
         this.name = null;
         this.fatherSurname = null;
         this.motherSurname = null;
-        this.idCard = null;
+        this.dni = null;
         this.email = null;
         this.phone = null;
     }
 
-    public RepresentativeDTO(Integer code, String name, String fatherSurname, String motherSurname, String idCard, String email, String phone) {
+    public RepresentativeDTO(Integer code, String name, String fatherSurname, String motherSurname, String dni, String email, String phone) {
         this.code = code;
         this.name = name;
         this.fatherSurname = fatherSurname;
         this.motherSurname = motherSurname;
-        this.idCard = idCard;
+        this.dni = dni;
         this.email = email;
         this.phone = phone;
     }
@@ -59,12 +59,12 @@ public class RepresentativeDTO {
         this.motherSurname = motherSurname;
     }
 
-    public String getIdCard() {
-        return idCard;
+    public String getDni() {
+        return dni;
     }
 
-    public void setIdCard(String idCard) {
-        this.idCard = idCard;
+    public void setDni(String dni) {
+        this.dni = dni;
     }
 
     public String getEmail() {

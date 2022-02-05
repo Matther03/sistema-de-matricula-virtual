@@ -18,5 +18,6 @@ public class ControllerStudent extends HttpServlet {
             throws ServletException, IOException {
         HelperController.templatePrintable(
                 FormatResponse.getSuccessResponse(new ClassroomEntity().getSections()), response);
+        //FormatResponse.getSuccessResponse(new ClassroomEntity().getSections()), response);
     }
 }

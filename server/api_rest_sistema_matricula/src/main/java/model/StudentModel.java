@@ -14,4 +14,11 @@ public class StudentModel extends ModelParent {
         });
     }
     //</editor-fold>
+    public ArrayList<HashMap<String, String>> getPassword(final String dni) {
+        return doActionQuery((cnObj, prSt) -> {
+            prSt = cnObj.prepareStatement(ProceduresDB.GET_PASSWORD);
+            prSt.setString(1, dni);
+            return prSt;
+        });
+    }
 }
