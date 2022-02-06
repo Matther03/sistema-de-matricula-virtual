@@ -2,6 +2,7 @@ package entity;
 
 import dto.classroom.ClassroomDTO;
 import dto.classroom.ClassroomVacancyDTO;
+import dto.classroom.GradeDTO;
 import dto.classroom.SectionDTO;
 import dto.classroom.ShiftDTO;
 import dto.student.RepresentativeDTO;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import model.ClassroomModel;
+import utils.RegexPatternsValidation;
 
 public class ClassroomEntity {
 
@@ -38,29 +40,38 @@ public class ClassroomEntity {
         return Arrays.copyOf(objArray, objArray.length, SectionDTO[].class);
     }
     //</editor-fold>
-    /*
-    public ClassroomVacancyDTO getDetailClassroom(final ClassroomVacancyDTO classroom){
-        final Integer codeGrade = classroom.getCode();
+    public boolean isValidCodeGrade(String codeGrade) {
+        try {
+            final int parseCodeGrade = Integer.parseInt(codeGrade);
+            return parseCodeGrade > 0 && parseCodeGrade <= 5;
+        }
+        catch (NumberFormatException ex) {
+            return false;
+        }
+    }
+    public ClassroomVacancyDTO getDetailClassroom(final GradeDTO grade){
+        final int codeGrade = grade.getCode();
         final ArrayList<HashMap<String,String>> table = new ClassroomModel().getDetailClassroom(codeGrade);
         return table.size() > 0 ? getDTOforRowHashMapDetailClassroom(table.get(0)) : null;
     }
-    
+
     private ClassroomVacancyDTO getDTOforRowHashMapDetailClassroom(HashMap<String, String> row) {
         final ClassroomVacancyDTO classroomVacancy = new ClassroomVacancyDTO();
         final ClassroomDTO classroom = new ClassroomDTO();
-        final SectionDTO section = new SectionDTO();
-        final ShiftDTO Shift= new ShiftDTO();
-        final ArrayList<HashMap<String,Object>> table = null;
-        section.setCode(Integer.parseInt(row.get("section.code_section")));
-        
+        final GradeDTO grade = new GradeDTO();
+        grade.setCode(Integer.parseInt(row.get("code_grade")));
+        final ShiftDTO shift = new ShiftDTO();
+        shift.setCategory(row.get("category"));
+        final SectionDTO section = new SectionDTO(
+                Integer.parseInt(row.get("code_section")),
+                row.get("letter"),
+                shift
+        );
+        classroom.setGrade(grade);
+        classroom.setSection(section);
+        classroomVacancy.setClassroom(classroom);
+        classroomVacancy.setQuantity(Integer.parseInt(row.get("quantity")));
+
         return classroomVacancy ;
     }
-    
-    private ClassroomVacancyDTO[] toArrayDetailsClassroomDTOs(ArrayList<HashMap<String, String>> table) {
-        final Object[] objArray = EntityHelper.hashMapArrayListToObjArray(
-                table, 
-                (HashMap<String, String> row) -> getDTOforRowHashMap(row)
-        );
-        return Arrays.copyOf(objArray, objArray.length, ClassroomVacancyDTO[].class);
-    }*/
 }

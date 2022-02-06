@@ -33,10 +33,10 @@ public class ControllerStudent extends HttpServlet {
         }
         final StudentDTO student = new StudentDTO();
         student.setDni(dni);
-        final StudentDTO detailStudent = studentEntity.getDetailStudent(student);
+        final StudentDTO detailsStudent = studentEntity.getDetailStudent(student);
         HelperController.templatePrintable(
-                detailStudent == null
+                detailsStudent == null
                 ? FormatResponse.getErrorResponse("Student not found.", 400)
-                : FormatResponse.getSuccessResponse(detailStudent), response);
+                : FormatResponse.getSuccessResponse(detailsStudent), response);
     }
 }
