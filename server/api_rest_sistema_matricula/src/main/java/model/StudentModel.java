@@ -16,7 +16,7 @@ public class StudentModel extends ModelParent {
         });
     }
     
-    public ArrayList<HashMap<String, String>> getStudents(final String dni) {
+    public ArrayList<HashMap<String, String>> getDetailStudent(final String dni) {
         return doActionQuery((cnObj, prSt) -> {
             prSt = cnObj.prepareStatement(ProceduresDB.GET_DETAIL_STUDENT);
             prSt.setString(1, dni);

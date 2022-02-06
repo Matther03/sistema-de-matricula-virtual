@@ -1,6 +1,8 @@
 package controllers;
 
+import dto.student.StudentDTO;
 import entity.ClassroomEntity;
+import entity.StudentEntity;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,7 +17,26 @@ public class ControllerStudent extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        final String dni = request.getParameter("dni");
+        if (dni == null) {
+            HelperController.templatePrintable(
+                    FormatResponse.getErrorResponse("DNI not sent.", 400),
+                    response);
+            return;
+        }
+        final StudentEntity studentEntity = new StudentEntity();
+        if (!studentEntity.isValidDNI(dni)) {
+            HelperController.templatePrintable(
+                    FormatResponse.getErrorResponse("DNI not valid.", 400),
+                    response);
+            return;
+        }
+        final StudentDTO student = new StudentDTO();
+        student.setDni(dni);
+        final StudentDTO detailStudent = studentEntity.getDetailStudent(student);
         HelperController.templatePrintable(
-                FormatResponse.getSuccessResponse(new ClassroomEntity().getSections()), response);
+                detailStudent == null
+                ? FormatResponse.getErrorResponse("Student not found.", 400)
+                : FormatResponse.getSuccessResponse(detailStudent), response);
     }
 }

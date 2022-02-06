@@ -37,8 +37,23 @@ public class StudentEntity {
     private boolean isValidPassword(final String password) {
         return EntityHelper.regexIsMatched(RegexPatternsValidation.PASSWORD, password);
     }
-    private boolean isValidDNI(String dni) {
+    public boolean isValidDNI(String dni) {
         return EntityHelper.regexIsMatched(RegexPatternsValidation.DNI, dni);
+    }
+    
+    public StudentDTO getDetailStudent(final StudentDTO student){
+        final String dni = student.getDni();
+        final ArrayList<HashMap<String,String>> table = new StudentModel().getDetailStudent(dni);
+        return table.size() > 0 ? getDTOforRowHashMap(table.get(0)) : null;
+    }
+
+    private StudentDTO getDTOforRowHashMap(HashMap<String, String> row) {
+        final StudentDTO student = new StudentDTO();
+        student.setCode(Integer.parseInt(row.get("code_student")));
+        student.setName(row.get("_name"));
+        student.setFatherSurname(row.get("father_surname"));
+        student.setMotherSurname(row.get("mother_surname"));
+        return student;
     }
     
     

@@ -24,6 +24,13 @@ public class ClassroomModel extends ModelParent {
             return prSt;
         });
     }
-
+    
+    public ArrayList<HashMap<String, String>> getDetailClassroom(final Integer codeGrado) {
+        return doActionQuery((cnObj, prSt) -> {
+            prSt = cnObj.prepareStatement(ProceduresDB.GET_DETAIL_CLASSROOM);
+            prSt.setInt(1, codeGrado);
+            return prSt;
+        });
+    }
     //</editor-fold>
 }
