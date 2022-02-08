@@ -453,7 +453,7 @@ INSERT INTO history_detail_student(_repeat,code_student,code_grade) VALUES(0,'3'
 INSERT INTO payment(date_payment,amount_payment,code_bank,code_student) VALUES('2022-01-20','50.60','1','1');
 INSERT INTO payment(date_payment,amount_payment,code_bank,code_student) VALUES('2022-01-21','50.60','2','2');
 INSERT INTO payment(date_payment,amount_payment,code_bank,code_student) VALUES('2022-01-21','50.60','1','3');
---procedures
+-- Procedures
 
 DROP PROCEDURE IF EXISTS sp_verify_account_student;
 DELIMITER //
@@ -560,4 +560,3 @@ BEGIN
                         WHERE classroom_vacancy.code_classroom = __code_classroom);
     UPDATE classroom_vacancy SET quantity = __quantity-1 WHERE classroom_vacancy.code_classroom = __code_classrom;
 END//
-

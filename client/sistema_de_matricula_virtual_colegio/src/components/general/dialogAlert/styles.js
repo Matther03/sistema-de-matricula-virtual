@@ -17,6 +17,7 @@ export const HeaderCustomDialogAlert = styled.header`
     padding-bottom: 14px;
     border-bottom: 1px solid #d5d5d5;
     & h3 {
+        color: var(--seventh-color);
         font-weight: 500;
     }
     & .iconify {
@@ -29,4 +30,12 @@ export const FooterCustomDialogAlert = styled.footer`
     gap: 10px;
     justify-content: flex-end;
     align-items: center;
+    & a:not(.link-paragraph) {
+        text-decoration: none;
+    }
+    & .MuiButton-outlined {
+        border-color: #151515 !important;
+        color: #151515 !important;
+        border-radius: 15px !important;
+    }
 `;

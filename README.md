@@ -4,9 +4,9 @@ Un sistema de matrícula virtual para un colegio / escuela. Trabajo de universid
 
 ## **Estructura del proyecto principal y tecnologías**
 
-Frontend: React JS, prototipado de las vistas: Figma
-Backend (API REST): Java Servlets
-Database: MySQL
+* **Frontend:** React JS, prototipado de las vistas: Figma
+* **Backend (API REST):** Java Servlets
+* **Database:** MySQL
 
 ### **Miembros colaboradores**
 
