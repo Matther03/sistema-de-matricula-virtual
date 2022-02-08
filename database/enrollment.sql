@@ -1,10 +1,10 @@
 USE mysql;
 
 -- BASE DE DATOS
-DROP DATABASE IF EXISTS bd_enrollment_vmm;
-CREATE DATABASE bd_enrollment_vmm;
+DROP DATABASE IF EXISTS db_enrollment_vmm;
+CREATE DATABASE db_enrollment_vmm;
 
-USE bd_enrollment_vmm;
+USE db_enrollment_vmm;
 
 -- TABLITAS
 DROP TABLE IF EXISTS representative;
@@ -144,21 +144,15 @@ CREATE TABLE classroom_vacancy(
     FOREIGN KEY (code_classroom) REFERENCES classroom(code_classroom)
 );
 
-DROP TABLE IF EXISTS type_school;
-CREATE TABLE type_school(
-    code_type_school TINYINT(1) AUTO_INCREMENT,
-    type_s VARCHAR(8) NOT NULL,
-    PRIMARY KEY(code_type_school)
-);
+
 
 DROP TABLE IF EXISTS enrollment;
 CREATE TABLE enrollment(
     code_enrollment INT(10) AUTO_INCREMENT,
-    date_enrolemnt DATE NOT NULL,
+    date_enrollment DATE NOT NULL,
     repeater BIT NOT NULL,
     code_payment INT(10) NOT NULL,
     code_classroom INT(3) NOT NULL,
-    code_type_school TINYINT(1) NULL,
     PRIMARY KEY (code_enrollment),
     FOREIGN KEY (code_payment) REFERENCES payment(code_payment),
     FOREIGN KEY (code_classroom) REFERENCES classroom(code_classroom)
@@ -169,8 +163,10 @@ CREATE TABLE history_detail_student(
     code_history_detail_student INT(6) AUTO_INCREMENT,
     _repeat BIT NOT NULL,
     code_student INT(6) NOT NULL,
+    code_grade TINYINT(1) NOT NULL,
     PRIMARY KEY (code_history_detail_student),
-    FOREIGN KEY (code_student) REFERENCES student(code_student)
+    FOREIGN KEY (code_student) REFERENCES student(code_student),
+    FOREIGN KEY (code_grade) REFERENCES grade(code_grade)
 );
 
 -- INSERT DATA
@@ -436,8 +432,6 @@ INSERT INTO classroom_vacancy(quantity,code_classroom) VALUES('35','38');
 INSERT INTO classroom_vacancy(quantity,code_classroom) VALUES('35','39');
 INSERT INTO classroom_vacancy(quantity,code_classroom) VALUES('35','40');
 
-INSERT INTO type_school(type_s) VALUES ('Estatal');
-INSERT INTO type_school(type_s) VALUES ('Particular');
 
 INSERT INTO representative(_name,father_surname,mother_surname,dni,email,phone) VALUES('Juan Pablo','Carlos','Setien','78945612','juan_pablo@gmail.com','987654321');
 INSERT INTO representative(_name,father_surname,mother_surname,dni,email,phone) VALUES('Doris Sofia','Huarcaya','Valverde','78945613','doris_valverde@gmail.com','987654322');
@@ -452,7 +446,13 @@ INSERT INTO account(_password,code_student) VALUES('$2a$10$JmACanPS43pCL7ogvywlF
 INSERT INTO account(_password,code_student) VALUES('$2a$10$M0uQXWkKGRyTlUEbKyV3XuStDaEpWeemF2iufG1E3gFS53Kf0JOtq','2'); -- Elcrack123
 INSERT INTO account(_password,code_student) VALUES('$2a$10$M0uQXWkKGRyTlUEbKyV3XuStDaEpWeemF2iufG1E3gFS53Kf0JOtq','3'); -- Pirata123
 
+INSERT INTO history_detail_student(_repeat,code_student,code_grade) VALUES(1,'1','1');
+INSERT INTO history_detail_student(_repeat,code_student,code_grade) VALUES(0,'2','2');
+INSERT INTO history_detail_student(_repeat,code_student,code_grade) VALUES(0,'3','3');
 
+INSERT INTO payment(date_payment,amount_payment,code_bank,code_student) VALUES('2022-01-20','50.60','1','1');
+INSERT INTO payment(date_payment,amount_payment,code_bank,code_student) VALUES('2022-01-21','50.60','2','2');
+INSERT INTO payment(date_payment,amount_payment,code_bank,code_student) VALUES('2022-01-21','50.60','1','3');
 --procedures
 
 DROP PROCEDURE IF EXISTS sp_verify_account_student;
@@ -465,12 +465,8 @@ BEGIN
     SET __password = (  SELECT _password 
                         FROM student 
                         INNER JOIN account ON student.code_student = account.code_student 
-                        WHERE student.dni = __dni_student );  
-    IF __password IS NULL THEN
-        SELECT 'NOT FOUND' AS 'ERROR';
-    ELSE
-        SELECT __password;
-    END IF;
+                        WHERE student.dni = __dni_student );
+    SELECT IF (__password IS NULL, 'NOT_FOUND', __password) AS 'RES';                      
 END//
 
 DROP PROCEDURE IF EXISTS sp_get_detail_classroom;
@@ -507,3 +503,61 @@ BEGIN
     FROM student
     WHERE student.dni = __dni_student;
 END//
+
+DROP PROCEDURE IF EXISTS sp_verify_payment_student;
+DELIMITER //
+CREATE PROCEDURE sp_verify_payment_student(
+    IN __code_student INT(6)
+)
+BEGIN
+    DECLARE __verify_student BIT;
+    SET __verify_student = (  SELECT 1 FROM payment WHERE payment.code_student = __code_student );  
+    SELECT IF (__verify_student IS NULL, 0, 1) AS 'RES';
+END//
+
+
+DROP PROCEDURE IF EXISTS sp_get_grade_to_enrollment;
+DELIMITER //
+CREATE PROCEDURE sp_get_grade_to_enrollment(
+    IN __code_student INT(6)
+)
+BEGIN
+    DECLARE __repeater BIT;   
+    SET __repeater = (  SELECT _repeat FROM history_detail_student WHERE history_detail_student.code_student = __code_student );
+    IF __repeater = 1 THEN
+        SELECT code_grade FROM history_detail_student WHERE history_detail_student.code_student = __code_student;
+    ELSE
+        SELECT code_grade+1 FROM history_detail_student WHERE history_detail_student.code_student = __code_student;
+    END IF;
+END//
+
+
+
+DROP PROCEDURE IF EXISTS sp_do_enrollment;
+DELIMITER //
+CREATE PROCEDURE sp_do_enrollment(
+    IN __code_student INT(6),
+    IN __code_grade TINYINT(1),
+    IN __code_section TINYINT(2)
+)
+BEGIN
+    DECLARE __repeater BIT;
+    DECLARE __code_payment INT(10);
+    DECLARE __code_classroom INT(3);
+    DECLARE __quantity TINYINT(2);
+    SET __repeater = (  SELECT _repeat 
+                        FROM history_detail_student 
+                        WHERE history_detail_student.code_student = __code_student );
+    SET __code_payment = (  SELECT code_payment 
+                            FROM payment 
+                            WHERE payment.code_student = __code_student );
+    SET __code_classroom = (     SELECT code_classroom 
+                                FROM classroom 
+                                WHERE classroom.code_section = __code_section AND classroom.code_grade = __code_grade);
+    INSERT INTO enrollment(date_enrollment,repeater,code_payment,code_classroom) VALUES(CURDATE(),__repeater,__code_payment,__code_classrom);
+    SET __quantity = (  SELECT quantity 
+                        FROM classroom_vacancy 
+                        WHERE classroom_vacancy.code_classroom = __code_classroom);
+    UPDATE classroom_vacancy SET quantity = __quantity-1 WHERE classroom_vacancy.code_classroom = __code_classrom;
+END//
+
