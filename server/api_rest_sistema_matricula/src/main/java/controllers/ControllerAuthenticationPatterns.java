@@ -2,7 +2,8 @@ package controllers;
 
 public class ControllerAuthenticationPatterns {
     public static String[] STUDENT_PATHS = {
-        "/student",
+        "/student/detail-campus", //get ?dni=12345678 
+        "/student/detail-classroom", 
         "/student/enrollment"
     };
     public static String[] ADMIN_PATHS = {

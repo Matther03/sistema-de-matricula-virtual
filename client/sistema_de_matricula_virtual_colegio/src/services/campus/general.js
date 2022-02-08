@@ -3,7 +3,7 @@ import { doRequest } from '../helpers';
 import { getTokenStudent, isLoggedStudent } from './auth';
 //#endregion
 
-//#region Principales
+//#region Main
 export const doRequestCampus = async (endpoint, method, body) => {
     return await doRequest(
         endpoint, method, 

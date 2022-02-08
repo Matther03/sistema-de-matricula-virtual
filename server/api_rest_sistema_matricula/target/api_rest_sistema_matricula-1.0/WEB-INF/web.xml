@@ -33,6 +33,6 @@
     <env-entry> 
         <env-entry-name>DB_NAME</env-entry-name>
         <env-entry-type>java.lang.String</env-entry-type>
-        <env-entry-value>bd_enrollment_vmm</env-entry-value> 
+        <env-entry-value>db_enrollment_vmm</env-entry-value> 
     </env-entry>
 </web-app>

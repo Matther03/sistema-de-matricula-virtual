@@ -25,7 +25,12 @@ import CustomTextField from '../../../general/customTextField/CustomTextField';
 import CustomButton from '../../../general/customButton/CustomButton';
 //#endregion
 //#region Services
-import { loginStudent, isLoggedStudent } from '../../../../services/campus/auth';
+import { 
+    loginStudent, 
+    isLoggedStudent } from '../../../../services/campus/auth';
+import { 
+    getDetailCampusRequest,  
+    setDetailCampus } from '../../../../services/campus/student';
 //#endregion
 
 const regex = {
@@ -93,20 +98,33 @@ const FormLogin = () => {
     const fieldsHaveErrors = () => {
         return Object.values(errors).some(error => error);
     }
+    const saveDetailStudent = async (dni) => {
+        const [payload, err] = await getDetailCampusRequest(dni);
+        if (!err && payload.data) {
+            const { data } = payload;
+            setDetailCampus({
+                codeStudent: data.code,
+                fullName: `${data.fatherSurname} ${data.motherSurname}, ${data.name}`, 
+                dni
+            });
+        }
+    }
+
     const handleLogin = async (e) => {
         e.preventDefault();
-        if (fieldsHaveErrors())  return;
+        if (fieldsHaveErrors()) return;
         setLoadingLoginRequest(true);
         await loginStudent({ 
             dni: form.dni, 
             password: form.password 
         });
-        setLoadingLoginRequest(false);
         if (isLoggedStudent()) {
+            await saveDetailStudent(form.dni);
+            console.clear();
             navigate("/campus/home");
-            return;
         }
-        setShowNoMatchMessageLogin(true);
+        else setShowNoMatchMessageLogin(true);
+        setLoadingLoginRequest(false);
     }
     //#endregion
     return (

@@ -1,9 +1,10 @@
 package entity;
 
+import dto.classroom.ClassroomDTO;
+import dto.classroom.ClassroomVacancyDTO;
+import dto.classroom.GradeDTO;
 import dto.classroom.SectionDTO;
 import dto.classroom.ShiftDTO;
-import dto.student.RepresentativeDTO;
-import dto.student.StudentDTO;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -15,12 +16,41 @@ public class ClassroomEntity {
     public SectionDTO[] getSections() {
         return toArraySectionDTOs(new ClassroomModel().getSections());
     }
-    
-    public StudentDTO[] getStudents() {
-        return toArrayStudentDTOs(new ClassroomModel().getStudents());
+        public ClassroomVacancyDTO getDetailClassroom(final GradeDTO grade){
+        final int codeGrade = grade.getCode();
+        final ArrayList<HashMap<String,String>> table = new ClassroomModel().getDetailClassroom(codeGrade);
+        return table.size() > 0 ? getDTOforRowHashMapDetailClassroom(table.get(0)) : null;
+    }
+    private ClassroomVacancyDTO getDTOforRowHashMapDetailClassroom(HashMap<String, String> row) {
+        final ClassroomVacancyDTO classroomVacancy = new ClassroomVacancyDTO();
+        final ClassroomDTO classroom = new ClassroomDTO();
+        final GradeDTO grade = new GradeDTO();
+        grade.setCode(Integer.parseInt(row.get("code_grade")));
+        final ShiftDTO shift = new ShiftDTO();
+        shift.setCategory(row.get("category"));
+        final SectionDTO section = new SectionDTO(
+                Integer.parseInt(row.get("code_section")),
+                row.get("letter"),
+                shift
+        );
+        classroom.setGrade(grade);
+        classroom.setSection(section);
+        classroomVacancy.setClassroom(classroom);
+        classroomVacancy.setQuantity(Integer.parseInt(row.get("quantity")));
+
+        return classroomVacancy ;
     }
     //</editor-fold>
-    //<editor-fold defaultstate="defaultstate" desc="Helpers">
+    //<editor-fold defaultstate="defaultstate" desc="Helper Methods">
+    public boolean isValidCodeGrade(String codeGrade) {
+        try {
+            final int parseCodeGrade = Integer.parseInt(codeGrade);
+            return parseCodeGrade > 0 && parseCodeGrade <= 5;
+        }
+        catch (NumberFormatException ex) {
+            return false;
+        }
+    }
     private SectionDTO getDTOforRowHashMap(HashMap<String, String> row) {
         return new SectionDTO(
                 Integer.parseInt(row.get("CODE_SECTION")),
@@ -31,29 +61,6 @@ public class ClassroomEntity {
                 )
         );
     }
-    
-    private StudentDTO getStudentDTOforRowHashMap(HashMap<String, String> row) {
-        return new StudentDTO(
-                Integer.parseInt(row.get("CODE_STUDENT")),
-                row.get("NAME"),
-                row.get("FATHER SURNAME"),
-                row.get("MOTHER SURNAME"),
-                Integer.parseInt(row.get("AGE")),
-                row.get("DNI"),
-                row.get("DIRECCION"),
-                new RepresentativeDTO(
-                        Integer.parseInt(row.get("CODE_REPRESENTATIVE")),
-                        row.get("NAME"),
-                        row.get("FATHER SURNAME"),
-                        row.get("MOTHER SURNAME"),
-                        row.get("DNI"),
-                        row.get("EMAIL"),
-                        row.get("PHONE")
-                )
-        );
-    }
-    
-    
     private SectionDTO[] toArraySectionDTOs(ArrayList<HashMap<String, String>> table) {
         final Object[] objArray = EntityHelper.hashMapArrayListToObjArray(
                 table, 
@@ -61,13 +68,6 @@ public class ClassroomEntity {
         );
         return Arrays.copyOf(objArray, objArray.length, SectionDTO[].class);
     }
-    
-    private StudentDTO[] toArrayStudentDTOs(ArrayList<HashMap<String, String>> table) {
-        final Object[] objArray = EntityHelper.hashMapArrayListToObjArray(
-                table, 
-                (HashMap<String, String> row) -> getStudentDTOforRowHashMap(row)
-        );
-        return Arrays.copyOf(objArray, objArray.length, StudentDTO[].class);
-    }
     //</editor-fold>
+
 }
