@@ -1,6 +1,8 @@
 const RegistrationNav = () => {
     return (
-        <h1>RegistrationNav</h1>
+        <nav>
+            <ul></ul>
+        </nav>
     );
 };
 
