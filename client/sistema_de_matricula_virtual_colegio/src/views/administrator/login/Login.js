@@ -24,9 +24,9 @@ import adminImg from '../../../img/administrator/login/admin-icon.png';
 import { Icon } from '@iconify/react';
 //#endregion
 //#region Components
-import SymbolHeader from "../../../components/general/symbolHeader/SymbolHeader";
 import CustomTextField from '../../../components/general/customTextField/CustomTextField';
 import CustomButton from '../../../components/general/customButton/CustomButton';
+import SymbolHeader from "../../../components/general/symbolHeader/SymbolHeader";
 //#endregion
 //#region Services
 import { loginAdmin, isLoggedAdmin } from '../../../services/admin/auth';
@@ -88,7 +88,7 @@ const Login = () => {
     return (
         <>
             {isLoggedAdmin() && <Navigate to="/admin/home" replace={true}/>}
-            <SymbolHeader className="admin-header"/>
+            <SymbolHeader typeHeader="admin"/>
             <ContainerSectionLogin>
                 <ContentSectionLogin>
                     <AdminImgContainer>

@@ -1,7 +1,8 @@
 //#region Libraries
 import { 
     Routes, 
-    Route 
+    Route, 
+    Navigate
 } from "react-router-dom";
 //#endregion
 //#region Components
@@ -36,13 +37,18 @@ const Enrollment = () => {
                 information={informationInternalNav}/>
             <Routes>
                 <Route
-                    path="information" 
+                    path="informacion" 
                     element={
                         <EnrollmentInformation/>
                     }/>
                 <Route
+                    path="" 
+                    element={
+                        <EnrollmentRoot/>
+                    }/>
+                <Route
                     path="*"
-                    element={<EnrollmentRoot/>}/>
+                    element={<Navigate to="/campus/matricula" replace={true}/>}/>
             </Routes>
         </>
     );

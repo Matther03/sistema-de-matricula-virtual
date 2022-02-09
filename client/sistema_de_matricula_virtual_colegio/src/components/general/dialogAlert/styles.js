@@ -6,8 +6,13 @@ import styled from "styled-components";
 export const ContainerCustomDialogAlert = styled(Dialog)`
     & .MuiPaper-root {
         padding: 10px !important;
-        min-width: 300px !important;
-        max-width: 500px !important;
+        @media (min-width: 501px) {
+            min-width: 400px !important;
+            max-width: 70% !important;
+        }
+        @media (max-width: 500px) {
+            width: 90% !important;
+        }
     }
 `;
 export const HeaderCustomDialogAlert = styled.header`

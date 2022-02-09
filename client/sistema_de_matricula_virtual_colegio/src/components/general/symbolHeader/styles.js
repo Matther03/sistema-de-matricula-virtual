@@ -3,11 +3,23 @@ import styled from "styled-components";
 //#endregion
 
 export const ContainerHeader = styled.header`
-    background-color: var(--fourth-color);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 60px;
+    ${({ typeHeader }) => {
+        const group = { 
+            "campus": `
+                padding: 10px 60px;
+                background-color: var(--fourth-color);
+            `,
+            "admin": `
+                padding: 20px 60px;
+                background-color: #ffffff;
+                z-index: 1000;
+            `
+        };
+        return group[typeHeader];
+    }}
     gap: 10px;
     position: fixed;
     top: 0;
@@ -19,11 +31,6 @@ export const ContainerHeader = styled.header`
     }
     @media (max-width: 700px) {
         flex-direction: column;
-    }
-    &.admin-header {
-        padding: 20px 60px;
-        background-color: #ffffff;
-        z-index: 1000;
     }
 `;
 export const TitleNavbar = styled.a`

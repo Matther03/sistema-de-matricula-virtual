@@ -28,7 +28,7 @@ const DialogAlert = ({
         title, 
         description,
         buttons,
-        icons
+        titleIcon
     }) => {
     const handleClose = () => handleOpen(false);
     return (
@@ -37,14 +37,16 @@ const DialogAlert = ({
             TransitionComponent={Transition}
             onClose={handleClose}>
             <HeaderCustomDialogAlert>
-                <Icon icon={icons}/*"ci:error-outline"*/ />
+                {titleIcon && <Icon icon={titleIcon}/>}
                 <h3 className="custom-title-2">{title || " TÍTULO"}</h3>
             </HeaderCustomDialogAlert>
             <article className="content-dialog">
                 {description || <p>Descripción</p>}
             </article>
             <FooterCustomDialogAlert>
-                {buttons.length && buttons.map((ButtonMapping, idx) => <ButtonMapping key={idx}/>)}
+                {buttons.length && 
+                    buttons.map(
+                        (ButtonMapping, idx) => <ButtonMapping key={idx}/>)}
             </FooterCustomDialogAlert>
         </ContainerCustomDialogAlert>
     );
