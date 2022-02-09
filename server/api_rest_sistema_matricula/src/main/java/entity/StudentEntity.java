@@ -1,107 +1,60 @@
-
 package entity;
 
-
-import com.google.gson.JsonObject;
-import dto.RaceDogDTO;
-import dto.SizeDogDTO;
-import dto.StudentDTO;
-import java.io.IOException;
-import model.StudentModel;
+import database.ProceduresDB;
+import dto.student.StudentDTO;
+import dto.student.AccountDTO;
+import dto.student.RepresentativeDTO;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-import javax.servlet.ServletException;
-import utils.delegates.DelegateVoidOneParamThrowsServletAndIOException;
+import model.StudentModel;
+import utils.Encrypt;
+import utils.RegexPatternsValidation;
+import utils.authentication.JWTAuthentication;
+import utils.authentication.RoleAuthJWT;
 
-public class StudentEntity extends EntityParent<StudentDTO>{
+public class StudentEntity {
     
-    public ArrayList<StudentDTO> getStudents(boolean all) {
-        return toArrayList(new StudentModel().getStudents(all));
-    }
-     public StudentDTO findStudent(final StudentDTO studentDTO) {
-        HashMap<String, String> row = new StudentModel().findStudent(studentDTO.getId());
-        return row.size() <= 0 ? null : getDTOforRowHashMap(row);
-    }
+    public String verifyAccount(final AccountDTO accountToLogin, final JWTAuthentication jwtAuth) {
+        final String dni = accountToLogin.getStudent().getDni();
+        final String password = accountToLogin.getPassword();
+        final ArrayList<HashMap<String,String>> table = new StudentModel().getPassword(dni);
+        final boolean notExistsAccount = "NOT FOUND".equals(table.get(0).get("ERROR"));
+        if (notExistsAccount) 
+            return null;
+        final String hashedPassword = table.get(0).get("__password");
+        final boolean matched = Encrypt.matchWithHashedValue(password, hashedPassword);
+        if (!matched)
+            return null;
+        return jwtAuth.getToken(dni, RoleAuthJWT.STUDENT_ROLE);
+    } 
     
-    @Override
-    protected StudentDTO getDTOforRowHashMap(HashMap<String, String> row) {
-        return new StudentDTO(
-                Integer.parseInt(row.get("ID")),
-                new RaceDogDTO(
-                        Integer.parseInt(row.get("ID_RACE_DOG")), 
-                        row.get("RACE_DOG")),
-                new SizeDogDTO(
-                        Integer.parseInt(row.get("ID_SIZE_DOG")), 
-                        row.get("SIZE_DOG")), 
-                row.get("NAME"),
-                row.get("DESCRIPTION"),
-                row.get("OWNER"),
-                Double.parseDouble(row.get("WEIGHT")), 
-                row.get("CARRIED").equals("1")
-        );
-    }
-    
-    
-    
-    private ArrayList<StudentDTO> toArrayList(ArrayList<HashMap<String, String>> table) {
-        return hashMapArrayListToDTOArrayList(
-                table, 
-                (HashMap<String, String> row) ->  getDTOforRowHashMap(row)
-        );
-    }
-    
-    
-    public boolean isValidId(final String idParam, DelegateVoidOneParamThrowsServletAndIOException<String> doError) throws ServletException, IOException {
-        try {
-            final int id = Integer.parseInt(idParam);
-            if (id <= 0)
-                isValidIdErrorMessage(doError, idParam);
-            return id > 0;
-        }
-        catch (NumberFormatException ex) {
-            isValidIdErrorMessage(doError, idParam);
+    public boolean isValidAccount(final AccountDTO accountToLogin) {
+        if (!isValidDNI(accountToLogin.getStudent().getDni())) 
             return false;
-        }
+        return isValidPassword(accountToLogin.getPassword());
     }
-    public boolean existsId(String idParam) {
-        return idParam != null;
+    private boolean isValidPassword(final String password) {
+        return EntityHelper.regexIsMatched(RegexPatternsValidation.PASSWORD, password);
     }
-    private boolean isValidPropertyValueString(String value, int limitDown, int limitUp) {
-        final int length = value.length();
-        return length >= limitDown && length <= limitUp;
+    public boolean isValidDNI(String dni) {
+        return EntityHelper.regexIsMatched(RegexPatternsValidation.DNI, dni);
     }
-    private boolean isValidPropertyValueInteger(int value, Integer limitDown, Integer limitUp) {
-        return value >= (limitDown != null ? limitDown : Integer.MIN_VALUE) && 
-                value <= (limitUp != null ? limitUp : Integer.MAX_VALUE);
+    
+    public StudentDTO getDetailStudent(final StudentDTO student){
+        final String dni = student.getDni();
+        final ArrayList<HashMap<String,String>> table = new StudentModel().getDetailStudent(dni);
+        return table.size() > 0 ? getDTOforRowHashMap(table.get(0)) : null;
     }
-    private boolean isValidPropertyValueDouble(double value, Double limitDown, Double limitUp) {
-        return value >= (limitDown != null ? limitDown : Double.MIN_VALUE) && 
-                value <= (limitUp != null ? limitUp : Double.MAX_VALUE);
-    }
-    private int incrementQuantityNullValues(String key, JsonObject jObj, int previousValue) {
-        return isNullPropertyOfJson(jObj, key) ? previousValue + 1 : previousValue;
-    }
-    private void isValidIdErrorMessage(DelegateVoidOneParamThrowsServletAndIOException<String> doError, String idParam) throws ServletException, IOException {
-        doError.Execute("Id " +idParam +" is not valid number");
-    }
-    private String validateDogFromAddOrUpdateErrorMsg(final String noValidParameterName) {
-        return "The " + noValidParameterName + " is not a valid parameter.";
+
+    private StudentDTO getDTOforRowHashMap(HashMap<String, String> row) {
+        final StudentDTO student = new StudentDTO();
+        student.setCode(Integer.parseInt(row.get("code_student")));
+        student.setName(row.get("_name"));
+        student.setFatherSurname(row.get("father_surname"));
+        student.setMotherSurname(row.get("mother_surname"));
+        return student;
     }
     
     
-    /*
-    @Override
-    protected StudentDTO getDTOforRowHashMap(HashMap<String, String> row) {
-         return new StudentDTO(
-                Integer.parseInt(row.get("ID")),
-                row.get("NAME"),
-                row.get("FATHER_SURNAME"),
-                row.get("MOTHER_SURNAME"),
-                Integer.parseInt(row.get("AGE")),
-                Integer.parseInt(row.get("ID_CARD")),
-                row.get("DIRECCION"),
-                Integer.parseInt(row.get("CODE_REPRESENTATIVE"))
-        );
-    }
-    */
 }

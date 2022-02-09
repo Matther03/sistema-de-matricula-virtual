@@ -5,7 +5,6 @@ import {
 } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import {
-    Button,
     InputAdornment,
     IconButton
 } from '@mui/material';
@@ -15,7 +14,9 @@ import {
     ContainerSectionLogin,
     ContentSectionLogin,
     ContentHeaderSectionLogin,
-    ContentFormSectionLogin
+    ContentFormSectionLogin,
+    NoMatchMessageLogin,
+    IsNewStudent
 } from './styles';
 //#endregion
 //#region Images
@@ -25,12 +26,13 @@ import schoolImg from '../../../img/campus/login/school-img.jpg';
 import { Icon } from '@iconify/react';
 //#endregion
 //#region Components
-import CustomCheckbox from '../../../components/general/CustomCheckbox';
+import DialogAlert from '../../../components/general/dialogAlert/DialogAlert';
 import CustomTextField from '../../../components/general/customTextField/CustomTextField';
-import SymbolHeader from "../../../components/campus/components/symbolHeader/SymbolHeader";
+import CustomButton from '../../../components/general/customButton/CustomButton';
+import SymbolHeader from "../../../components/general/symbolHeader/SymbolHeader";
 //#endregion
 //#region Services
-import { loginStudent, isLoggedStudent } from '../../../services/auth';
+import { loginStudent, isLoggedStudent } from '../../../services/campus/auth';
 //#endregion
 
 const regex = {
@@ -44,14 +46,21 @@ const Login = () => {
         dni: "",
         password: ""
     });
-    const [rememberMe, setRememberMe] = useState(true);
     const [showPassword, setShowPassword] = useState(false);
     const [errors, setErrors] = useState({
         dni: false,
         password: false
     });
+    const [showDialogRememberRegister, setShowDialogRememberRegister] = useState(false);
+    const [showNoMatchMessageLogin, setShowNoMatchMessageLogin] = useState(false);
     //#endregion
     //#region Effects
+    useEffect(() => {
+        if (localStorage.getItem("alreadyRememberRegister"))
+            return;
+        setShowDialogRememberRegister(true);
+        localStorage.setItem("alreadyRememberRegister", "true");
+    }, []);
     useEffect(() => {
         validateField("dni");
     }, [form.dni]);
@@ -73,12 +82,13 @@ const Login = () => {
             ...prev,
             [field]: value
         }));
+        showNoMatchMessageLogin && setShowNoMatchMessageLogin(false);
     }
     const toggleShowPassword = () => {
         setShowPassword(prev => (!prev));
     }
-    const handleRememberMe = () => {
-        setRememberMe(prev => (!prev));
+    const toggleShowDialogRememberRegister = () => {
+        setShowDialogRememberRegister(prev => !prev);
     }
     const validateField = (field) => {
         setErrors(prev => ({
@@ -86,18 +96,26 @@ const Login = () => {
             [field]: !regex[field].test(form[field])
         }));
     }
-    const handleLogin = (e) => {
+    const fieldsHaveErrors = () => {
+        return Object.values(errors).some(error => error);
+    }
+    const handleLogin = async (e) => {
         e.preventDefault();
-        loginStudent({ 
+        if (fieldsHaveErrors())  return;
+        await loginStudent({ 
             dni: form.dni, 
             password: form.password 
         });
-        isLoggedStudent() && navigate("/home");
+        if (isLoggedStudent()) {
+            navigate("/campus/home");
+            return;
+        }
+        setShowNoMatchMessageLogin(true);
     }
     //#endregion
     return (
         <>
-            {isLoggedStudent() && <Navigate to="../home" replace={true}/>}
+            {isLoggedStudent() && <Navigate to="/campus/home" replace={true}/>}
             <SymbolHeader showTitle={true}/>
             <ContainerSectionLogin>
                 <img src={schoolImg} alt="escuela, colegio"/>
@@ -145,21 +163,51 @@ const Login = () => {
                                         </InputAdornment>
                                       )
                                 }}/>
-                            <CustomCheckbox 
-                                onChange={handleRememberMe}
-                                checked={rememberMe}
-                                label="Recordarme"/>
                         </section>
                         <footer>
-                            <Button 
+                            {showNoMatchMessageLogin && 
+                                <NoMatchMessageLogin>
+                                    Las credenciales DNI / Contraseña no coinciden
+                                </NoMatchMessageLogin>}
+                            <CustomButton
                                 type="submit"
-                                className="custom-btn" 
                                 disabled={errors.dni || errors.password}
-                                variant="contained">Ingresar</Button>
+                                text="Ingresar"/>
+                            <IsNewStudent>
+                                <span className="description">¿Eres nuevo?</span>
+                                <span 
+                                    className="open-dialog"
+                                    onClick={toggleShowDialogRememberRegister}>Presiona aquí</span>
+                            </IsNewStudent>
                         </footer>
                     </ContentFormSectionLogin>
                 </ContentSectionLogin>
             </ContainerSectionLogin>
+            <DialogAlert 
+                open={showDialogRememberRegister} 
+                handleOpen={toggleShowDialogRememberRegister}
+                title="¡RECUERDA!"
+                icons="ci:error-outline"
+                buttons={[
+                    () => <a 
+                        href="https://google.com"
+                        target="_blank">
+                        <CustomButton
+                            variant="outlined"
+                            text="VER MÁS"/>
+                    </a>,
+                    () => <CustomButton
+                        variant="outlined"
+                        onClick={() => setShowDialogRememberRegister(false)}
+                        text="Cerrar"/>
+                ]}
+                description={
+                    <ul>
+                        <li>Para poder iniciar sesión debes haber presentado los documentos solicitados  en la instución.</li>
+                        <li>Se te asiganará un código de estudiante y contraseña que serán enviados a tu correo electrónico. </li>
+                        <li>Con los datos generados ya podrás iniciar sesión.</li>
+                    </ul>
+                }/>
         </>
     )
 }

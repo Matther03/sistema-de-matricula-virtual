@@ -6,5 +6,5 @@ import javax.servlet.ServletException;
 
 @FunctionalInterface
 public interface DelegateVoidOneParamThrowsServletAndIOException<P> {
-    public void Execute(P p) throws ServletException, IOException;
+    public void execute(P p) throws ServletException, IOException;
 }
