@@ -3,21 +3,40 @@ import {
     useState,
     useEffect
 } from 'react';
+import { 
+    Routes, 
+    Route, 
+    Navigate 
+} from "react-router-dom";
 //#endregion
 //#region Components
 import DialogAlert from '../../../components/general/dialogAlert/DialogAlert';
-import CustomTextField from '../../../components/general/customTextField/CustomTextField';
 import CustomButton from '../../../components/general/customButton/CustomButton';
-import SymbolHeader from "../../../components/general/symbolHeader/SymbolHeader";
+import RegistrationHeader from '../../../components/administrator/registration/components/registrationHeader/RegistrationHeader';
+import Student from '../../../components/administrator/registration/student/Student';
 //#endregion
 
 const Registration = () => {
     return (
         <>
-            <SymbolHeader typeHeader="admin"/>
-            <div>
-                <h1>Principal Alumno</h1>
-            </div>
+            <RegistrationHeader/>
+            <Routes>
+                <Route
+                    path="alumno" 
+                    element={<Student/>}/>
+                <Route
+                    path="profesor" 
+                    element={<h1>Profesor</h1>}/>
+                <Route
+                    path="curso" 
+                    element={<h1>Curso</h1>}/>
+                <Route
+                    path="*"
+                    element={
+                        <Navigate 
+                            to="/admin/registro/alumno" 
+                            replace={true}/>}/>
+            </Routes>
             <DialogAlert 
                 open={false} 
                 title="¡ADVERTENCIA!"

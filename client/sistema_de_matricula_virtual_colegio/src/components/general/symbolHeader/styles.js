@@ -14,7 +14,7 @@ export const ContainerHeader = styled.header`
             `,
             "admin": `
                 padding: 20px 60px;
-                background-color: #ffffff;
+                background-color: var(--third-color);
                 z-index: 1000;
             `
         };

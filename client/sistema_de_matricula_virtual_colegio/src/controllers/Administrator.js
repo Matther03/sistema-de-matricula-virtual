@@ -43,7 +43,7 @@ const Administrator = () => {
             <Routes>
                 <Route path="home" element={<Home/>}/>
                 <Route path="login" element={<Login/>}/>
-                <Route path="registro" element={<Registration/>}/>
+                <Route path="registro/*" element={<Registration/>}/>
                 <Route 
                     path="*" 
                     element={<Navigate to="/admin/home" replace={true}/>}/>
