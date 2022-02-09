@@ -1,6 +1,9 @@
 //#region Libraries
 import styled from "styled-components";
 //#endregion
+//#region Components
+import HeaderProfile from '../../../components/campus/components/headerProfile/HeaderProfile.js';
+//#endregion
 
 export const ContainerSectionHome = styled.section`
     display: flex;
@@ -26,4 +29,24 @@ export const ContentSectionHome = styled.article`
     flex-wrap: wrap;
     padding: 60px 40px;
     gap: 20px;
+`;
+
+export const HeaderProfileHome = styled(HeaderProfile)`
+    border-radius: 20px !important;
+    transition: 0.35s !important;
+    z-index: 0;
+    align-self: flex-end;
+    margin-right: 10px;
+    span {
+        color: var(--fifth-color) !important;
+    }
+    .iconify {
+        color: var(--fifth-color) !important;
+    }
+    .arrow {
+        border-top: 6px solid var(--fifth-color) !important; 
+    }
+    &:hover {
+        background-color: #F1F1F1 !important;
+    }
 `;

@@ -9,13 +9,13 @@ import SymbolHeader from '../../../../general/symbolHeader/SymbolHeader';
 import HeaderProfile from '../../../components/headerProfile/HeaderProfile';
 //#endregion
 
-const HeaderUser = ({ nameUser }) => {
+const HeaderUser = () => {
     return (
         <header>
             <ContainerHeader>
                 <SymbolHeader className="container-symbol-header-enrollment small"/>
                 <ContainerHeaderUser>
-                    <HeaderProfile nameUser={nameUser}/>
+                    <HeaderProfile/>
                 </ContainerHeaderUser>
             </ContainerHeader>
             <OffSetHeader/>

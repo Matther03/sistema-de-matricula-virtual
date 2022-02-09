@@ -13,7 +13,7 @@ import {
 } from './styles';
 //#endregion
 //#region Components
-import DataEnrollment from '../components/dataEnrollment/DataEnrollment';
+import EnrollmentData from './components/enrollmentData/EnrollmentData';
 import PopupMessage from '../../../general/popupMessage/PopupMessage';
 import CustomDataTable from '../../../general/customDataTable/CustomDataTable';
 //#endregion
@@ -47,7 +47,7 @@ const EnrollmentRoot = () => {
                     Rellene el siguiente formulario con los datos solicitados para realizar la matrícula. Recuerde que solo se puede realizar una vez, por lo tanto no se puede modificar.
                 </p>
             </TaskInfo>
-            <DataEnrollment/>
+            <EnrollmentData/>
             <PopupMessage 
                 color="var(--verification)"
                 message="La matrícula se ha realizado correctamente" 

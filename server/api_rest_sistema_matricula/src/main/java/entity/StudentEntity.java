@@ -15,20 +15,22 @@ import utils.authentication.RoleAuthJWT;
 
 public class StudentEntity {
     
+    //<editor-fold defaultstate="collapsed" desc="Action Methods">
     public String verifyAccount(final AccountDTO accountToLogin, final JWTAuthentication jwtAuth) {
         final String dni = accountToLogin.getStudent().getDni();
         final String password = accountToLogin.getPassword();
-        final ArrayList<HashMap<String,String>> table = new StudentModel().getPassword(dni);
-        final boolean notExistsAccount = "NOT FOUND".equals(table.get(0).get("ERROR"));
+        final ArrayList<HashMap<String,String>> table = new StudentModel().verifyAccount(dni);
+        final String hashedPassword = table.get(0).get("RES");
+        final boolean notExistsAccount = "NOT_FOUND".equals(hashedPassword);
         if (notExistsAccount) 
             return null;
-        final String hashedPassword = table.get(0).get("__password");
         final boolean matched = Encrypt.matchWithHashedValue(password, hashedPassword);
         if (!matched)
             return null;
         return jwtAuth.getToken(dni, RoleAuthJWT.STUDENT_ROLE);
     } 
-    
+    //</editor-fold>
+    //<editor-fold defaultstate="collapsed" desc="Helper Methods">
     public boolean isValidAccount(final AccountDTO accountToLogin) {
         if (!isValidDNI(accountToLogin.getStudent().getDni())) 
             return false;
@@ -55,6 +57,6 @@ public class StudentEntity {
         student.setMotherSurname(row.get("mother_surname"));
         return student;
     }
-    
+    //</editor-fold>
     
 }

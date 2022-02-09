@@ -46,7 +46,7 @@ public class FilterAuthentication implements Filter {
             return;
         }
         // Restringiendo y respondiendo en caso no haya token
-        HelperController.templatePrintable(FormatResponse.getErrorResponse("Unauthorized", 401), (HttpServletResponse) response);
+        HelperController.templatePrintable(FormatResponse.getErrorResponse("Unauthorized", 403), (HttpServletResponse) response);
     }
 
     @Override

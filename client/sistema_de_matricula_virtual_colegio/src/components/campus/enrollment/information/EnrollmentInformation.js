@@ -3,8 +3,8 @@
 //   useEffect 
 // } from 'react';
 //#endregion
-import EnrollmentDataInformation from "./enrollmentDataInformation/EnrollmentDataInformation";
-import EnrollmentTableInformation from "./enrollmentTableInformation/EnrollmentTableInformation";
+import EnrollmentDataInformation from "./components/enrollmentDataInformation/EnrollmentDataInformation";
+import EnrollmentTableInformation from "./components/enrollmentTableInformation/EnrollmentTableInformation";
 //#region Styles
 import { ContainerEnrollmentInformation } from './styles';
 //#endregion

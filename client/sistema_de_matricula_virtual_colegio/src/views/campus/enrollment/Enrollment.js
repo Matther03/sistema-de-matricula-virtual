@@ -31,7 +31,7 @@ const informationInternalNav = [
 const Enrollment = () => {
     return (
         <>
-            <HeaderUser nameUser="LUJÁN CARRIÓN, MAYIMBÚ"/>
+            <HeaderUser/>
             <InternalNav 
                 information={informationInternalNav}/>
             <Routes>

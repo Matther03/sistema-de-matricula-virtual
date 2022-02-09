@@ -2,7 +2,8 @@
 import { 
     ContainerSectionHome, 
     HeaderSectionHome, 
-    ContentSectionHome 
+    ContentSectionHome, 
+    HeaderProfileHome
 } from './styles';
 //#region Libraries
 import { 
@@ -21,8 +22,7 @@ import symbolSchoolImg from '../../../img/general/school-symbol.png';
 //#endregion
 //#region Components
 // import DialogAlert from '../../../components/general/dialogAlert/DialogAlert';
-import HeaderProfile from '../../../components/campus/components/headerProfile/HeaderProfile.js';
-import CardLinkServiceCampus from '../../../components/campus/home/cardLinkServiceCampus/CardLinkServiceCampus';
+import CardLinkServiceCampus from '../../../components/campus/home/components/cardLinkServiceCampus/CardLinkServiceCampus';
 //#endregion
 
 const Home = () => {
@@ -34,29 +34,25 @@ const Home = () => {
     const addClassMainHome = () => {
         const mainElement = document.querySelector('main');
         mainElement.classList.add('home');
-        return () => {
-            mainElement.classList.remove('home');
-        }
+        return () => mainElement.classList.remove('home');
     }
     //#endregion
     //#region Effects
     useEffect(() => {
         const removeClassMainHome = addClassMainHome();
-        return () => {
-            removeClassMainHome();
-        };
+        return () => removeClassMainHome();
     });
     //#endregion
 
     return (
         <ContainerSectionHome>
             <HeaderSectionHome>
+                <HeaderProfileHome/>
                 <h3 className="custom-title-4">
                     I.E.P VICTOR MANUEL MAURTUA - ICA - PERÚ
                 </h3>
                 <img src={symbolSchoolImg} alt="Insignia Maurtua Parcona - Ica"/>
             </HeaderSectionHome>
-            <HeaderProfile nameUser="LUJÁN CARRIÓN, MAYIMBÚ" className="header-home"/>
             <ContentSectionHome>
                 <CardLinkServiceCampus to="../aula-virtual"
                     title="AULA VIRTUAL"

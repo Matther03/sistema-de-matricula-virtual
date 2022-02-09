@@ -21,20 +21,6 @@ export const ContainerProfile = styled.article`
     & .content:hover {
         background-color: var(--secondary-blue);
     }
-    &.header-home {
-        position: absolute;
-        top: 0;
-        right: 40px;
-        span {
-            color: var(--fifth-color);
-        }
-        .iconify {
-            color: var(--fifth-color);
-        }
-        .arrow {
-            border-top: 6px solid var(--fifth-color); 
-        }
-    }
 `;
 export const ContentProfile = styled.article`
     display: flex;
@@ -43,7 +29,8 @@ export const ContentProfile = styled.article`
     gap: 15px;
     cursor: pointer;
     user-select: none;
-    transition: 0.25s;
+    z-index: 1;
+    transition: 0.35s;
     & .arrow {
         width: 0;
         height: 0;
@@ -52,19 +39,13 @@ export const ContentProfile = styled.article`
         border-top: 6px solid var(--fourth-color); 
         font-size: 0;
         line-height: 0;
-        transition: 0.3s;
+        transition: 0.35s;
     }
     & .up {
         transform: rotate(-180deg);
     }
     &:hover {
         background-color: var(--secondary-blue);
-    }
-    &.header-home {
-        border-radius: 20px;
-    }
-    &.header-home:hover {
-        background-color: #F1F1F1;
     }
 `
 export const ContainerLogoutBtn = styled.button`
@@ -88,7 +69,7 @@ export const ContainerLogoutBtn = styled.button`
     visibility: hidden;
     opacity: 0;
     transform: translateY(-100%);
-    z-index: 0;
+    z-index: -1;
     &:hover {
         background-color: #e3e3e3;
     }
