@@ -1,5 +1,6 @@
 package entity;
 
+import com.google.gson.JsonElement;
 import database.ProceduresDB;
 import dto.student.StudentDTO;
 import dto.student.AccountDTO;
@@ -28,9 +29,28 @@ public class StudentEntity {
         if (!matched)
             return null;
         return jwtAuth.getToken(dni, RoleAuthJWT.STUDENT_ROLE);
-    } 
+    }
+    
+    public String getValuePay(final StudentDTO student){
+        try {
+            int codigo = student.getCode();
+            final ArrayList<HashMap<String,String>> table = new StudentModel().verifyPay(codigo);
+            final String verifyPay = table.get(0).get("RES");
+            if (Integer.parseInt(verifyPay) == 1) return "Pagó";
+            return "No pagó";
+        } catch (Exception e) {
+            return null;
+        }
+    }
     //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Helper Methods">
+    public boolean isCodeStudentValid(JsonElement codeStudent) {
+        try{
+            int codigo = Integer.parseInt(codeStudent.toString());
+            return true;
+        }catch(Exception e){
+        return false;}
+    }
     public boolean isValidAccount(final AccountDTO accountToLogin) {
         if (!isValidDNI(accountToLogin.getStudent().getDni())) 
             return false;

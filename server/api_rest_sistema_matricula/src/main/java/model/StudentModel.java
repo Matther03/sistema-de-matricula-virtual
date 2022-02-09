@@ -23,5 +23,13 @@ public class StudentModel extends ModelParent {
             return prSt;
         });
     }
+    
+    public ArrayList<HashMap<String, String>> verifyPay(final Integer codeStudent) {
+        return doActionQuery((cnObj, prSt) -> {
+            prSt = cnObj.prepareStatement(ProceduresDB.GET_VALUE_PAY);
+            prSt.setInt(1, codeStudent);
+            return prSt;
+        });
+    }
 
 }
