@@ -9,7 +9,7 @@ public class StudentDTO {
     private String fatherSurname;
     private String motherSurname;
     private Integer age;
-    private String idCard;
+    private String dni;
     private String direction;
     private RepresentativeDTO representative;
     //</editor-fold>  
@@ -18,20 +18,20 @@ public class StudentDTO {
         this.code = null;
         this.name = null;
         this.fatherSurname = null;
-        this.motherSurname = "";
-        this.age = 0;
-        this.idCard = null;
+        this.motherSurname = null;
+        this.age = null;
+        this.dni = null;
         this.direction = null;
         this.representative = null;
     }
 
-    public StudentDTO(Integer code, String name, String fatherSurname, String motherSurname, Integer age, String idCard, String direction, RepresentativeDTO representative) {
+    public StudentDTO(Integer code, String name, String fatherSurname, String motherSurname, Integer age, String dni, String direction, RepresentativeDTO representative) {
         this.code = code;
         this.name = name;
         this.fatherSurname = fatherSurname;
         this.motherSurname = motherSurname;
         this.age = age;
-        this.idCard = idCard;
+        this.dni = dni;
         this.direction = direction;
         this.representative = representative;
     }
@@ -78,12 +78,12 @@ public class StudentDTO {
         this.age = age;
     }
 
-    public String getIdCard() {
-        return idCard;
+    public String getDni() {
+        return dni;
     }
 
-    public void setIdCard(String idCard) {
-        this.idCard = idCard;
+    public void setDni(String dni) {
+        this.dni = dni;
     }
 
     public String getDirection() {

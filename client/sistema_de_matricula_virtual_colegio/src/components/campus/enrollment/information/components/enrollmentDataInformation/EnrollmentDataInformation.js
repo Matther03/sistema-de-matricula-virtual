@@ -11,22 +11,20 @@ import {
     ContainerDataDetail  } from './styles';
 //#endregion
 
-const dataDetails = [
+const getDataDetails = (data) => [
     [
-        { description: "APELLIDOS Y NOMBRES", value: "PEÑA MARTINEZ, JOEL PIERO" },
-        { description: "GRADO ACADÉMICO", value: "1ERO  - SECUNDARIA" },
-        { description: "SECCIÓN", value: "A" },
-        { description: "TURNO", value: "MAÑANA" },
+        { description: "APELLIDOS Y NOMBRES", value: data.fullName },
+        { description: "GRADO ACADÉMICO", value: data.grade },
+        { description: "SECCIÓN", value: data.section },
+        { description: "TURNO", value: data.shift },
     ], 
     [
-        { description: "CÓDIGO DEL ESTUDIANTE", value: "20181234" },
-        { description: "DOCUMENTO DE IDENTIDAD", value: "12345678" },
-        { description: "CÓDIGO DE MATRÍCULA", value: "12356489" },
-        { description: "FECHA DE MATRÍCULA", value: new Date().getDay()  },
+        { description: "DOCUMENTO DE IDENTIDAD", value: data.dni },
+        { description: "FECHA DE MATRÍCULA", value: data.date  },
     ]
 ];
 
-const EnrollmentDataInformation = () => {
+const EnrollmentDataInformation = ({ enrollmentInformation }) => {
     //#region States
     //#endregion
     return (
@@ -36,7 +34,7 @@ const EnrollmentDataInformation = () => {
                 <hr/>
             </HeaderEnrollmentDataInformation>
             <ContentEnrollmentDataInformation>
-                {dataDetails.map((column, idx1) => (
+                {getDataDetails({...enrollmentInformation, fullName: "Luján Carrión Mayimbú"}).map((column, idx1) => (
                     <div key={idx1} className="column">
                         {column.map((dataDetail, idx2) => (
                             <DataDetail
