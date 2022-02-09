@@ -24,7 +24,6 @@ const Login = () => {
     return (
         <>
             {isLoggedAdmin() && <Navigate to="/admin/home" replace={true}/>}
-            <SymbolHeader typeHeader="admin"/>
             <ContainerSectionLogin>
                 <ContentSectionLogin>
                     <AdminImgContainer>

@@ -11,6 +11,9 @@ export const ContainerHeader = styled.header`
             "campus": `
                 padding: 10px 60px;
                 background-color: var(--fourth-color);
+                position: fixed;
+                top: 0;
+                left: 0;
             `,
             "admin": `
                 padding: 20px 60px;
@@ -21,9 +24,6 @@ export const ContainerHeader = styled.header`
         return group[typeHeader];
     }}
     gap: 10px;
-    position: fixed;
-    top: 0;
-    left: 0;
     width: 100%;
     & > h1 {
         margin: 0;
