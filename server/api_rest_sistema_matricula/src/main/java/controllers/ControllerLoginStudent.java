@@ -31,7 +31,8 @@ public class ControllerLoginStudent extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         final JsonObject body = HelperController.getRequestBody(request);
-        HelperController.templatePrintable(verifyAccount(body), response);
+        final FormatResponse formatResponse = verifyAccount(body);
+        HelperController.templatePrintable(formatResponse, response);
     }
     //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Helpers HTTP methods">
