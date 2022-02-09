@@ -51,6 +51,7 @@ export const ContentSectionLogin = styled.article`
     border-radius: 30px;
     justify-content: center;
     align-items: center;
+    width: 30%;
     & h2 {
         margin: 65px 0 30px 0;
     }
@@ -66,18 +67,5 @@ export const AdminImgContainer = styled.div`
     box-shadow: 5px 5px 10px 0px #00000040;
     & img {
         width: 100px;
-    }
-`
-export const ContentFormSectionLogin = styled.form`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 50px;
-    width: 100%;
-    & .fields {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-        width: 100%;
     }
 `

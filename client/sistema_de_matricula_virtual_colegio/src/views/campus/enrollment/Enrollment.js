@@ -36,7 +36,7 @@ const Enrollment = () => {
                 information={informationInternalNav}/>
             <Routes>
                 <Route
-                    path="information" 
+                    path="informacion" 
                     element={
                         <EnrollmentInformation/>
                     }/>
