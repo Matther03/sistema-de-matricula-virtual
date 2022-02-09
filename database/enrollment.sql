@@ -161,9 +161,9 @@ CREATE TABLE enrollment(
 DROP TABLE IF EXISTS history_detail_student;
 CREATE TABLE history_detail_student(
     code_history_detail_student INT(6) AUTO_INCREMENT,
-    _repeat BIT NOT NULL,
+    _repeat BIT,
     code_student INT(6) NOT NULL,
-    code_grade TINYINT(1) NOT NULL,
+    code_grade TINYINT(1),
     PRIMARY KEY (code_history_detail_student),
     FOREIGN KEY (code_student) REFERENCES student(code_student),
     FOREIGN KEY (code_grade) REFERENCES grade(code_grade)
@@ -436,24 +436,60 @@ INSERT INTO classroom_vacancy(quantity,code_classroom) VALUES('35','40');
 INSERT INTO representative(_name,father_surname,mother_surname,dni,email,phone) VALUES('Juan Pablo','Carlos','Setien','78945612','juan_pablo@gmail.com','987654321');
 INSERT INTO representative(_name,father_surname,mother_surname,dni,email,phone) VALUES('Doris Sofia','Huarcaya','Valverde','78945613','doris_valverde@gmail.com','987654322');
 INSERT INTO representative(_name,father_surname,mother_surname,dni,email,phone) VALUES('Freddy','Gonzales','Hoo','78945614','Hoo_freddy@gmail.com','987654323');
-
+INSERT INTO representative(_name,father_surname,mother_surname,dni,email,phone) VALUES('Manuel','Rivera','Becerra','78945615','Manuelitoy@gmail.com','987654324');
+INSERT INTO representative(_name,father_surname,mother_surname,dni,email,phone) VALUES('Alexis','Arias','Sanchez','78945616','Alexin@gmail.com','987654325');
+INSERT INTO representative(_name,father_surname,mother_surname,dni,email,phone) VALUES('Rene','Carrillo','Pereira','78945617','@gmail.com','987654326');
+INSERT INTO representative(_name,father_surname,mother_surname,dni,email,phone) VALUES('Sancho','Panza','Pansita','78945618','@gmail.com','987654327');
+INSERT INTO representative(_name,father_surname,mother_surname,dni,email,phone) VALUES('Pedro','Messi','Castro','78945619','@gmail.com','987654328');
+INSERT INTO representative(_name,father_surname,mother_surname,dni,email,phone) VALUES('Maria','Perez','Ribeira','78945601','@gmail.com','987654329');
+INSERT INTO representative(_name,father_surname,mother_surname,dni,email,phone) VALUES('Martha','Gordis','Nouns','78945602','@gmail.com','987654300');
 
 INSERT INTO student(_name,father_surname,mother_surname,date_of_birth,dni,direction,code_representative) VALUES('Luis Aldair','Eto','Lucas','2008-01-20','77665501','Av. San Carlos #222','1');
 INSERT INTO student(_name,father_surname,mother_surname,date_of_birth,dni,direction,code_representative) VALUES('Neymar Junior','Pele','Messi','2009-03-20','77665502','Av. San Miguel #152','2');
 INSERT INTO student(_name,father_surname,mother_surname,date_of_birth,dni,direction,code_representative) VALUES('Leonel Jose','Zidane','Robinho','2008-02-14','77665503','Av. San Pollitos #265','3');
+INSERT INTO student(_name,father_surname,mother_surname,date_of_birth,dni,direction,code_representative) VALUES('Manuel Junior','Rivera','Nose','2008-02-10','77665504','Av. Narnia #233','4');
+INSERT INTO student(_name,father_surname,mother_surname,date_of_birth,dni,direction,code_representative) VALUES('Karen','Carlos','Pancha','2007-04-25','77665505','Av. Quito #123','5');
+INSERT INTO student(_name,father_surname,mother_surname,date_of_birth,dni,direction,code_representative) VALUES('Vania','Danfris','Ratona','2006-05-22','77665506','Av. San clemente #111','6');
+INSERT INTO student(_name,father_surname,mother_surname,date_of_birth,dni,direction,code_representative) VALUES('Penita','Dorada','Tijuan','2008-01-18','77665507','Calle Los Fiqus #77','7');
+INSERT INTO student(_name,father_surname,mother_surname,date_of_birth,dni,direction,code_representative) VALUES('Luz','Bravo','Tintin','2007-03-15','77665508','Av. San Carlos #112','8');
+INSERT INTO student(_name,father_surname,mother_surname,date_of_birth,dni,direction,code_representative) VALUES('Maria','Pia','tazo','2006-06-13','77665509','Urb. Portales #454','9');
+INSERT INTO student(_name,father_surname,mother_surname,date_of_birth,dni,direction,code_representative) VALUES('Timoteo','Bacial','San','2007-06-21','77665500','Av. ','10');
 
 INSERT INTO account(_password,code_student) VALUES('$2a$10$JmACanPS43pCL7ogvywlFOrGQyyUBivP6QIf1ly.GOpn/lq05tfWi','1'); -- Contralumno1
 INSERT INTO account(_password,code_student) VALUES('$2a$10$M0uQXWkKGRyTlUEbKyV3XuStDaEpWeemF2iufG1E3gFS53Kf0JOtq','2'); -- Elcrack123
-INSERT INTO account(_password,code_student) VALUES('$2a$10$M0uQXWkKGRyTlUEbKyV3XuStDaEpWeemF2iufG1E3gFS53Kf0JOtq','3'); -- Pirata123
+INSERT INTO account(_password,code_student) VALUES('$2a$10$4TrzP1PO7r.AyADNtNCNHOMh4HoKbgJx.XvTns/6ShlH/ZEuTR6GC','3'); -- Manolin123
+INSERT INTO account(_password,code_student) VALUES('$2a$10$PAv1hV9XhnW3pcFuFJCiOeybUu2tpXky74VOChQBeyh.oNPEITQTi','4'); -- Yupi1234
+INSERT INTO account(_password,code_student) VALUES('$2a$10$h/5M2pBVsFrXHgjMiEEU3ebnUboaa2KRUYwHEtLGaSVoCUgUhREB6','5'); -- Lolito123
+INSERT INTO account(_password,code_student) VALUES('$2a$10$5Vptl84uQqALezKchV2bN.SBde2m6LpXCVix8nbSxI3agBC/7h09e','6'); -- Mancito123
+INSERT INTO account(_password,code_student) VALUES('$2a$10$tT5tqLapJmgP3DPDInOwcuO.etK8MqkdJsEaSvTyKOH5yAeLxsnxa','7'); -- Maurtuano123
+INSERT INTO account(_password,code_student) VALUES('$2a$10$8W66fCHDiJJ2lQg6LCF7ceVaNAzCUgQtHctZ6NeXaVnzG3ZlkZGRa','8'); -- Sanpedro123
+INSERT INTO account(_password,code_student) VALUES('$2a$10$0DuG0Wtn48cbELSgzvzVHuKX9PZlAsbFXwXXILvHVhe4sfdARV9LO','9'); -- Sanpablo123
+INSERT INTO account(_password,code_student) VALUES('$2a$10$VGk1JQvpVkrQx79wvdNRNOROWiSAF41liUum7clHuy6nZkSLgypgq','10'); -- Lucas1234
 
 INSERT INTO history_detail_student(_repeat,code_student,code_grade) VALUES(1,'1','1');
 INSERT INTO history_detail_student(_repeat,code_student,code_grade) VALUES(0,'2','2');
-INSERT INTO history_detail_student(_repeat,code_student,code_grade) VALUES(0,'3','3');
+INSERT INTO history_detail_student(_repeat,code_student,code_grade) VALUES(1,'3','3');
+INSERT INTO history_detail_student(_repeat,code_student,code_grade) VALUES(NULL,'4',NULL);
+INSERT INTO history_detail_student(_repeat,code_student,code_grade) VALUES(1,'5','4');
+INSERT INTO history_detail_student(_repeat,code_student,code_grade) VALUES(1,'6','5');
+INSERT INTO history_detail_student(_repeat,code_student,code_grade) VALUES(1,'7','1');
+INSERT INTO history_detail_student(_repeat,code_student,code_grade) VALUES(NULL,'8',NULL);
+INSERT INTO history_detail_student(_repeat,code_student,code_grade) VALUES(0,'9','5');
+INSERT INTO history_detail_student(_repeat,code_student,code_grade) VALUES(0,'10','2');
 
 INSERT INTO payment(date_payment,amount_payment,code_bank,code_student) VALUES('2022-01-20','50.60','1','1');
 INSERT INTO payment(date_payment,amount_payment,code_bank,code_student) VALUES('2022-01-21','50.60','2','2');
 INSERT INTO payment(date_payment,amount_payment,code_bank,code_student) VALUES('2022-01-21','50.60','1','3');
+
+INSERT INTO payment(date_payment,amount_payment,code_bank,code_student) VALUES('2022-01-22','50.60','1','4');
+INSERT INTO payment(date_payment,amount_payment,code_bank,code_student) VALUES('2022-01-20','50.60','2','5');
+INSERT INTO payment(date_payment,amount_payment,code_bank,code_student) VALUES('2022-01-22','50.60','1','6');
+INSERT INTO payment(date_payment,amount_payment,code_bank,code_student) VALUES('2022-01-21','50.60','1','7');
+INSERT INTO payment(date_payment,amount_payment,code_bank,code_student) VALUES('2022-01-21','50.60','2','8');
+
+
 -- Procedures
+
 
 DROP PROCEDURE IF EXISTS sp_verify_account_student;
 DELIMITER //
@@ -515,6 +551,19 @@ BEGIN
     SELECT IF (__verify_student IS NULL, 0, 1) AS 'RES';
 END//
 
+DROP PROCEDURE IF EXISTS sp_verify_grade_student;
+DELIMITER //
+CREATE PROCEDURE sp_verify_grade_student(
+    IN __code_student INT(6)
+)
+BEGIN
+    DECLARE __code_grade TINYINT(1);
+    DECLARE __repeater BIT; 
+    SET __repeater = (  SELECT _repeat FROM history_detail_student WHERE history_detail_student.code_student = __code_student );
+    SET __code_grade= (  SELECT code_grade FROM history_detail_student WHERE history_detail_student.code_student = __code_student );  
+    SELECT IF (__code_grade = 5 AND __repeater = 0 , 0, 1) AS 'RES';
+END//
+
 
 DROP PROCEDURE IF EXISTS sp_get_grade_to_enrollment;
 DELIMITER //
@@ -522,13 +571,11 @@ CREATE PROCEDURE sp_get_grade_to_enrollment(
     IN __code_student INT(6)
 )
 BEGIN
-    DECLARE __repeater BIT;   
+    DECLARE __repeater BIT; 
+    DECLARE __code_grade TINYINT(1);  
     SET __repeater = (  SELECT _repeat FROM history_detail_student WHERE history_detail_student.code_student = __code_student );
-    IF __repeater = 1 THEN
-        SELECT code_grade FROM history_detail_student WHERE history_detail_student.code_student = __code_student;
-    ELSE
-        SELECT code_grade+1 FROM history_detail_student WHERE history_detail_student.code_student = __code_student;
-    END IF;
+    SET __code_grade = (  SELECT code_grade FROM history_detail_student WHERE history_detail_student.code_student = __code_student );
+    SELECT IF (__code_grade IS NULL, 1, IF (__repeater = 1, __code_grade, __code_grade+1 ) ) AS 'RES';
 END//
 
 
@@ -554,9 +601,42 @@ BEGIN
     SET __code_classroom = (     SELECT code_classroom 
                                 FROM classroom 
                                 WHERE classroom.code_section = __code_section AND classroom.code_grade = __code_grade);
-    INSERT INTO enrollment(date_enrollment,repeater,code_payment,code_classroom) VALUES(CURDATE(),__repeater,__code_payment,__code_classrom);
+    INSERT INTO enrollment(date_enrollment,repeater,code_payment,code_classroom) VALUES(CURDATE(),__repeater,__code_payment,__code_classroom);
     SET __quantity = (  SELECT quantity 
                         FROM classroom_vacancy 
                         WHERE classroom_vacancy.code_classroom = __code_classroom);
-    UPDATE classroom_vacancy SET quantity = __quantity-1 WHERE classroom_vacancy.code_classroom = __code_classrom;
+    UPDATE classroom_vacancy SET quantity = __quantity-1 WHERE classroom_vacancy.code_classroom = __code_classroom;
+    SELECT 'SUCCESSFULLY' AS 'RES';
+END//
+
+DROP PROCEDURE IF EXISTS sp_get_detail_enrollment;
+DELIMITER //
+CREATE PROCEDURE sp_get_detail_enrollment(
+    IN __code_student INT(6)
+)
+BEGIN
+    SELECT  student._name, 
+            student.father_surname,
+            student.mother_surname,
+            student.dni,
+            enrollment.code_enrollment,
+            enrollment.date_enrollment,
+            grade.name_grade,
+            section.letter,
+            shift.category,
+            payment.code_payment        
+            FROM student
+                INNER JOIN payment
+            ON student.code_student = payment.code_payment
+                INNER JOIN enrollment
+            ON payment.code_payment = enrollment.code_payment
+                INNER JOIN classroom
+            ON enrollment.code_classroom = classroom.code_classroom
+                INNER JOIN grade
+            ON classroom.code_grade = grade.code_grade
+                INNER JOIN section
+            ON classroom.code_section = section.code_section
+                INNER JOIN shift
+            ON section.code_shift = shift.code_shift
+                WHERE student.code_student = __code_student;
 END//
