@@ -9,40 +9,30 @@ export const ContainerSectionLogin = styled.section`
     align-items: center;
     background-color: blue;
     min-height: 100vh;
-    margin-top: 81px;
     background-color: var(--secondary-blue);
     overflow: hidden;
-    &::before{
+    &::before, &::after {
         content:"";
         position: absolute;
-        //top: -200px;
-        //left: -350px;
-        //height: 436px;
-        //width: 850px;
+        background-color: #1653B2;
+    }
+    &::before{
         top: -32%;
         left: -25%;
         height: 70%;
         width: 65%;
-        background-color: #1653B2;
         transform: rotate(45deg)
     }
     &::after{
-        content:"";
-        position: absolute;
-        //top: -200px;
-        //left: -350px;
-        //height: 436px;
-        //width: 850px;
         bottom: -45%;
         right: -5%;
         height: 600px;
         width: 600px;
-        background-color: #1653B2;
         border-radius: 50%;
     }
 `;
 export const ContentSectionLogin = styled.article`
-    display:flex;
+    display: flex;
     flex-direction: column;
     position: relative;
     z-index: 1;
@@ -51,9 +41,14 @@ export const ContentSectionLogin = styled.article`
     border-radius: 30px;
     justify-content: center;
     align-items: center;
-    width: 30%;
+    width: 440px;
+    margin-top: 20vh;
+    margin-bottom: 10vh;
+    @media (max-width: 800px) { width: 70%}
+    @media (max-width: 600px) { width: 90%; }
     & h2 {
-        margin: 65px 0 30px 0;
+        margin-top: 55px;
+        margin-bottom: 30px;
     }
 `;
 export const AdminImgContainer = styled.div`
@@ -68,4 +63,4 @@ export const AdminImgContainer = styled.div`
     & img {
         width: 100px;
     }
-`
+`;

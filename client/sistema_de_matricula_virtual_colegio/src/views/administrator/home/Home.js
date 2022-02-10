@@ -5,7 +5,6 @@ import SymbolHeader from "../../../components/general/symbolHeader/SymbolHeader"
 const Home = () => {
     return (
         <>
-            <SymbolHeader typeHeader="admin"/>
             <div>
                 <h1>Home Administrador</h1>
             </div>
