@@ -17,17 +17,17 @@ export const ContainerSectionLogin = styled.section`
         background-color: #1653B2;
     }
     &::before{
-        top: -32%;
-        left: -25%;
-        height: 70%;
-        width: 65%;
+        top: 0;
+        left: -10vw;
+        height: 30vw;
+        width: 30vw;
         transform: rotate(45deg)
     }
     &::after{
-        bottom: -45%;
-        right: -5%;
-        height: 600px;
-        width: 600px;
+        bottom: -10vw;
+        right: -10vw;
+        height: 35vw;
+        width: 35vw;
         border-radius: 50%;
     }
 `;
@@ -42,8 +42,8 @@ export const ContentSectionLogin = styled.article`
     justify-content: center;
     align-items: center;
     width: 440px;
-    margin-top: 20vh;
-    margin-bottom: 10vh;
+    margin-top: 35vh;
+    margin-bottom: 15vh;
     @media (max-width: 800px) { width: 70%}
     @media (max-width: 600px) { width: 90%; }
     & h2 {

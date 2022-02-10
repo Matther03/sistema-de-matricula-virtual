@@ -1,11 +1,21 @@
+//#region Styles
+import { 
+    Container, Offset 
+} from "./styles";
+//#endregion
+//#region Components
 import RegistrationNav from '../registrationNav/RegistrationNav';
 import SymbolHeader from "../../../../general/symbolHeader/SymbolHeader";
+//#endregion
 
-const RegistrationHeader = () => {
+const RegistrationHeader = ({ infoRoutes }) => {
     return (
         <>
-            <SymbolHeader typeHeader="admin"/>
-            <RegistrationNav/>
+            <Container>
+                <SymbolHeader typeHeader="admin"/>
+                <RegistrationNav infoRoutes={infoRoutes}/>
+            </Container>
+            <Offset/>
         </>
     );
 };

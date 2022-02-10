@@ -1,36 +1,57 @@
 //#region Libraries
-import { 
-    Link 
-} from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation } from 'react-router';
+//#endregion
+//#region Styles
+import {
+    ContainerNav, 
+    StyledLink 
+} from "./styles";
 //#endregion
 
-const RegistrationNav = () => {
+const RegistrationNav = ({ infoRoutes = [] }) => {
+    //#region Extra Hooks
+    const location = useLocation();
+    //#endregion
+    //#region States
+    const [activeRegistrationLinks, setActiveRegistrationLinks] = useState([]);
+    //#endregion
+    //#region Effects
+    useEffect(() => {
+        handlerActiveRegistrationLinks();
+    }, [location.pathname]);
+    //#endregion
+    //#region Functions
+    const handlerActiveRegistrationLinks = () => {
+        const newActive = infoRoutes
+            .map(route => location.pathname
+                .includes(`/admin/registro/${route.path}`));
+        setActiveRegistrationLinks(newActive);
+    }
+    //#endregion
     return (
-        <nav>
+        <ContainerNav>
             <ul>
-                <li>
-                    <RegistrationLink 
-                        to="/alumno"
-                        text="ALUMNO"/>
-                </li>
-                <li>
-                    <RegistrationLink 
-                        to="/profesor"
-                        text="PROFESOR"/>
-                </li>
-                <li>
-                    <RegistrationLink 
-                        to="/curso"
-                        text="CURSO"/>
-                </li>
+                {infoRoutes.map((route, idx) => (
+                    <li key={idx}>
+                        <RegistrationLink 
+                            to={route.path}
+                            text={route.pathname}
+                            active={activeRegistrationLinks[idx]}/>
+                    </li>
+                ))}
             </ul>
-        </nav>
+        </ContainerNav>
     );
 };
 
-const RegistrationLink = ({ to, text }) => {
+const RegistrationLink = ({ 
+        to, text, active = false 
+    }) => {
     return (
-        <Link to={`/admin/registro${to}`}>{text}</Link>
+        <StyledLink 
+            to={`/admin/registro/${to}`}
+            state={active ? "active" : ""}>{text}</StyledLink>
     );
 }
 

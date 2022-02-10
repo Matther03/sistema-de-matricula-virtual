@@ -34,7 +34,7 @@ const HeaderProfile = ({ className }) => {
     //#endregion
     return (
         <ContainerProfile className={className} onClick={toggleShowLogout}>
-            <ContentProfile className={className}>
+            <ContentProfile>
                 <span className="custom-title-6">{nameUser}</span>
                 <div className="icons">
                     <Icon icon="bx:bxs-user"/>
