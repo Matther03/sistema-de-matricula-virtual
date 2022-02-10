@@ -25,23 +25,29 @@ public class ControllerStudentCanEnroll extends HttpServlet {
     }
     
     private FormatResponse canEnroll(final JsonObject body) {
+        //Validacion del body
         if (body == null)
             return FormatResponse.getErrorResponse("The request body doesn't have json format.", 400);
         final JsonElement codeStudent = body.get("codeStudent");
         if (codeStudent == null) 
             return FormatResponse.getErrorResponse("Mising parameters.", 400);
         
+        // Validación del codigo de estudiante
         final StudentEntity entityStudent = new StudentEntity();
-        final boolean codeStudentIsValid = entityStudent.isCodeStudentValid(codeStudent);
-        if (!codeStudentIsValid) 
+        final Integer codeStudentParsed = entityStudent.isValidCodeStudent(codeStudent.toString());
+        if (codeStudentParsed == null){
             return FormatResponse.getErrorResponse("The code student is not valid.", 400);
+        }
         
-        //Estructura de la respuesta 
+        // Estructura de la respuesta 
         final StudentDTO student = new StudentDTO();
         student.setCode(codeStudent.getAsInt());
         final boolean valuePay = entityStudent.getValuePay(student);
         final boolean valueEnroll = entityStudent.getValueEnroll(student);
+        
+        // Validación del pago
         final boolean canEnroll = entityStudent.canEnroll(valuePay, valueEnroll);
+        
         body.addProperty("canEnroll", canEnroll);
         body.remove("codeStudent");
         return FormatResponse.getSuccessResponse(body);

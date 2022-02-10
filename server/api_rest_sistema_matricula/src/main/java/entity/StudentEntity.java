@@ -53,8 +53,7 @@ public class StudentEntity {
             return false;
         }
     }
-    
-    public GradeDTO getGradeToEnroLlment(final StudentDTO student){
+    public GradeDTO getGradeToEnrollment(final StudentDTO student){
         int codigo = student.getCode();
         final ArrayList<HashMap<String,String>> table = new StudentModel().gradeToEnrollment(codigo);
         return table.size() > 0 ? getGrade(table.get(0)) : null;
@@ -66,31 +65,25 @@ public class StudentEntity {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Helper Methods">
-    Integer isValidCodeStudent(String codeStudent) {
+    //<editor-fold defaultstate="collapsed" desc="Validate Student">
+    public Integer isValidCodeStudent(String codeStudent) {
 	return Validation.isValidCode(codeStudent, null);
     }
-    Integer isValidCodeGrade(String codeGrade) {
-        return Validation.isValidCode(codeGrade, 5);
+    public Integer isValidCodeGrade(String codeGrade) {
+        return Validation.isValidCode(codeGrade, 6);
     }
-    Integer isValidCodeSection(String codeSection) {
+    public Integer isValidCodeSection(String codeSection) {
         return Validation.isValidCode(codeSection, 7);
     }
+    
+    // Validación del grado para GradeToEnrollment
     public boolean isGradeValid(final GradeDTO newGrade){
         int grade = newGrade.getCode();
-        return grade==6?false:true;
-    }
-    public boolean isCodeStudentValid(JsonElement codeStudent) {
-        try{
-            int codigo = Integer.parseInt(codeStudent.toString());
-            return codigo>0;
-        }catch(Exception e){
-        return false;}
+        return grade != 6;
     }
     public boolean canEnroll (final boolean paid,final boolean enroll){
         return paid && enroll;
     }
-
     public boolean isValidAccount(final AccountDTO accountToLogin) {
         if (!isValidDNI(accountToLogin.getStudent().getDni())) 
             return false;
@@ -102,7 +95,9 @@ public class StudentEntity {
     public boolean isValidDNI(String dni) {
         return EntityHelper.regexIsMatched(RegexPatternsValidation.DNI, dni);
     }
+    //</editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc="Helper Methods">
     public StudentDTO getDetailStudent(final StudentDTO student){
         final String dni = student.getDni();
         final ArrayList<HashMap<String,String>> table = new StudentModel().getDetailStudent(dni);
