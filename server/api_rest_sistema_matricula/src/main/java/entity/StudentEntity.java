@@ -45,14 +45,23 @@ public class StudentEntity {
     public boolean getValueEnroll(final StudentDTO student){
         try {
             int codigo = student.getCode();
-            final ArrayList<HashMap<String,String>> table = new StudentModel().verifyGrade(codigo);
+            final ArrayList<HashMap<String,String>> table = new StudentModel().verifyEnroll(codigo);
             final String verifyGrade = table.get(0).get("RES");
             return Integer.parseInt(verifyGrade) == 1;
         } catch (Exception e) {
             return false;
         }
     }
+    
+    public int gradeToEnroolment(final StudentDTO student){
+        int codigo = student.getCode();
+        final ArrayList<HashMap<String,String>> table = new StudentModel().gradeToEnrollment(codigo);
+        final String newGrade = table.get(0).get("RES");
+        final int nGrade = Integer.parseInt(newGrade);
+        return nGrade < 6 && nGrade > 0 ? nGrade : 0;
+    }
     //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Helper Methods">
     public boolean isCodeStudentValid(JsonElement codeStudent) {
         try{

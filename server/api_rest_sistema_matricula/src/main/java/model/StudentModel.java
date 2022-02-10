@@ -32,9 +32,17 @@ public class StudentModel extends ModelParent {
         });
     }
     
-    public ArrayList<HashMap<String, String>> verifyGrade(final Integer codeStudent) {
+    public ArrayList<HashMap<String, String>> verifyEnroll(final Integer codeStudent) {
         return doActionQuery((cnObj, prSt) -> {
-            prSt = cnObj.prepareStatement(ProceduresDB.GET_VALUE_GRADE);
+            prSt = cnObj.prepareStatement(ProceduresDB.GET_VALUE_ENROLL);
+            prSt.setInt(1, codeStudent);
+            return prSt;
+        });
+    }
+    
+    public ArrayList<HashMap<String, String>> gradeToEnrollment(final Integer codeStudent) {
+        return doActionQuery((cnObj, prSt) -> {
+            prSt = cnObj.prepareStatement(ProceduresDB.GET_GRADE_TO_ENROLLMENT);
             prSt.setInt(1, codeStudent);
             return prSt;
         });

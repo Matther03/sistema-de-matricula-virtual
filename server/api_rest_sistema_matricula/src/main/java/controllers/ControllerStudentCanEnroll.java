@@ -16,13 +16,15 @@ import utils.HelperController;
 
 @WebServlet(name = "ControllerStudentCanEnroll", urlPatterns = {"/api/student/can-enroll"})
 public class ControllerStudentCanEnroll extends HttpServlet {
+    
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         final JsonObject body = HelperController.getRequestBody(request);
-        final FormatResponse formatResponse = verifyPay(body);
+        final FormatResponse formatResponse = canEnroll(body);
         HelperController.templatePrintable(formatResponse, response);
     }
-    private FormatResponse verifyPay(final JsonObject body) {
+    
+    private FormatResponse canEnroll(final JsonObject body) {
         if (body == null)
             return FormatResponse.getErrorResponse("The request body doesn't have json format.", 400);
         final JsonElement codeStudent = body.get("codeStudent");
