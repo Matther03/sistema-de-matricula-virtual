@@ -9,8 +9,6 @@ public class GradeDTO {
     //</editor-fold>
 
     public GradeDTO() {
-        code = null;
-        grade = null;
     }
 
     public GradeDTO(Integer code, String grade) {

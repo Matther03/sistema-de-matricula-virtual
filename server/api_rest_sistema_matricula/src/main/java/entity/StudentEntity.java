@@ -2,6 +2,7 @@ package entity;
 
 import com.google.gson.JsonElement;
 import database.ProceduresDB;
+import dto.classroom.GradeDTO;
 import dto.student.StudentDTO;
 import dto.student.AccountDTO;
 import dto.student.RepresentativeDTO;
@@ -53,12 +54,15 @@ public class StudentEntity {
         }
     }
     
-    public int gradeToEnroolment(final StudentDTO student){
+    public GradeDTO getGradeToEnroLlment(final StudentDTO student){
         int codigo = student.getCode();
         final ArrayList<HashMap<String,String>> table = new StudentModel().gradeToEnrollment(codigo);
-        final String newGrade = table.get(0).get("RES");
-        final int nGrade = Integer.parseInt(newGrade);
-        return nGrade < 6 && nGrade > 0 ? nGrade : 0;
+        return table.size() > 0 ? getGrade(table.get(0)) : null;
+    }
+    private GradeDTO getGrade(HashMap<String, String> row) {
+        final GradeDTO grade = new GradeDTO();
+        grade.setGrade(row.get("RES"));
+        return grade;
     }
     //</editor-fold>
     
