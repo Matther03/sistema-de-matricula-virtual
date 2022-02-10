@@ -42,9 +42,10 @@ public class ControllerStudentCanEnroll extends HttpServlet {
         student.setCode(codeStudent.getAsInt());
         final boolean valuePay = entityStudent.getValuePay(student);
         final boolean valueEnroll = entityStudent.getValueEnroll(student);
-        body.addProperty("enroll",valueEnroll);
-        body.addProperty("paid", valuePay);
+        final boolean canEnroll = entityStudent.canEnroll(valuePay, valueEnroll);
+        body.addProperty("enroll", canEnroll);
         body.remove("codeStudent");
         return FormatResponse.getSuccessResponse(body);
+
     }
 }

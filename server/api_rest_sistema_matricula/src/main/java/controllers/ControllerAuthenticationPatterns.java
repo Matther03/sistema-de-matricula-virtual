@@ -5,7 +5,8 @@ public class ControllerAuthenticationPatterns {
         "/student/detail-campus", //get ?dni=12345678 
         "/student/detail-classroom", 
         "/student/enrollment",
-        "/student/can-enroll"
+        "/student/can-enroll",
+        "/student/grade-to-enrollment"
     };
     public static String[] ADMIN_PATHS = {
         "/student/register"

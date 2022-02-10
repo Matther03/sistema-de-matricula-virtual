@@ -42,7 +42,6 @@ public class StudentEntity {
             return false;
         }
     }
-    
     public boolean getValueEnroll(final StudentDTO student){
         try {
             int codigo = student.getCode();
@@ -68,7 +67,7 @@ public class StudentEntity {
     
     //<editor-fold defaultstate="collapsed" desc="Helper Methods">
     public boolean isGradeValid(final GradeDTO grade){
-        return "6".equals(grade.getGrade()) ? false : true;
+        return !"6".equals(grade.getGrade());
     }
     public boolean isCodeStudentValid(JsonElement codeStudent) {
         try{
@@ -76,6 +75,9 @@ public class StudentEntity {
             return codigo>0;
         }catch(Exception e){
         return false;}
+    }
+    public boolean canEnroll (final boolean paid,final boolean enroll){
+        return paid && enroll;
     }
 
     public boolean isValidAccount(final AccountDTO accountToLogin) {
