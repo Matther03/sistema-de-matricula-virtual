@@ -32,7 +32,6 @@ public class ControllerStudentCanEnroll extends HttpServlet {
             return FormatResponse.getErrorResponse("Mising parameters.", 400);
         
         final StudentEntity entityStudent = new StudentEntity();
-        
         final boolean codeStudentIsValid = entityStudent.isCodeStudentValid(codeStudent);
         if (!codeStudentIsValid) 
             return FormatResponse.getErrorResponse("The code student is not valid.", 400);
@@ -43,9 +42,8 @@ public class ControllerStudentCanEnroll extends HttpServlet {
         final boolean valuePay = entityStudent.getValuePay(student);
         final boolean valueEnroll = entityStudent.getValueEnroll(student);
         final boolean canEnroll = entityStudent.canEnroll(valuePay, valueEnroll);
-        body.addProperty("enroll", canEnroll);
+        body.addProperty("canEnroll", canEnroll);
         body.remove("codeStudent");
         return FormatResponse.getSuccessResponse(body);
-
     }
 }

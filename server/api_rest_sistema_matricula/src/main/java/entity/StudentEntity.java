@@ -12,6 +12,7 @@ import java.util.HashMap;
 import model.StudentModel;
 import utils.Encrypt;
 import utils.RegexPatternsValidation;
+import utils.Validation;
 import utils.authentication.JWTAuthentication;
 import utils.authentication.RoleAuthJWT;
 
@@ -60,14 +61,24 @@ public class StudentEntity {
     }
     private GradeDTO getGrade(HashMap<String, String> row) {
         final GradeDTO grade = new GradeDTO();
-        grade.setGrade(row.get("RES"));
+        grade.setCode(Integer.parseInt(row.get("RES")));
         return grade;
     }
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Helper Methods">
-    public boolean isGradeValid(final GradeDTO grade){
-        return !"6".equals(grade.getGrade());
+    Integer isValidCodeStudent(String codeStudent) {
+	return Validation.isValidCode(codeStudent, null);
+    }
+    Integer isValidCodeGrade(String codeGrade) {
+        return Validation.isValidCode(codeGrade, 5);
+    }
+    Integer isValidCodeSection(String codeSection) {
+        return Validation.isValidCode(codeSection, 7);
+    }
+    public boolean isGradeValid(final GradeDTO newGrade){
+        int grade = newGrade.getCode();
+        return grade==6?false:true;
     }
     public boolean isCodeStudentValid(JsonElement codeStudent) {
         try{
