@@ -43,6 +43,10 @@ public class ControllerGradeToEnrollment extends HttpServlet {
         final StudentDTO student = new StudentDTO();
         student.setCode(codeStudent.getAsInt());
         final GradeDTO newGrade = entityStudent.getGradeToEnroLlment(student);
+        final boolean grade = entityStudent.isGradeValid(newGrade);
+        if (!grade) {
+            return FormatResponse.getErrorResponse("the student successfully completed.", 400);
+        }
         return FormatResponse.getSuccessResponse(newGrade);
     }
 }

@@ -67,6 +67,9 @@ public class StudentEntity {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Helper Methods">
+    public boolean isGradeValid(final GradeDTO grade){
+        return "6".equals(grade.getGrade()) ? false : true;
+    }
     public boolean isCodeStudentValid(JsonElement codeStudent) {
         try{
             int codigo = Integer.parseInt(codeStudent.toString());
