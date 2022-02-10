@@ -31,15 +31,25 @@ public class StudentEntity {
         return jwtAuth.getToken(dni, RoleAuthJWT.STUDENT_ROLE);
     }
     
-    public String getValuePay(final StudentDTO student){
+    public boolean getValuePay(final StudentDTO student){
         try {
             int codigo = student.getCode();
             final ArrayList<HashMap<String,String>> table = new StudentModel().verifyPay(codigo);
             final String verifyPay = table.get(0).get("RES");
-            if (Integer.parseInt(verifyPay) == 1) return "Pagó";
-            return "No pagó";
+            return Integer.parseInt(verifyPay) == 1;
         } catch (Exception e) {
-            return null;
+            return false;
+        }
+    }
+    
+    public boolean getValueEnroll(final StudentDTO student){
+        try {
+            int codigo = student.getCode();
+            final ArrayList<HashMap<String,String>> table = new StudentModel().verifyGrade(codigo);
+            final String verifyGrade = table.get(0).get("RES");
+            return Integer.parseInt(verifyGrade) == 1;
+        } catch (Exception e) {
+            return false;
         }
     }
     //</editor-fold>
@@ -47,10 +57,11 @@ public class StudentEntity {
     public boolean isCodeStudentValid(JsonElement codeStudent) {
         try{
             int codigo = Integer.parseInt(codeStudent.toString());
-            return true;
+            return codigo>0;
         }catch(Exception e){
         return false;}
     }
+
     public boolean isValidAccount(final AccountDTO accountToLogin) {
         if (!isValidDNI(accountToLogin.getStudent().getDni())) 
             return false;
