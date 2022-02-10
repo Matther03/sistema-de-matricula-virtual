@@ -508,7 +508,7 @@ CREATE PROCEDURE sp_get_detail_classroom(
     IN __code_grade TINYINT(1)
 )
 BEGIN
-    SELECT  classroom.code_grade,
+    SELECT  grade.name_grade,
             section.code_section,
             section.letter, 
             classroom_vacancy.quantity, 
@@ -520,6 +520,8 @@ BEGIN
             ON section.code_section = classroom.code_section
                 INNER JOIN classroom_vacancy
             ON classroom.code_classroom = classroom_vacancy.code_classroom
+                INNER JOIN grade
+            ON classroom.code_grade = grade.code_grade
                 WHERE classroom.code_grade = __code_grade;
 END//
 
@@ -624,7 +626,7 @@ BEGIN
             payment.code_payment        
             FROM student
                 INNER JOIN payment
-            ON student.code_student = payment.code_payment
+            ON student.code_student = payment.code_student
                 INNER JOIN enrollment
             ON payment.code_payment = enrollment.code_payment
                 INNER JOIN classroom
