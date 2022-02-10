@@ -5,15 +5,15 @@ public class GradeDTO {
     
     //<editor-fold defaultstate="collapsed" desc="Properties">
     private Integer code;
-    private String grade;
+    private String name;
     //</editor-fold>
 
     public GradeDTO() {
     }
 
-    public GradeDTO(Integer code, String grade) {
+    public GradeDTO(Integer code, String name) {
         this.code = code;
-        this.grade = grade;
+        this.name = name;
     }
     
      //<editor-fold defaultstate="collapsed" desc="Getters y setters">
@@ -26,12 +26,12 @@ public class GradeDTO {
         this.code = code;
     }
 
-    public String getGrade() {
-        return grade;
+    public String getName() {
+        return name;
     }
 
-    public void setGrade(String grade) {
-        this.grade = grade;
+    public void setName(String name) {
+        this.name = name;
     }
     
      //</editor-fold>

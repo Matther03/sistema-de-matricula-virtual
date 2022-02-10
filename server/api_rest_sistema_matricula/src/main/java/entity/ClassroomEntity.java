@@ -25,7 +25,7 @@ public class ClassroomEntity {
         final ClassroomVacancyDTO classroomVacancy = new ClassroomVacancyDTO();
         final ClassroomDTO classroom = new ClassroomDTO();
         final GradeDTO grade = new GradeDTO();
-        grade.setGrade(row.get("name_grade"));
+        grade.setName(row.get("name_grade"));
         final ShiftDTO shift = new ShiftDTO();
         shift.setCategory(row.get("category"));
         final SectionDTO section = new SectionDTO(
