@@ -2,10 +2,9 @@
 import { doRequestCampus } from './general';
 //#endregion
 
-//#region Principales
+//#region Main
 export const getSections = async () => {
     return await doRequestCampus(
-        "/student", "GET", 
-        null);
+        "/student", "GET");
 }
 //#endregion

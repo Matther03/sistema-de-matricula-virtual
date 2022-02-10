@@ -5,9 +5,12 @@ import { ContainerHeader, TitleNavbar } from './styles';
 import symbolSchoolImg from '../../../img/general/school-symbol.png';
 //#endregion
 
-const SymbolHeader = ({ className, showTitle }) => {
+const SymbolHeader = ({ 
+        typeHeader = "campus", 
+        showTitle }) => {
     return (
-        <ContainerHeader className={className} showTitle={showTitle}>
+        <ContainerHeader 
+            typeHeader={typeHeader} showTitle={showTitle}>
             <TitleNavbar>
                 <img src={symbolSchoolImg} alt="Insignia"/>
                 <h3 className="custom-title-4">

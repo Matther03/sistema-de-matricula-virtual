@@ -1,7 +1,8 @@
 //#region Libraries
 import { 
     Routes, 
-    Route 
+    Route, 
+    Navigate
 } from "react-router-dom";
 //#endregion
 //#region Components
@@ -31,7 +32,7 @@ const informationInternalNav = [
 const Enrollment = () => {
     return (
         <>
-            <HeaderUser nameUser="LUJÁN CARRIÓN, MAYIMBÚ"/>
+            <HeaderUser/>
             <InternalNav 
                 information={informationInternalNav}/>
             <Routes>
@@ -41,8 +42,13 @@ const Enrollment = () => {
                         <EnrollmentInformation/>
                     }/>
                 <Route
+                    path="" 
+                    element={
+                        <EnrollmentRoot/>
+                    }/>
+                <Route
                     path="*"
-                    element={<EnrollmentRoot/>}/>
+                    element={<Navigate to="/campus/matricula" replace={true}/>}/>
             </Routes>
         </>
     );

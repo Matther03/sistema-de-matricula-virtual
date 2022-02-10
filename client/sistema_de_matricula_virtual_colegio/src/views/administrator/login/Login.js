@@ -14,7 +14,6 @@ import adminImg from '../../../img/administrator/login/admin-icon.png';
 
 //#region Components
 import SymbolHeader from "../../../components/general/symbolHeader/SymbolHeader";
-
 import FormLogin from "../../../components/administrator/login/formLogin/FormLogin";
 //#endregion
 //#region Services
@@ -25,7 +24,7 @@ const Login = () => {
     return (
         <>
             {isLoggedAdmin() && <Navigate to="/admin/home" replace={true}/>}
-            <SymbolHeader className="admin-header"/>
+            <SymbolHeader typeHeader="admin"/>
             <ContainerSectionLogin>
                 <ContentSectionLogin>
                     <AdminImgContainer>

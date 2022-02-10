@@ -1,6 +1,6 @@
 const URL_API = "http://localhost:8080/api_rest_sistema_matricula/api";
 
-//#region Secundarias
+//#region Secondary
 const getDefaultOptions = (method) => ({
     method, 
     headers: {
@@ -39,7 +39,7 @@ const doFetch = async (endpoint, options) => {
     }
 }
 //#endregion
-//#region Principales
+//#region Main
 export const doRequest = async (
     endpoint, method, 
     body, 
