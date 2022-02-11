@@ -12,7 +12,7 @@ const RegistrationHeader = ({ infoRoutes }) => {
     return (
         <>
             <Container>
-                <SymbolHeader typeHeader="admin" className="no-fixed"/>
+                <SymbolHeader className="admin no-fixed"/>
                 <RegistrationNav infoRoutes={infoRoutes}/>
             </Container>
             <Offset/>

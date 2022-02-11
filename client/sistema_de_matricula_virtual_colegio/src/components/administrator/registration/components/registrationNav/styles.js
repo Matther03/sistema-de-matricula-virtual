@@ -10,33 +10,27 @@ export const ContainerNav = styled.nav`
     width: 100%;
     & ul {
         display: flex;
-        justify-content: space-around;
         list-style: none;
         margin: 0;
         padding: 0;
     }
-    & ul li {
+    & li {
         display: flex;
-        width: 100%;
         justify-content: center;
         align-items: center;
     }
 `
-
-const activeStyledLink = `
-    background-color: var(--seventh-color);
-    color: var(--third-color);
-`;
 export const StyledLink = styled(Link)`
-    text-align: center;
-    width: 100%;
+    width: 200px;
     padding: 25px 0px;
-    text-decoration: none;
+    font-size: 15px;
     font-weight: bold;
-    transition: 0.4s;
+    text-align: center;
+    text-decoration: none;
     color: var(--fifth-color);
-    ${({ state }) => state === "active" ? activeStyledLink : ""}
-    &:hover {
-        ${activeStyledLink}
+    transition: 0.4s;
+    &.active, &:hover {
+        background-color: var(--seventh-color);
+        color: var(--third-color);
     }
 `;

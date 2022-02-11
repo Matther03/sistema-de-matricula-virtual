@@ -6,35 +6,26 @@ export const ContainerHeader = styled.header`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    ${({ typeHeader }) => {
-        const group = { 
-            "campus": `
-                padding: 10px 60px;
-                background-color: var(--fourth-color);
-                top: 0;
-                left: 0;
-            `,
-            "admin": `
-                padding: 20px 60px;
-                background-color: var(--third-color);
-                z-index: 1000;
-            `
-        };
-        return group[typeHeader];
-    }}
     gap: 10px;
     width: 100%;
     position: fixed;
-    &.no-fixed {
-        position: relative !important;
+    &.campus {
+        padding: 10px 60px;
+        background-color: var(--fourth-color);
+        top: 0;
+        left: 0;
     }
+    &.admin {
+        padding: 20px 60px;
+        background-color: var(--third-color);
+        z-index: 1000;
+    }
+    &.no-fixed { position: relative; }
     & > h1 {
         margin: 0;
         width: 25%;
     }
-    @media (max-width: 700px) {
-        flex-direction: column;
-    }
+    @media (max-width: 700px) { flex-direction: column; }
 `;
 export const TitleNavbar = styled.a`
     display: flex;

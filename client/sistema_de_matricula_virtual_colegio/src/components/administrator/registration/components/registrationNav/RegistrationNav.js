@@ -51,7 +51,7 @@ const RegistrationLink = ({
     return (
         <StyledLink 
             to={`/admin/registro/${to}`}
-            state={active ? "active" : ""}>{text}</StyledLink>
+            className={active ? "active" : ""}>{text}</StyledLink>
     );
 }
 

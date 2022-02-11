@@ -11,9 +11,15 @@ import {
     TableHead 
 } from '@mui/material';
 
-const CustomDataTable = ({ caption, fields, rows, width }) => {
+const CustomDataTable = ({ 
+    className, 
+    caption, 
+    fields, 
+    rows, 
+    width 
+}) => {
   return (
-    <StyledContainerTable width={width || '98%'}>
+    <StyledContainerTable className={className} width={width || '98%'}>
       <Table sx={{ minWidth: 500 }}>
         {caption && <StyledCaptionTable>{caption}</StyledCaptionTable>}
         <TableHead>
