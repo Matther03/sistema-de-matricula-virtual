@@ -12,10 +12,6 @@ public class ClassroomDTO {
     //</editor-fold>
 
     public ClassroomDTO() {
-        this.code = null;
-        this.section = null;
-        this.grade = null;
-        this.teacher = null;
     }
 
     public ClassroomDTO(Integer code, SectionDTO section, GradeDTO grade, TeacherDTO teacher) {

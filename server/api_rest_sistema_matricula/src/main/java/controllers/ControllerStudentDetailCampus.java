@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import utils.FormatResponse;
 import utils.HelperController;
+import utils.validation.Validation;
 
 @WebServlet(name = "ControllerStudentDetailCampus", urlPatterns = {"/api/student/detail-campus"})
 public class ControllerStudentDetailCampus extends HttpServlet {
@@ -25,7 +26,7 @@ public class ControllerStudentDetailCampus extends HttpServlet {
             return;
         }
         final StudentEntity studentEntity = new StudentEntity();
-        if (!studentEntity.isValidDNI(dni)) {
+        if (!Validation.isValidDNI(dni)) {
             HelperController.templatePrintable(
                     FormatResponse.getErrorResponse("DNI not valid.", 400),
                     response);

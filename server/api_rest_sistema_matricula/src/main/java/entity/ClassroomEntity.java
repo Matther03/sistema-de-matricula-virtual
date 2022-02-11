@@ -16,7 +16,7 @@ public class ClassroomEntity {
     public SectionDTO[] getSections() {
         return toArraySectionDTOs(new ClassroomModel().getSections());
     }
-        public ClassroomVacancyDTO getDetailClassroom(final GradeDTO grade){
+    public ClassroomVacancyDTO getDetailClassroom(final GradeDTO grade){
         final int codeGrade = grade.getCode();
         final ArrayList<HashMap<String,String>> table = new ClassroomModel().getDetailClassroom(codeGrade);
         return table.size() > 0 ? getDTOforRowHashMapDetailClassroom(table.get(0)) : null;
@@ -25,7 +25,7 @@ public class ClassroomEntity {
         final ClassroomVacancyDTO classroomVacancy = new ClassroomVacancyDTO();
         final ClassroomDTO classroom = new ClassroomDTO();
         final GradeDTO grade = new GradeDTO();
-        grade.setCode(Integer.parseInt(row.get("code_grade")));
+        grade.setName(row.get("name_grade"));
         final ShiftDTO shift = new ShiftDTO();
         shift.setCategory(row.get("category"));
         final SectionDTO section = new SectionDTO(

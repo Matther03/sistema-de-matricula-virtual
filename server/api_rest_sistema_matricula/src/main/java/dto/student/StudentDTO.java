@@ -15,14 +15,6 @@ public class StudentDTO {
     //</editor-fold>  
 
     public StudentDTO(){
-        this.code = null;
-        this.name = null;
-        this.fatherSurname = null;
-        this.motherSurname = null;
-        this.age = null;
-        this.dni = null;
-        this.direction = null;
-        this.representative = null;
     }
 
     public StudentDTO(Integer code, String name, String fatherSurname, String motherSurname, Integer age, String dni, String direction, RepresentativeDTO representative) {
