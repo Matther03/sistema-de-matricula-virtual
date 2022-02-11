@@ -15,12 +15,4 @@ public final class EntityHelper {
                     return delegate.execute(row); 
                 }).toArray(Object[]::new);
     }
-    public static boolean isNullPropertyOfJson(JsonObject jObj, String property) {
-        if (!jObj.has(property))
-            return true;
-        return jObj.get(property).isJsonNull();
-    }
-    public static boolean regexIsMatched(String regex, final String str) {
-        return Pattern.compile(regex).matcher(str).find();
-    }
 }
