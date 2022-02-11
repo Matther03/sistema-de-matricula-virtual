@@ -53,12 +53,22 @@ public class StudentEntity {
             return false;
         }
     }
+    public boolean verifyGradeEnroll(final StudentDTO student){
+        try {
+            int codigo = student.getCode();
+            final ArrayList<HashMap<String,String>> table = new StudentModel().verifyGradeToEnroll(codigo);
+            final String verifyGrade = table.get(0).get("RES");
+            return Integer.parseInt(verifyGrade) == 1;
+        } catch (Exception e) {
+            return false;
+        }
+    }
     public boolean verifyEnroll(final StudentDTO student){
         try {
             int codigo = student.getCode();
             final ArrayList<HashMap<String,String>> table = new StudentModel().verifyEnroll(codigo);
-            final String verifyGrade = table.get(0).get("RES");
-            return Integer.parseInt(verifyGrade) == 1;
+            final String verifyEnroll = table.get(0).get("RES");
+            return Integer.parseInt(verifyEnroll) == 1;
         } catch (Exception e) {
             return false;
         }
@@ -90,36 +100,6 @@ public class StudentEntity {
             return false;
         }     
     }
-    
-    // Get Detail Enrollment
- /*   public JsonObject getDetailClassroom(final Integer codeStudent){
-        final ArrayList<HashMap<String,String>> table = new StudentModel().getDetailEnrollment(codeStudent);
-        return table.size() > 0 ? getDTOforRowHashMapDetailClassroom(table.get(0)) : null;
-    }
-    private JsonObject getDTOforRowHashMapDetailClassroom(HashMap<String, String> row) {
-            final StudentDTO student = new StudentDTO();
-            student.setName(row.get("_name"));
-            student.setFatherSurname(row.get("father_surname"));
-            student.setMotherSurname(row.get("mother_surname"));
-            student.setDni(row.get("dni"));
-            final 
-               final ClassroomDTO classroom = new ClassroomDTO();
-        final GradeDTO grade = new GradeDTO();
-        grade.setName(row.get("name_grade"));
-        final ShiftDTO shift = new ShiftDTO();
-        shift.setCategory(row.get("category"));
-        final SectionDTO section = new SectionDTO(
-                Integer.parseInt(row.get("code_section")),
-                row.get("letter"),
-                shift
-        );
-        classroom.setGrade(grade);
-        classroom.setSection(section);
-        classroomVacancy.setClassroom(classroom);
-        classroomVacancy.setQuantity(Integer.parseInt(row.get("quantity")));
-
-        return student ;
-    }*/
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Validate Student">
@@ -140,8 +120,9 @@ public class StudentEntity {
     }
     public boolean canEnroll (final StudentDTO student){
         final boolean paid = hasPaid(student);
+        final boolean verifiedGradeEnroll = verifyGradeEnroll(student);
         final boolean verifiedEnroll = verifyEnroll(student);
-        return paid && verifiedEnroll;
+        return paid && verifiedEnroll && verifiedEnroll;
     }
     public boolean isValidAccount(final AccountDTO accountToLogin) {
         if (!Validation.isValidDNI(accountToLogin.getStudent().getDni())) 
