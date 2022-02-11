@@ -21,11 +21,11 @@ public class ControllerGradeToEnrollment extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         final JsonObject body = HelperController.getRequestBody(request);
-        final FormatResponse formatResponse = gerGradeForEnrollment(body);
+        final FormatResponse formatResponse = getGradeForEnrollment(body);
         HelperController.templatePrintable(formatResponse, response);
     }   
     
-    private FormatResponse gerGradeForEnrollment(final JsonObject body) {
+    private FormatResponse getGradeForEnrollment(final JsonObject body) {
         // Validación del body
         if (body == null)
             return FormatResponse.getErrorResponse("The request body doesn't have json format.", 400);

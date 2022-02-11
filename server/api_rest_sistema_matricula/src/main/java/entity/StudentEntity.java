@@ -1,6 +1,7 @@
 package entity;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import database.ProceduresDB;
 import dto.classroom.GradeDTO;
 import dto.student.StudentDTO;
@@ -57,6 +58,8 @@ public class StudentEntity {
             return false;
         }
     }
+    
+    //Get grade to entollment
     public GradeDTO getGradeToEnrollment(final StudentDTO student){
         int codigo = student.getCode();
         final ArrayList<HashMap<String,String>> table = new StudentModel().gradeToEnrollment(codigo);
@@ -67,6 +70,21 @@ public class StudentEntity {
         grade.setCode(Integer.parseInt(row.get("RES")));
         return grade;
     }
+    
+    //Do enrollment
+    public String doEnrollment(
+        final Integer codeStudent,
+        final Integer CodeGrade,
+        final Integer codeSection){
+        try {
+            final ArrayList<HashMap<String,String>> table = new StudentModel().
+                doEnrollment(codeStudent, CodeGrade, codeSection);
+            return table.size() > 0 ? table.get(0).get("RES"): null;
+        } catch (Exception e) {
+            return null;
+        }     
+    }
+    
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Validate Student">

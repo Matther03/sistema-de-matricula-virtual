@@ -47,4 +47,17 @@ public class StudentModel extends ModelParent {
             return prSt;
         });
     }
+    
+    public ArrayList<HashMap<String, String>> doEnrollment(
+            final Integer codeStudent,
+            final Integer codeGrade,
+            final Integer codeSection) {
+        return doActionQuery((cnObj, prSt) -> {
+            prSt = cnObj.prepareStatement(ProceduresDB.DO_ENROLLMENT);
+            prSt.setInt(1, codeStudent);
+            prSt.setInt(2, codeGrade);
+            prSt.setInt(3, codeSection);
+            return prSt;
+        });
+    }
 }
