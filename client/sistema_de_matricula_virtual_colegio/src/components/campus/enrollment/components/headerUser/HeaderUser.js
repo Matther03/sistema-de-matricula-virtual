@@ -13,15 +13,14 @@ const HeaderUser = () => {
     return (
         <header>
             <ContainerHeader>
-                <SymbolHeader className="container-symbol-header-enrollment small"/>
+                <SymbolHeader className="no-fixed container-symbol-header-enrollment small"/>
                 <ContainerHeaderUser>
-                    <HeaderProfile className="no-fixed"/>
+                    <HeaderProfile/>
                 </ContainerHeaderUser>
             </ContainerHeader>
             <OffSetHeader/>
         </header>
     );
 }
-
 
 export default HeaderUser;

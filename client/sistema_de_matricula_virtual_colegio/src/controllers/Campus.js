@@ -24,7 +24,7 @@ const Campus = () => {
     //#region Effects
     useEffect(() => {
         changeTitle("Campus");
-    });
+    }, []);
     //#endregion
     return (
         <Routes>

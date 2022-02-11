@@ -8,7 +8,8 @@ export const ContainerSectionLogin = styled.section`
     align-items: center;
     flex-wrap: wrap;
     min-height: 100vh;
-    gap: 20px;
+    row-gap: 20px;
+    column-gap: 100px;
     margin: 15px;
     margin-top: 15px;
     margin-bottom: 10px;

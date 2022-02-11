@@ -26,7 +26,7 @@ const Administrator = () => {
     //#region Effects
     useEffect(() => {
         changeTitle("Administrador");
-    });
+    }, []);
     //#endregion
     //#region Functions
     const renderSymbolHeader = () => {

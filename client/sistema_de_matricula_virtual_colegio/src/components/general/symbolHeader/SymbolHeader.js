@@ -7,9 +7,11 @@ import symbolSchoolImg from '../../../img/general/school-symbol.png';
 
 const SymbolHeader = ({ 
         typeHeader = "campus", 
-        showTitle }) => {
+        showTitle,
+        className }) => {
     return (
         <ContainerHeader 
+            className={className}
             typeHeader={typeHeader} showTitle={showTitle}>
             <TitleNavbar>
                 <img src={symbolSchoolImg} alt="Insignia"/>
