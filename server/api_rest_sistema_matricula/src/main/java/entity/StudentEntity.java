@@ -3,13 +3,18 @@ package entity;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import database.ProceduresDB;
+import dto.classroom.ClassroomDTO;
+import dto.classroom.ClassroomVacancyDTO;
 import dto.classroom.GradeDTO;
+import dto.classroom.SectionDTO;
+import dto.classroom.ShiftDTO;
 import dto.student.StudentDTO;
 import dto.student.AccountDTO;
 import dto.student.RepresentativeDTO;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import model.ClassroomModel;
 import model.StudentModel;
 import utils.Encrypt;
 import utils.validation.RegexPatternsValidation;
@@ -72,19 +77,49 @@ public class StudentEntity {
     }
     
     //Do enrollment
-    public String doEnrollment(
+    public Boolean doEnrollment(
         final Integer codeStudent,
         final Integer CodeGrade,
         final Integer codeSection){
         try {
             final ArrayList<HashMap<String,String>> table = new StudentModel().
                 doEnrollment(codeStudent, CodeGrade, codeSection);
-            return table.size() > 0 ? table.get(0).get("RES"): null;
+            String valueEnroll = table.size() > 0 ? table.get(0).get("RES"): null;
+            return  "SUCCESSFULLY".equals(valueEnroll);
         } catch (Exception e) {
-            return null;
+            return false;
         }     
     }
     
+    // Get Detail Enrollment
+ /*   public JsonObject getDetailClassroom(final Integer codeStudent){
+        final ArrayList<HashMap<String,String>> table = new StudentModel().getDetailEnrollment(codeStudent);
+        return table.size() > 0 ? getDTOforRowHashMapDetailClassroom(table.get(0)) : null;
+    }
+    private JsonObject getDTOforRowHashMapDetailClassroom(HashMap<String, String> row) {
+            final StudentDTO student = new StudentDTO();
+            student.setName(row.get("_name"));
+            student.setFatherSurname(row.get("father_surname"));
+            student.setMotherSurname(row.get("mother_surname"));
+            student.setDni(row.get("dni"));
+            final 
+               final ClassroomDTO classroom = new ClassroomDTO();
+        final GradeDTO grade = new GradeDTO();
+        grade.setName(row.get("name_grade"));
+        final ShiftDTO shift = new ShiftDTO();
+        shift.setCategory(row.get("category"));
+        final SectionDTO section = new SectionDTO(
+                Integer.parseInt(row.get("code_section")),
+                row.get("letter"),
+                shift
+        );
+        classroom.setGrade(grade);
+        classroom.setSection(section);
+        classroomVacancy.setClassroom(classroom);
+        classroomVacancy.setQuantity(Integer.parseInt(row.get("quantity")));
+
+        return student ;
+    }*/
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Validate Student">

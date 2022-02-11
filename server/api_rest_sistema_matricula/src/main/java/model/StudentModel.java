@@ -60,4 +60,13 @@ public class StudentModel extends ModelParent {
             return prSt;
         });
     }
+    
+    public ArrayList<HashMap<String, String>> getDetailEnrollment(
+            final Integer codeStudent) {
+        return doActionQuery((cnObj, prSt) -> {
+            prSt = cnObj.prepareStatement(ProceduresDB.GET_DETAIL_ENROLLMENT);
+            prSt.setInt(1, codeStudent);
+            return prSt;
+        });
+    }
 }

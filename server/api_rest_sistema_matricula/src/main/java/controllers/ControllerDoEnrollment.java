@@ -48,13 +48,13 @@ public class ControllerDoEnrollment extends HttpServlet {
         }
         
         // Control de estudiantes que se pueden matricular y quienes no
-        String rpt = entityStudent.doEnrollment(codeStudentParsed, codeGradeParsed, codeSectionParsed);
+        Boolean rpt = entityStudent.doEnrollment(codeStudentParsed, codeGradeParsed, codeSectionParsed);
         if (rpt==null) {
             return FormatResponse.getErrorResponse("The student does not meet any requirement.", 400);
         }
         
         //Estructura de la respuesta
-        body.addProperty("registered",rpt);
+        body.addProperty("enrolled",rpt);
         body.remove("codeStudent");
         body.remove("codeGrade");
         body.remove("codeSection");
