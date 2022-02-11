@@ -42,11 +42,9 @@ public class ControllerStudentCanEnroll extends HttpServlet {
         // Estructura de la respuesta 
         final StudentDTO student = new StudentDTO();
         student.setCode(codeStudent.getAsInt());
-        final boolean valuePay = entityStudent.getValuePay(student);
-        final boolean valueEnroll = entityStudent.getValueEnroll(student);
         
         // Validación del pago
-        final boolean canEnroll = entityStudent.canEnroll(valuePay, valueEnroll);
+        final boolean canEnroll = entityStudent.canEnroll(student);
         
         body.addProperty("canEnroll", canEnroll);
         body.remove("codeStudent");

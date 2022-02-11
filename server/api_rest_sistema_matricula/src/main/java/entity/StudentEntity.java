@@ -11,8 +11,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import model.StudentModel;
 import utils.Encrypt;
-import utils.RegexPatternsValidation;
-import utils.Validation;
+import utils.validation.RegexPatternsValidation;
+import utils.validation.Validation;
 import utils.authentication.JWTAuthentication;
 import utils.authentication.RoleAuthJWT;
 
@@ -32,8 +32,12 @@ public class StudentEntity {
             return null;
         return jwtAuth.getToken(dni, RoleAuthJWT.STUDENT_ROLE);
     }
-    
-    public boolean getValuePay(final StudentDTO student){
+    public StudentDTO getDetailStudent(final StudentDTO student){
+        final String dni = student.getDni();
+        final ArrayList<HashMap<String,String>> table = new StudentModel().getDetailStudent(dni);
+        return table.size() > 0 ? getDTOforRowHashMap(table.get(0)) : null;
+    }
+    public boolean hasPaid(final StudentDTO student){
         try {
             int codigo = student.getCode();
             final ArrayList<HashMap<String,String>> table = new StudentModel().verifyPay(codigo);
@@ -43,7 +47,7 @@ public class StudentEntity {
             return false;
         }
     }
-    public boolean getValueEnroll(final StudentDTO student){
+    public boolean verifyEnroll(final StudentDTO student){
         try {
             int codigo = student.getCode();
             final ArrayList<HashMap<String,String>> table = new StudentModel().verifyEnroll(codigo);
@@ -81,29 +85,19 @@ public class StudentEntity {
         int grade = newGrade.getCode();
         return grade != 6;
     }
-    public boolean canEnroll (final boolean paid,final boolean enroll){
-        return paid && enroll;
+    public boolean canEnroll (final StudentDTO student){
+        final boolean paid = hasPaid(student);
+        final boolean verifiedEnroll = verifyEnroll(student);
+        return paid && verifiedEnroll;
     }
     public boolean isValidAccount(final AccountDTO accountToLogin) {
-        if (!isValidDNI(accountToLogin.getStudent().getDni())) 
+        if (!Validation.isValidDNI(accountToLogin.getStudent().getDni())) 
             return false;
-        return isValidPassword(accountToLogin.getPassword());
-    }
-    private boolean isValidPassword(final String password) {
-        return EntityHelper.regexIsMatched(RegexPatternsValidation.PASSWORD, password);
-    }
-    public boolean isValidDNI(String dni) {
-        return EntityHelper.regexIsMatched(RegexPatternsValidation.DNI, dni);
+        return Validation.isValidPassword(accountToLogin.getPassword());
     }
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Helper Methods">
-    public StudentDTO getDetailStudent(final StudentDTO student){
-        final String dni = student.getDni();
-        final ArrayList<HashMap<String,String>> table = new StudentModel().getDetailStudent(dni);
-        return table.size() > 0 ? getDTOforRowHashMap(table.get(0)) : null;
-    }
-
     private StudentDTO getDTOforRowHashMap(HashMap<String, String> row) {
         final StudentDTO student = new StudentDTO();
         student.setCode(Integer.parseInt(row.get("code_student")));
