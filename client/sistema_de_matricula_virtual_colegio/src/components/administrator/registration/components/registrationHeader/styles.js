@@ -2,16 +2,12 @@
 import styled from "styled-components";
 //#endregion
 
-export const ContentFormSectionLogin = styled.form`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 50px;
+export const Container = styled.section`
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    & .fields {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-        width: 100%;
-    }
-`
+`;
+export const Offset = styled.div`
+    height: 150px;
+`;

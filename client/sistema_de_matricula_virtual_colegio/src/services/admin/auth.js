@@ -1,19 +1,24 @@
 import { doRequest } from '../helpers';
 
-//#region Secundarias
-const saveTokenAdmin = (token) => {
+//#region Secondary
+const saveToken = (token) => {
     sessionStorage.setItem("tokenAdmin", token);
 }
 //#endregion
-//#region Principales
-export const loginAdmin = (admin) => {
-    if (admin.user !== "70290308" || admin.password !== "manuelrivera")
-        return;
-    saveTokenAdmin("kjckzxkcnjjenjwka");
+//#region Main
+export const loginAdmin = async (admin) => {
+    const [payload, err] = await doRequest(
+        "/admin/login", 
+        "POST", 
+        admin);
+    if (!err && payload.data)
+        saveToken(payload.data.token);
 }
-export const isLoggedAdmin = () => sessionStorage.getItem("tokenAdmin") ? true : false;
-export const getTokenAdmin = () => sessionStorage.getItem("tokenAdmin");
+export const isLoggedAdmin = () => 
+    sessionStorage.getItem("tokenAdmin") ? true : false;
+export const getTokenAdmin = () => 
+    sessionStorage.getItem("tokenAdmin");
 export const logoutAdmin = () => {
-    sessionStorage.removeItem("tokenAdmin");
+    sessionStorage.clear();
 }
 //#endregion

@@ -15,7 +15,7 @@ const HeaderUser = () => {
             <ContainerHeader>
                 <SymbolHeader className="container-symbol-header-enrollment small"/>
                 <ContainerHeaderUser>
-                    <HeaderProfile/>
+                    <HeaderProfile className="no-fixed"/>
                 </ContainerHeaderUser>
             </ContainerHeader>
             <OffSetHeader/>

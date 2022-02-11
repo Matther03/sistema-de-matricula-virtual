@@ -1,22 +1,19 @@
 //#region Styles
 import { 
     ContainerCardLinkServiceCampus, 
-    HeaderCardLinkServiceCampus, 
-    DescriptionCardLinkServiceCampus
+    TitleCardLinkServiceCampus
 } from './styles';
 //#endregion
 
 const CardLinkServiceAdmin = ({ 
     to, 
     title, 
-    description, 
-    icon 
 }) => {
     return (
         <ContainerCardLinkServiceCampus to={to || "./"}>
-            <HeaderCardLinkServiceCampus>
+            <TitleCardLinkServiceCampus>
                 <h4 className="custom-title-4">{title || "Título"}</h4>
-            </HeaderCardLinkServiceCampus>
+            </TitleCardLinkServiceCampus>
         </ContainerCardLinkServiceCampus>
     );
 }

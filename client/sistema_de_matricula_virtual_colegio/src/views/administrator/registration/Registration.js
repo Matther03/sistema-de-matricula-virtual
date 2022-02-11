@@ -16,25 +16,31 @@ import RegistrationHeader from '../../../components/administrator/registration/c
 import Student from '../../../components/administrator/registration/student/Student';
 //#endregion
 
+export const infoRoutes = [
+    { path: "alumno", pathname: "ALUMNO" }, 
+    { path: "profesor", pathname: "PROFESOR" }, 
+    { path: "curso", pathname: "CURSO" }, 
+];
+
 const Registration = () => {
     return (
         <>
-            <RegistrationHeader/>
+            <RegistrationHeader infoRoutes={infoRoutes}/>
             <Routes>
                 <Route
-                    path="alumno" 
+                    path={infoRoutes[0].path}
                     element={<Student/>}/>
                 <Route
-                    path="profesor" 
+                    path={infoRoutes[1].path}
                     element={<h1>Profesor</h1>}/>
                 <Route
-                    path="curso" 
+                    path={infoRoutes[2].path}
                     element={<h1>Curso</h1>}/>
                 <Route
                     path="*"
                     element={
                         <Navigate 
-                            to="/admin/registro/alumno" 
+                            to={`/admin/registro/${infoRoutes[0].path}`}
                             replace={true}/>}/>
             </Routes>
             <DialogAlert 
@@ -77,7 +83,7 @@ const Registration = () => {
                         text="NO"/>
                 ]}
                 description={
-                    <p>¿Está seguro que desea guardar un nuevo registro?&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</p>
+                    <p>¿Está seguro que desea guardar un nuevo registro?</p>
                 }/>
             <DialogAlert 
                 open={false} 

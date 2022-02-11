@@ -2,35 +2,7 @@
 import styled from "styled-components";
 //#endregion
 
-export const ContainerSectionLogin = styled.section`
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: blue;
-    min-height: 100vh;
-    background-color: var(--secondary-blue);
-    overflow: hidden;
-    &::before, &::after {
-        content:"";
-        position: absolute;
-        background-color: #1653B2;
-    }
-    &::before{
-        top: -32%;
-        left: -25%;
-        height: 70%;
-        width: 65%;
-        transform: rotate(45deg)
-    }
-    &::after{
-        bottom: -45%;
-        right: -5%;
-        height: 600px;
-        width: 600px;
-        border-radius: 50%;
-    }
-`;
+
 export const ContentSectionLogin = styled.article`
     display: flex;
     flex-direction: column;
@@ -42,8 +14,8 @@ export const ContentSectionLogin = styled.article`
     justify-content: center;
     align-items: center;
     width: 440px;
-    margin-top: 20vh;
-    margin-bottom: 10vh;
+    margin-top: 35vh;
+    margin-bottom: 15vh;
     @media (max-width: 800px) { width: 70%}
     @media (max-width: 600px) { width: 90%; }
     & h2 {
