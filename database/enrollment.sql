@@ -150,7 +150,7 @@ DROP TABLE IF EXISTS enrollment;
 CREATE TABLE enrollment(
     code_enrollment INT(10) AUTO_INCREMENT,
     date_enrollment DATE NOT NULL,
-    repeater BIT NOT NULL,
+    repeater BIT,
     code_payment INT(10) NOT NULL,
     code_classroom INT(3) NOT NULL,
     PRIMARY KEY (code_enrollment),
@@ -566,6 +566,19 @@ BEGIN
     SELECT IF (__code_grade = 5 AND __repeater = 0 , 0, 1) AS 'RES';
 END//
 
+DROP PROCEDURE IF EXISTS sp_verify_enrollment;
+DELIMITER //
+CREATE PROCEDURE sp_verify_enrollment(
+    IN __code_student INT(6)
+)
+BEGIN
+	DECLARE __verify_code_student INT(6);
+    SET __verify_code_student = (   SELECT code_student FROM payment
+                                    INNER JOIN enrollment
+                                        ON payment.code_payment = enrollment.code_payment
+                                    WHERE payment.code_student = __code_student); 
+    SELECT IF (__verify_code_student IS NULL,1,0) AS 'RES';
+END//
 
 DROP PROCEDURE IF EXISTS sp_get_grade_to_enrollment;
 DELIMITER //
