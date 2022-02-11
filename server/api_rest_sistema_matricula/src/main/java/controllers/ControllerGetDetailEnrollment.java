@@ -2,6 +2,7 @@ package controllers;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import dto.enrollment.EnrollmentDTO;
 import dto.student.StudentDTO;
 import entity.StudentEntity;
 import java.io.IOException;
@@ -40,16 +41,9 @@ public class ControllerGetDetailEnrollment extends HttpServlet {
             return FormatResponse.getErrorResponse("The code student is not valid.", 400);
         }
         
-        // Estructura de la respuesta 
-        final StudentDTO student = new StudentDTO();
-        student.setCode(codeStudent.getAsInt());
+        final EnrollmentDTO detailEnrollment = entityStudent.getDetailEnrollment(codeStudentParsed);
         
-        // Validación del pago
-        final boolean canEnroll = entityStudent.canEnroll(student);
-        
-        body.addProperty("canEnroll", canEnroll);
-        body.remove("codeStudent");
-        return FormatResponse.getSuccessResponse(body);
+        return FormatResponse.getSuccessResponse(detailEnrollment);
     }
 
 }

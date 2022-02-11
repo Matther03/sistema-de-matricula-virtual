@@ -1,11 +1,12 @@
 
 package dto.enrollment;
 import dto.classroom.ClassroomDTO;
+import java.util.Date;
 
 public class EnrollmentDTO {
     //<editor-fold defaultstate="collapsed" desc="Properties">
     private Integer code;
-    private String date;
+    private Date date;
     private Boolean repeater;
     private PaymentDTO payment;
     private ClassroomDTO classroom;
@@ -21,7 +22,7 @@ public class EnrollmentDTO {
         this.repeater= false;
     }
 
-    public EnrollmentDTO(Integer code, String date, Boolean repeater, PaymentDTO payment, ClassroomDTO classroom, TypeSchoolDTO typeSChool) {
+    public EnrollmentDTO(Integer code, Date date, Boolean repeater, PaymentDTO payment, ClassroomDTO classroom, TypeSchoolDTO typeSChool) {
         this.code = code;
         this.date = date;
         this.repeater = repeater;
@@ -39,11 +40,11 @@ public class EnrollmentDTO {
         this.code = code;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

@@ -1,6 +1,8 @@
 
 package dto.student;
 
+import java.util.Date;
+
 public class StudentDTO {
     
     //<editor-fold defaultstate="collapsed" desc="Properties">
@@ -8,7 +10,7 @@ public class StudentDTO {
     private String name;
     private String fatherSurname;
     private String motherSurname;
-    private Integer age;
+    private Date dateBirth;
     private String dni;
     private String direction;
     private RepresentativeDTO representative;
@@ -17,12 +19,12 @@ public class StudentDTO {
     public StudentDTO(){
     }
 
-    public StudentDTO(Integer code, String name, String fatherSurname, String motherSurname, Integer age, String dni, String direction, RepresentativeDTO representative) {
+    public StudentDTO(Integer code, String name, String fatherSurname, String motherSurname, Date dateBirth, String dni, String direction, RepresentativeDTO representative) {
         this.code = code;
         this.name = name;
         this.fatherSurname = fatherSurname;
         this.motherSurname = motherSurname;
-        this.age = age;
+        this.dateBirth = dateBirth;
         this.dni = dni;
         this.direction = direction;
         this.representative = representative;
@@ -62,12 +64,12 @@ public class StudentDTO {
         this.motherSurname = motherSurname;
     }
 
-    public Integer getAge() {
-        return age;
+    public Date getDateBirth() {
+        return dateBirth;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setDateBirth(Date dateBirth) {
+        this.dateBirth = dateBirth;
     }
 
     public String getDni() {

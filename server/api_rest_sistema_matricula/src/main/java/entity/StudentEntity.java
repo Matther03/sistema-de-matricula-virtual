@@ -8,9 +8,12 @@ import dto.classroom.ClassroomVacancyDTO;
 import dto.classroom.GradeDTO;
 import dto.classroom.SectionDTO;
 import dto.classroom.ShiftDTO;
+import dto.enrollment.EnrollmentDTO;
+import dto.enrollment.PaymentDTO;
 import dto.student.StudentDTO;
 import dto.student.AccountDTO;
 import dto.student.RepresentativeDTO;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -38,11 +41,18 @@ public class StudentEntity {
             return null;
         return jwtAuth.getToken(dni, RoleAuthJWT.STUDENT_ROLE);
     }
+    public EnrollmentDTO getDetailEnrollment(final Integer codigoStudent){
+        final ArrayList<HashMap<String,String>> table = new StudentModel().getDetailEnrollment(codigoStudent);
+        return table.size() > 0 ? getDTOforDetailEnrollment(table.get(0)) : null;
+    }
+    
     public StudentDTO getDetailStudent(final StudentDTO student){
         final String dni = student.getDni();
         final ArrayList<HashMap<String,String>> table = new StudentModel().getDetailStudent(dni);
         return table.size() > 0 ? getDTOforRowHashMap(table.get(0)) : null;
     }
+    
+    //<editor-fold defaultstate="collapsed" desc="Enrollment validation">
     public boolean hasPaid(final StudentDTO student){
         try {
             int codigo = student.getCode();
@@ -73,6 +83,7 @@ public class StudentEntity {
             return false;
         }
     }
+    //</editor-fold>
     
     //Get grade to entollment
     public GradeDTO getGradeToEnrollment(final StudentDTO student){
@@ -86,7 +97,7 @@ public class StudentEntity {
         return grade;
     }
     
-    //Do enrollment
+    // Boolean para validar si se puede hacer la matricula
     public Boolean doEnrollment(
         final Integer codeStudent,
         final Integer CodeGrade,
@@ -139,6 +150,41 @@ public class StudentEntity {
         student.setFatherSurname(row.get("father_surname"));
         student.setMotherSurname(row.get("mother_surname"));
         return student;
+    }
+    
+     private EnrollmentDTO getDTOforDetailEnrollment(HashMap<String, String> row) {
+        final EnrollmentDTO enrollment = new EnrollmentDTO();
+
+        final StudentDTO student = new StudentDTO();
+        student.setName(row.get("_name"));
+        student.setFatherSurname(row.get("father_surname"));
+        student.setMotherSurname(row.get("mother_surname"));
+        student.setDni(row.get("dni"));
+        
+        final PaymentDTO payment= new PaymentDTO();
+        payment.setCode(Integer.parseInt(row.get("code_payment")));
+        
+        final ClassroomDTO classroom = new ClassroomDTO();
+        final GradeDTO grade = new GradeDTO();
+        grade.setName(row.get("name_grade"));
+        
+        final ShiftDTO shift = new ShiftDTO();
+        shift.setCategory(row.get("category"));
+        
+        final SectionDTO section = new SectionDTO();
+        section.setLetter(row.get("letter"));
+        section.setShift(shift);
+        
+        classroom.setGrade(grade);
+        classroom.setSection(section);
+    
+        payment.setStudent(student);
+        
+        enrollment.setPayment(payment); //name-apellidos- apelidos -dni-codigo de pago
+        enrollment.setCode(Integer.parseInt(row.get("code_enrollment")));//codigo de matricula
+        //enrollment.setDate();
+        enrollment.setClassroom(classroom); //grado-letra-seccion
+        return enrollment;
     }
     //</editor-fold>
     
