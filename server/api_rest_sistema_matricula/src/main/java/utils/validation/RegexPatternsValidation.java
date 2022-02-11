@@ -1,4 +1,4 @@
-package utils;
+package utils.validation;
 
 public class RegexPatternsValidation {
     public final static String 
