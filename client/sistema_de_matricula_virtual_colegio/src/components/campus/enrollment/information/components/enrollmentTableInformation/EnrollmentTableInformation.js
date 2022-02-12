@@ -21,7 +21,6 @@ const tableData = {
 	fields: ["N°", "Curso", "Docente"],
 	rows: createRandomData(5),
 };
-
 const EnrollmentTableInformation = () => {
 	return (
 		<CustomDataTable

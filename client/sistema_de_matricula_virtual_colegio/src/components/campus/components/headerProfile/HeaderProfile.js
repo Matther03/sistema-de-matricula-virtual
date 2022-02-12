@@ -1,7 +1,8 @@
 //#region Libraries
 import { 
     useState,
-    useEffect } from 'react';
+    useEffect 
+} from 'react';
 import { useNavigate } from 'react-router-dom';
 //#endregion
 //#region Styles
@@ -18,9 +19,9 @@ import { logoutStudent } from '../../../../services/campus/auth';
 import { getDetailCampus } from '../../../../services/campus/student';
 //#endregion
 
-const HeaderProfile = ({ className }) => {
+const HeaderProfile = ({ only = false }) => {
     //#region States
-    const [nameUser, setNameUser] = useState("NOMBRE DEL ALUMNO");
+    const [nameUser, setNameUser] = useState("");
     const [showLogout, setShowLogout] = useState(false);
     //#endregion
     //#region Effects
@@ -33,28 +34,27 @@ const HeaderProfile = ({ className }) => {
     const toggleShowLogout = () => setShowLogout(prev => (!prev));
     //#endregion
     return (
-        <ContainerProfile className={className} onClick={toggleShowLogout}>
-            <ContentProfile className={className}>
+        <ContainerProfile onClick={toggleShowLogout}>
+            <ContentProfile className={only && "only"}>
                 <span className="custom-title-6">{nameUser}</span>
                 <div className="icons">
                     <Icon icon="bx:bxs-user"/>
-                    <i className={showLogout 
-                        ? "arrow up"
-                        : "arrow"}/>
+                    <Icon 
+                        className={`arrow ${showLogout ? "up" : ""}`}
+                        icon="bx:bxs-down-arrow"/>
                 </div>
             </ContentProfile>
-            <LogoutButton className={
-                showLogout ? "active" : ""}/>
+            <LogoutButton active={showLogout}/>
         </ContainerProfile>
     );
 }
 
-const LogoutButton = ({ className }) => {
+const LogoutButton = ({ active = false }) => {
     //#region Extra hooks
     const navigate = useNavigate();
     //#endregion
     return (
-        <ContainerLogoutBtn className={className} onClick={() => {
+        <ContainerLogoutBtn className={active && "active"} onClick={() => {
                 logoutStudent();
                 navigate("/campus/login");
             }}>

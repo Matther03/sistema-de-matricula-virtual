@@ -1,7 +1,8 @@
 //#region Libraries
 import { 
     Routes, 
-    Route 
+    Route, 
+    Navigate
 } from "react-router-dom";
 //#endregion
 //#region Components
@@ -13,20 +14,23 @@ import EnrollmentRoot from '../../../components/campus/enrollment/root/Enrollmen
 //#region Utils
 //#endregion
 
-const informationInternalNav = [
-    {
-        path: "/campus/home", 
-        nameItemPath: "INICIO" 
-    },
-    {
-        path: "/campus/matricula", 
-        nameItemPath: "MATRÍCULA" 
-    },
-    {
-        path: "/campus/matricula/information", 
-        nameItemPath: "INFORMACIÓN" 
-    }
-];
+const informationInternalNav = (() => {
+    const root = "/campus/matricula/"
+    return [
+        {
+            path: "/campus/home", 
+            nameRoute: "INICIO" 
+        },
+        {
+            path: root, 
+            nameRoute: "MATRÍCULA" 
+        },
+        {
+            path: `${root}informacion`, 
+            nameRoute: "INFORMACIÓN" 
+        }
+    ];
+})();
 
 const Enrollment = () => {
     return (
@@ -36,13 +40,18 @@ const Enrollment = () => {
                 information={informationInternalNav}/>
             <Routes>
                 <Route
-                    path="information" 
+                    path="informacion" 
                     element={
                         <EnrollmentInformation/>
                     }/>
                 <Route
+                    path="" 
+                    element={
+                        <EnrollmentRoot/>
+                    }/>
+                <Route
                     path="*"
-                    element={<EnrollmentRoot/>}/>
+                    element={<Navigate to="/campus/matricula" replace={true}/>}/>
             </Routes>
         </>
     );

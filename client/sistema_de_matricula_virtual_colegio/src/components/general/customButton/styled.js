@@ -1,7 +1,7 @@
 //#region Libraries
 import {
     Button 
-} from '@mui/material';
+} from "@mui/material";
 import styled from "styled-components";
 //#endregion
 //#region Components

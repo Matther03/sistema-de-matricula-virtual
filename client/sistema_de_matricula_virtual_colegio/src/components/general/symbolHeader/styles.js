@@ -3,30 +3,31 @@ import styled from "styled-components";
 //#endregion
 
 export const ContainerHeader = styled.header`
-    background-color: var(--fourth-color);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 60px;
     gap: 10px;
-    position: fixed;
-    top: 0;
-    left: 0;
     width: 100%;
+    position: fixed;
+    &.campus {
+        padding: 10px 60px;
+        background-color: var(--fourth-color);
+        top: 0;
+        left: 0;
+    }
+    &.admin {
+        padding: 20px 60px;
+        background-color: var(--third-color);
+        z-index: 1000;
+    }
+    &.no-fixed { position: relative; }
     & > h1 {
         margin: 0;
         width: 25%;
     }
-    @media (max-width: 700px) {
-        flex-direction: column;
-    }
-    &.admin-header {
-        padding: 20px 60px;
-        background-color: #ffffff;
-        z-index: 1000;
-    }
+    @media (max-width: 700px) { flex-direction: column; }
 `;
-export const TitleNavbar = styled.a`
+export const Title = styled.a`
     display: flex;
     justify-content: space-around;
     align-items: center;

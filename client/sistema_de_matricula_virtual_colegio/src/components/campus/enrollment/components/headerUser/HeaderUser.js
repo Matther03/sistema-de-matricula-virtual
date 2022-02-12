@@ -13,7 +13,7 @@ const HeaderUser = () => {
     return (
         <header>
             <ContainerHeader>
-                <SymbolHeader className="container-symbol-header-enrollment small"/>
+                <SymbolHeader className="no-fixed"/>
                 <ContainerHeaderUser>
                     <HeaderProfile/>
                 </ContainerHeaderUser>
@@ -22,6 +22,5 @@ const HeaderUser = () => {
         </header>
     );
 }
-
 
 export default HeaderUser;
