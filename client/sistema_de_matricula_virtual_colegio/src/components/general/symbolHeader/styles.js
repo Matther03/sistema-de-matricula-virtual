@@ -27,7 +27,7 @@ export const ContainerHeader = styled.header`
     }
     @media (max-width: 700px) { flex-direction: column; }
 `;
-export const TitleNavbar = styled.a`
+export const Title = styled.a`
     display: flex;
     justify-content: space-around;
     align-items: center;

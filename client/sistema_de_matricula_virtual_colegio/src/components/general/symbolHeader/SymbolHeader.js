@@ -1,5 +1,5 @@
 //#region Styles
-import { ContainerHeader, TitleNavbar } from './styles';
+import { ContainerHeader, Title } from './styles';
 //#endregion
 //#region Images
 import symbolSchoolImg from '../../../img/general/school-symbol.png';
@@ -7,18 +7,17 @@ import symbolSchoolImg from '../../../img/general/school-symbol.png';
 
 const SymbolHeader = ({ 
         showTitle,
-        className 
+        className = ""
     }) => {
     return (
         <ContainerHeader 
-            className={className} 
-            showTitle={showTitle}>
-            <TitleNavbar>
+            className={`campus ${className}`}>
+            <Title>
                 <img src={symbolSchoolImg} alt="Insignia"/>
                 <h3 className="custom-title-4">
                     I.E. VICTOR MANUEL MAURTUA - ICA - PERÚ
                 </h3>
-            </TitleNavbar>
+            </Title>
             {showTitle 
                 ? <h1 className="custom-title-1">CAMPUS</h1>
                 : <span></span>}

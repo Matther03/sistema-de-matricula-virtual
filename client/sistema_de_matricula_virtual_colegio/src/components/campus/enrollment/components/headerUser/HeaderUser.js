@@ -13,7 +13,7 @@ const HeaderUser = () => {
     return (
         <header>
             <ContainerHeader>
-                <SymbolHeader className="no-fixed container-symbol-header-enrollment small"/>
+                <SymbolHeader className="no-fixed"/>
                 <ContainerHeaderUser>
                     <HeaderProfile/>
                 </ContainerHeaderUser>

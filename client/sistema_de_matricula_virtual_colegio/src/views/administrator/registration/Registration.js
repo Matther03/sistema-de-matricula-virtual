@@ -1,9 +1,5 @@
 //#region Libraries
 import { 
-    useState,
-    useEffect
-} from 'react';
-import { 
     Routes, 
     Route, 
     Navigate 
@@ -16,19 +12,15 @@ import RegistrationHeader from '../../../components/administrator/registration/c
 import Student from '../../../components/administrator/registration/student/Student';
 //#endregion
 
-export const infoRoutes = [
-    { path: "alumno", pathname: "ALUMNO" }, 
-    { path: "profesor", pathname: "PROFESOR" }, 
-    { path: "curso", pathname: "CURSO" }, 
-];
-
-const Registration = () => {
+const Registration = ({
+    infoRoutes
+}) => {
     return (
         <>
             <RegistrationHeader infoRoutes={infoRoutes}/>
             <Routes>
                 <Route
-                    path={infoRoutes[0].path}
+                    path={`${infoRoutes[0].path}/*`}
                     element={<Student/>}/>
                 <Route
                     path={infoRoutes[1].path}

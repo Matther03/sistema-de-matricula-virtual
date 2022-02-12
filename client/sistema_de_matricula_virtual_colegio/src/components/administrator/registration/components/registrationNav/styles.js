@@ -8,6 +8,9 @@ import styled from "styled-components";
 export const ContainerNav = styled.nav`
     background-color: var(--fourth-color);
     width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     & ul {
         display: flex;
         list-style: none;

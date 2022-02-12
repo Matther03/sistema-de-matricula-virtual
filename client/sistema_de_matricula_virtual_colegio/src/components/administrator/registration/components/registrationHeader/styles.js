@@ -7,6 +7,7 @@ export const Container = styled.section`
     top: 0;
     left: 0;
     width: 100%;
+    z-index: 100;
 `;
 export const Offset = styled.div`
     height: 150px;

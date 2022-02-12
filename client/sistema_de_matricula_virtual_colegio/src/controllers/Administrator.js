@@ -19,6 +19,12 @@ import Registration from "../views/administrator/registration/Registration";
 import changeTitle from '../utils/changeTitle.js';
 //#endregion
 
+export const infoRoutes = [
+    { path: "alumno", nameRoute: "ALUMNO" }, 
+    { path: "profesor", nameRoute: "PROFESOR" }, 
+    { path: "curso", nameRoute: "CURSO" } 
+];
+
 const Administrator = () => { 
     //#region Extra Hooks
     const location = useLocation();
@@ -32,8 +38,7 @@ const Administrator = () => {
     const renderSymbolHeader = () => {
         return (
             !location.pathname.includes("/admin/registro") 
-            ? <SymbolHeader typeHeader="admin"/>
-            : null
+            && <SymbolHeader className="admin"/>
         );
     }
     //#endregion
@@ -41,9 +46,13 @@ const Administrator = () => {
         <>
             {renderSymbolHeader()}
             <Routes>
-                <Route path="home" element={<Home/>}/>
+                <Route path="home" element={
+                        <Home infoRoutes={infoRoutes}/>
+                    }/>
                 <Route path="login" element={<Login/>}/>
-                <Route path="registro/*" element={<Registration/>}/>
+                <Route path="registro/*" element={
+                        <Registration infoRoutes={infoRoutes}/>
+                    }/>
                 <Route 
                     path="*" 
                     element={<Navigate to="/admin/home" replace={true}/>}/>

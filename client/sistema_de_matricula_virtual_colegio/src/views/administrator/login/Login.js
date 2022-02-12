@@ -2,8 +2,10 @@
 import { Navigate } from 'react-router-dom';
 //#endregion
 //#region Styles
+import {
+    ContainerBackgroundBlue
+} from '../../../components/administrator/components/styles';
 import { 
-    ContainerSectionLogin,
     ContentSectionLogin,
     AdminImgContainer,
 } from './styles';
@@ -13,7 +15,6 @@ import adminImg from '../../../img/administrator/login/admin-icon.png';
 //#endregion
 
 //#region Components
-import SymbolHeader from "../../../components/general/symbolHeader/SymbolHeader";
 import FormLogin from "../../../components/administrator/login/formLogin/FormLogin";
 //#endregion
 //#region Services
@@ -24,7 +25,7 @@ const Login = () => {
     return (
         <>
             {isLoggedAdmin() && <Navigate to="/admin/home" replace={true}/>}
-            <ContainerSectionLogin>
+            <ContainerBackgroundBlue>
                 <ContentSectionLogin>
                     <AdminImgContainer>
                         <img src={adminImg} alt="Icono Admin"/>
@@ -32,7 +33,7 @@ const Login = () => {
                     <h2 className="custom-title-2">INICIAR SESIÓN</h2>
                     <FormLogin/>
                 </ContentSectionLogin>
-            </ContainerSectionLogin>
+            </ContainerBackgroundBlue>
         </>
     );
 }

@@ -8,6 +8,9 @@ import {
     StyledLink 
 } from "./styles";
 //#endregion
+//#region Components
+import LogoutBtn from "../../../components/logoutBtn/LogoutBtn";
+//#endregion
 
 const RegistrationNav = ({ infoRoutes = [] }) => {
     //#region Extra Hooks
@@ -36,11 +39,12 @@ const RegistrationNav = ({ infoRoutes = [] }) => {
                     <li key={idx}>
                         <RegistrationLink 
                             to={route.path}
-                            text={route.pathname}
+                            text={route.nameRoute}
                             active={activeRegistrationLinks[idx]}/>
                     </li>
                 ))}
             </ul>
+            <LogoutBtn className="secondary"/>
         </ContainerNav>
     );
 };
