@@ -1,7 +1,7 @@
 
 package dto.enrollment;
 import dto.classroom.ClassroomDTO;
-import java.util.Date;
+import java.sql.Date;
 
 public class EnrollmentDTO {
     //<editor-fold defaultstate="collapsed" desc="Properties">

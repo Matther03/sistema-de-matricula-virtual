@@ -42,7 +42,9 @@ public class ControllerGetDetailEnrollment extends HttpServlet {
         }
         
         final EnrollmentDTO detailEnrollment = entityStudent.getDetailEnrollment(codeStudentParsed);
-        
+        if (detailEnrollment == null) {
+            return FormatResponse.getErrorResponse("The student is not enrolled.", 400);
+        }
         return FormatResponse.getSuccessResponse(detailEnrollment);
     }
 

@@ -1,10 +1,7 @@
 package entity;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import database.ProceduresDB;
 import dto.classroom.ClassroomDTO;
-import dto.classroom.ClassroomVacancyDTO;
 import dto.classroom.GradeDTO;
 import dto.classroom.SectionDTO;
 import dto.classroom.ShiftDTO;
@@ -12,15 +9,14 @@ import dto.enrollment.EnrollmentDTO;
 import dto.enrollment.PaymentDTO;
 import dto.student.StudentDTO;
 import dto.student.AccountDTO;
-import dto.student.RepresentativeDTO;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import model.ClassroomModel;
 import model.StudentModel;
 import utils.Encrypt;
-import utils.validation.RegexPatternsValidation;
 import utils.validation.Validation;
 import utils.authentication.JWTAuthentication;
 import utils.authentication.RoleAuthJWT;
@@ -83,6 +79,43 @@ public class StudentEntity {
             return false;
         }
     }
+    
+    
+    enum Response{
+    END_STUDIES, ENROLLED, PAID;}
+    
+    public String response(final StudentDTO student){
+        final boolean paid = hasPaid(student);
+        final boolean grade = verifyGradeEnroll(student);
+        final boolean enrolled = verifyEnroll(student);
+        Response rpt = null;
+        String msg = null;
+        
+        if (!paid) {
+            rpt = Response.PAID;
+        }
+        if (!enrolled) {
+            rpt = Response.ENROLLED;
+        }
+        if (!grade) {
+            rpt = Response.END_STUDIES;
+        }
+        
+        switch(rpt){
+            case END_STUDIES:
+                msg = "END_STUDIES";
+                break;
+            case ENROLLED:
+                msg = "ENROLLED";
+                break;
+            case PAID:
+                msg = "PAID";
+                break;
+        }
+        
+        return msg ;
+    }
+    
     //</editor-fold>
     
     //Get grade to entollment
@@ -152,7 +185,7 @@ public class StudentEntity {
         return student;
     }
     
-     private EnrollmentDTO getDTOforDetailEnrollment(HashMap<String, String> row) {
+     private EnrollmentDTO getDTOforDetailEnrollment(HashMap<String, String> row){
         final EnrollmentDTO enrollment = new EnrollmentDTO();
 
         final StudentDTO student = new StudentDTO();
@@ -182,7 +215,12 @@ public class StudentEntity {
         
         enrollment.setPayment(payment); //name-apellidos- apelidos -dni-codigo de pago
         enrollment.setCode(Integer.parseInt(row.get("code_enrollment")));//codigo de matricula
+        
+        String dateFormat = "yyyy-MM-dd";
         //enrollment.setDate();
+        String str=row.get("date_enrollment");  
+        Date date=Date.valueOf(str);
+        enrollment.setDate(date);
         enrollment.setClassroom(classroom); //grado-letra-seccion
         return enrollment;
     }
