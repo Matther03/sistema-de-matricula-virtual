@@ -1,1 +1,0 @@
-Borrar cuando haya archivos en este directorio

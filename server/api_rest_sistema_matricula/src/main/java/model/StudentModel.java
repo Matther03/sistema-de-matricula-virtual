@@ -1,50 +1,80 @@
-
 package model;
 
-import database.ConnectionDB;
 import database.ProceduresDB;
-import dto.StudentDTO;
-import java.util.HashMap;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Types;
 import java.util.ArrayList;
+import java.util.HashMap;
 
-public class StudentModel extends ModelParent{
+public class StudentModel extends ModelParent {
     
-    public ArrayList<HashMap<String, String>> getStudents(boolean all) {
-        final ConnectionDB cnDB = new ConnectionDB();
-        final Connection cnObj = cnDB.connect();
-        try {
-            final PreparedStatement prSt = cnObj.prepareStatement(ProceduresDB.GET_ESTUDENTS);
-            prSt.setBoolean(1, all);
-            final ResultSet rs = prSt.executeQuery();
-            return getHashMapArrayFrom(rs);
-        } catch (SQLException ex) {
-            MESSAGE = ex.getMessage();
-            return null;
-        }
-        finally {
-            cnDB.disconnect();
-        }
+    public ArrayList<HashMap<String, String>> verifyAccount(final String dni) {
+        return doActionQuery((cnObj, prSt) -> {
+            prSt = cnObj.prepareStatement(ProceduresDB.GET_PASSWORD);
+            prSt.setString(1, dni);
+            return prSt;
+        });
     }
-    public HashMap<String, String> findStudent(final int id) {
-        final ConnectionDB cnDB = new ConnectionDB();
-        final Connection cnObj = cnDB.connect();
-        try {
-            final PreparedStatement prSt = cnObj.prepareStatement(ProceduresDB.FIND_STUDENT);
-            prSt.setInt(1, id);
-            final ResultSet rs = prSt.executeQuery();
-            return getHashMapFrom(rs);
-        }
-        catch (SQLException ex) {
-            MESSAGE = ex.getMessage();
-            return null;
-        }
-        finally {
-            cnDB.disconnect();
-        }
+    
+    public ArrayList<HashMap<String, String>> getDetailStudent(final String dni) {
+        return doActionQuery((cnObj, prSt) -> {
+            prSt = cnObj.prepareStatement(ProceduresDB.GET_DETAIL_STUDENT);
+            prSt.setString(1, dni);
+            return prSt;
+        });
+    }
+    
+    public ArrayList<HashMap<String, String>> verifyPay(final Integer codeStudent) {
+        return doActionQuery((cnObj, prSt) -> {
+            prSt = cnObj.prepareStatement(ProceduresDB.VERIFY_PAY);
+            prSt.setInt(1, codeStudent);
+            return prSt;
+        });
+    }
+    
+    public ArrayList<HashMap<String, String>> verifyGradeToEnroll(final Integer codeStudent) {
+        return doActionQuery((cnObj, prSt) -> {
+            prSt = cnObj.prepareStatement(ProceduresDB.VERYFY_GRADE);
+            prSt.setInt(1, codeStudent);
+            return prSt;
+        });
+    }
+    
+    public ArrayList<HashMap<String, String>> verifyEnroll(final Integer codeStudent) {
+        return doActionQuery((cnObj, prSt) -> {
+            prSt = cnObj.prepareStatement(ProceduresDB.VERIFY_ENROLL);
+            prSt.setInt(1, codeStudent);
+            return prSt;
+        });
+    }
+    
+    public ArrayList<HashMap<String, String>> gradeToEnrollment(final Integer codeStudent) {
+        return doActionQuery((cnObj, prSt) -> {
+            prSt = cnObj.prepareStatement(ProceduresDB.GET_GRADE_TO_ENROLLMENT);
+            prSt.setInt(1, codeStudent);
+            return prSt;
+        });
+    }
+    
+    public ArrayList<HashMap<String, String>> doEnrollment(
+            final Integer codeStudent,
+            final Integer codeGrade,
+            final Integer codeSection) {
+        return doActionQuery((cnObj, prSt) -> {
+            prSt = cnObj.prepareStatement(ProceduresDB.DO_ENROLLMENT);
+            prSt.setInt(1, codeStudent);
+            prSt.setInt(2, codeGrade);
+            prSt.setInt(3, codeSection);
+            return prSt;
+        });
+    }
+    
+    public ArrayList<HashMap<String, String>> getDetailEnrollment(
+            final Integer codeStudent) {
+        return doActionQuery((cnObj, prSt) -> {
+            prSt = cnObj.prepareStatement(ProceduresDB.GET_DETAIL_ENROLLMENT);
+            prSt.setInt(1, codeStudent);
+            return prSt;
+        });
     }
 }

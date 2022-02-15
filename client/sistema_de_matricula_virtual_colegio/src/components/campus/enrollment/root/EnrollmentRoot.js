@@ -1,4 +1,8 @@
 //#region Libraries
+import { 
+    useState,
+    useEffect
+} from 'react';
 import {
     Button 
 } from '@mui/material';
@@ -10,9 +14,12 @@ import {
 } from './styles';
 //#endregion
 //#region Components
-import DataEnrollment from '../components/dataEnrollment/DataEnrollment';
+import EnrollmentData from './components/enrollmentData/EnrollmentData';
 import PopupMessage from '../../../general/popupMessage/PopupMessage';
 import CustomDataTable from '../../../general/customDataTable/CustomDataTable';
+//#endregion
+//#region Services
+import { getSections } from '../../../../services/campus/enrollment';
 //#endregion
 
 const tableDataVacancies = {
@@ -27,6 +34,22 @@ const tableDataVacancies = {
 }; 
 
 const EnrollmentRoot = () => {
+    //#region States
+    const [enrollmentInformation, setEnrollmentInformation] = useState({
+        dni: "76086866",
+        student: "Luján Carrión Mayimbú",
+        grade: "1ero Sec",
+        shift: "Madrugada"
+    });
+    //#endregion
+    //#region Effects
+    useEffect(() => {
+        (async () => {
+            const res = await getSections();
+            console.log(res);
+        })();
+    });
+    //#endregion
     return (
         <ContainerSectionEnrollment>
             <TaskInfo>
@@ -35,7 +58,7 @@ const EnrollmentRoot = () => {
                     Rellene el siguiente formulario con los datos solicitados para realizar la matrícula. Recuerde que solo se puede realizar una vez, por lo tanto no se puede modificar.
                 </p>
             </TaskInfo>
-            <DataEnrollment/>
+            <EnrollmentData enrollmentInformation={enrollmentInformation}/>
             <PopupMessage 
                 color="var(--verification)"
                 message="La matrícula se ha realizado correctamente" 
@@ -53,7 +76,7 @@ const EnrollmentRoot = () => {
                 message="Ver registro de matrícula" 
                 iconName="el:eye-open"/>
             <CustomDataTable 
-                rows={tableDataVacancies.rows} 
+                rows={tableDataVacancies.rows}
                 fields={tableDataVacancies.fields}
                 width="70%"/>
         </ContainerSectionEnrollment>
