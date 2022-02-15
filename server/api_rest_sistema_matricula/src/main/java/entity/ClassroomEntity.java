@@ -25,7 +25,8 @@ public class ClassroomEntity {
     private ClassroomVacancyDTO[] toArrayClassroomVacancyDTOs(ArrayList<HashMap<String, String>> table) {
         final Object[] objArray = EntityHelper.hashMapArrayListToObjArray(
                 table, 
-                this::getDTOforRowHashMapDetailClassroom
+                //this::getDTOforRowHashMapDetailClassroom
+                (HashMap<String, String> row) -> getDTOforRowHashMapDetailClassroom(row)
         );
         return Arrays.copyOf(objArray, objArray.length, ClassroomVacancyDTO[].class);
     }
