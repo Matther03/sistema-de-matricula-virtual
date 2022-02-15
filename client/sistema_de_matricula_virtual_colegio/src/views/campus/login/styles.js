@@ -4,12 +4,12 @@ import styled from "styled-components";
 
 export const ContainerSectionLogin = styled.section`
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
     flex-wrap: wrap;
     min-height: 100vh;
-    gap: 10px;
-    margin: 10px 15px;
+    row-gap: 20px;
+    column-gap: 100px;
     margin: 15px;
     margin-top: 15px;
     margin-bottom: 10px;

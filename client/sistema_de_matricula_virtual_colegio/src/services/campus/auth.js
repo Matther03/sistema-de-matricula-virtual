@@ -14,8 +14,10 @@ export const loginStudent = async (student) => {
     if (!err && payload.data)
         saveToken(payload.data.token);
 }
-export const isLoggedStudent = () => sessionStorage.getItem("tokenStudent") ? true : false;
-export const getTokenStudent = () => sessionStorage.getItem("tokenStudent");
+export const isLoggedStudent = () => 
+    sessionStorage.getItem("tokenStudent") ? true : false;
+export const getTokenStudent = () => 
+    sessionStorage.getItem("tokenStudent");
 export const logoutStudent = () => {
     sessionStorage.clear();
 }

@@ -40,6 +40,7 @@ const regex = {
 
 const FormLogin = () => {
     //#region States
+    const [didMount, setDidMount] = useState(false);
     const [form, setForm] = useState({
         dni: "",
         password: ""
@@ -54,6 +55,11 @@ const FormLogin = () => {
     const [loadingLoginRequest, setLoadingLoginRequest] = useState(false);
     //#endregion
     //#region Effects
+    // Effect para limpiar el flujo de renderizado
+    useEffect(() => {
+        setDidMount(true);
+        return () => setDidMount(false);
+     }, [])
     useEffect(() => {
         validateField("dni");
     }, [form.dni]);
@@ -98,6 +104,7 @@ const FormLogin = () => {
     const fieldsHaveErrors = () => {
         return Object.values(errors).some(error => error);
     }
+    
     const saveDetailStudent = async (dni) => {
         const [payload, err] = await getDetailCampusRequest(dni);
         if (!err && payload.data) {
@@ -109,7 +116,6 @@ const FormLogin = () => {
             });
         }
     }
-
     const handleLogin = async (e) => {
         e.preventDefault();
         if (fieldsHaveErrors()) return;
@@ -127,7 +133,7 @@ const FormLogin = () => {
         setLoadingLoginRequest(false);
     }
     //#endregion
-    return (
+    return didMount && (
         <ContentFormSectionLogin 
             onSubmit={handleLogin}>
             <section className="fields">
