@@ -1,15 +1,16 @@
 package database;
 
 public class ProceduresDB {
-    public static final String GET_ESTUDENTS = "CALL sp_get_dogs(?);";
-//reparar falta
-    public static final String FIND_STUDENT = "CALL sp_find_dog(?);"; 
-    public static final String ADD_DOG = "CALL sp_add_dog(?, ?, ?, ?, ?, ?);";
-    public static final String UPDATE_DOG = "CALL sp_update_dog(?, ?, ?, ?, ?, ?, ?);";
-    public static final String CARRY_DOG = "CALL sp_carry_dog(?);";  
     
-    
-    //matricula Procedures
-    public static final String GET_PASSWORD = "CALL sp_get_password(?);";
-    
+    public static final String GET_PASSWORD = "CALL sp_verify_account_student(?);";
+    public static final String GET_DETAIL_CLASSROOM = "CALL sp_get_detail_classroom(?);";
+    public static final String GET_DETAIL_STUDENT = "CALL sp_get_detail_student(?);";
+    public static final String VERIFY_PAY = "CALL sp_verify_payment_student(?)";
+    public static final String VERYFY_GRADE = "CALL sp_verify_grade_student(?)";
+    public static final String GET_GRADE_TO_ENROLLMENT = "CALL sp_get_grade_to_enrollment(?)";
+    //
+    public static final String VERIFY_ENROLL = "CALL sp_verify_enrollment(?)";
+    public static final String DO_ENROLLMENT = "CALL sp_do_enrollment(?,?,?)";
+    //
+    public static final String GET_DETAIL_ENROLLMENT = "CALL sp_get_detail_enrollment(?)";
 }

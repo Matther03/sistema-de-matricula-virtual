@@ -1,22 +1,28 @@
 //#region Libraries
-// import { 
-//   useEffect 
-// } from 'react';
+import { 
+    useState,
+    useEffect 
+} from 'react';
 //#endregion
-import EnrollmentDataInformation from "./enrollmentDataInformation/EnrollmentDataInformation";
-import EnrollmentTableInformation from "./enrollmentTableInformation/EnrollmentTableInformation";
+import EnrollmentDataInformation from "./components/enrollmentDataInformation/EnrollmentDataInformation";
+import EnrollmentTableInformation from "./components/enrollmentTableInformation/EnrollmentTableInformation";
 //#region Styles
 import { ContainerEnrollmentInformation } from './styles';
 //#endregion
 
 const EnrollmentInformation = () => {
     //#region States
-    //#endregion
-    //#region Effects
+    const [enrollmentInformation, setEnrollmentInformation] = useState({
+        grade: "10",
+        section: "P",
+        shift: "Madrugada",
+        dni: "78451263",
+        date: "15/02/26"
+    });
     //#endregion
     return (
     <ContainerEnrollmentInformation>
-        <EnrollmentDataInformation/>
+        <EnrollmentDataInformation enrollmentInformation={enrollmentInformation}/>
         <EnrollmentTableInformation/>
     </ContainerEnrollmentInformation>
     );

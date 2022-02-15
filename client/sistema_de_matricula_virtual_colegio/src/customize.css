@@ -9,7 +9,8 @@
     --sixth-color: #696969;
     --seventh-color: #EE3042;
     --seventh-color-dark: #cf2435;
-    --eighth-color: #737373;
+    --eight-color: #737373;
+    --nine-color: #e4e4e4;
     --secondary-blue: #165FC8;
     --verification: #01B613;
 }
@@ -55,23 +56,6 @@ main {
 .custom-title-6 {
     color: var(--third-color);
 }
-/* Buttons */
-.custom-btn {
-    padding: 10px;
-    border: 0;
-    border-radius: 5px;
-    background-color: var(--primary-color) !important;
-}
-.custom-btn.secondary {
-    border-color: var(--primary-color) !important;
-    background-color: var(--third-color) !important;
-    color: var(--primary-color) !important;
-}
-.custom-btn.secondary:hover {
-    background-color: var(--primary-color) !important;
-    color: var(--third-color) !important;
-}
-
 
 /* Extra */
 /* Home */

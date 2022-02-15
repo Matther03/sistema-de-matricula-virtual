@@ -483,13 +483,16 @@ INSERT INTO history_detail_student(_repeat,code_student,code_grade) VALUES(0,'10
 INSERT INTO payment(date_payment,amount_payment,code_bank,code_student) VALUES('2022-01-20','50.60','1','1');
 INSERT INTO payment(date_payment,amount_payment,code_bank,code_student) VALUES('2022-01-21','50.60','2','2');
 INSERT INTO payment(date_payment,amount_payment,code_bank,code_student) VALUES('2022-01-21','50.60','1','3');
+
 INSERT INTO payment(date_payment,amount_payment,code_bank,code_student) VALUES('2022-01-22','50.60','1','4');
 INSERT INTO payment(date_payment,amount_payment,code_bank,code_student) VALUES('2022-01-20','50.60','2','5');
 INSERT INTO payment(date_payment,amount_payment,code_bank,code_student) VALUES('2022-01-22','50.60','1','6');
 INSERT INTO payment(date_payment,amount_payment,code_bank,code_student) VALUES('2022-01-21','50.60','1','7');
 INSERT INTO payment(date_payment,amount_payment,code_bank,code_student) VALUES('2022-01-21','50.60','2','8');
 
---procedures
+
+-- Procedures
+
 
 DROP PROCEDURE IF EXISTS sp_verify_account_student;
 DELIMITER //
@@ -698,6 +701,7 @@ BEGIN
     WHERE student.code_student = __code_student;
 END//
 
+
 DROP PROCEDURE IF EXISTS sp_get_amount_register_student;
 DELIMITER //
 CREATE PROCEDURE sp_get_amount_register_student()
@@ -731,5 +735,6 @@ BEGIN
     SELECT 'SUCCESS' AS 'RES';
 END
 //
+
 
 
