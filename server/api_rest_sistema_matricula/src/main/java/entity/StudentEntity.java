@@ -167,29 +167,21 @@ public class StudentEntity {
         student.setFatherSurname(row.get("father_surname"));
         student.setMotherSurname(row.get("mother_surname"));
         student.setDni(row.get("dni"));
-        
         final PaymentDTO payment= new PaymentDTO();
         payment.setCode(Integer.parseInt(row.get("code_payment")));
-        
         final ClassroomDTO classroom = new ClassroomDTO();
         final GradeDTO grade = new GradeDTO();
         grade.setName(row.get("name_grade"));
-        
         final ShiftDTO shift = new ShiftDTO();
         shift.setCategory(row.get("category"));
-        
         final SectionDTO section = new SectionDTO();
         section.setLetter(row.get("letter"));
         section.setShift(shift);
-        
         classroom.setGrade(grade);
         classroom.setSection(section);
-    
         payment.setStudent(student);
-        
         enrollment.setPayment(payment); //name-apellidos- apelidos -dni-codigo de pago
         enrollment.setCode(Integer.parseInt(row.get("code_enrollment")));//codigo de matricula
-
         String str=row.get("date_enrollment");  
         Date date=Date.valueOf(str);
         enrollment.setDate(date.getTime());

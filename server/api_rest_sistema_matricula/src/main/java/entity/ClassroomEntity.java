@@ -16,10 +16,18 @@ public class ClassroomEntity {
     public SectionDTO[] getSections() {
         return toArraySectionDTOs(new ClassroomModel().getSections());
     }
-    public ClassroomVacancyDTO getDetailClassroom(final GradeDTO grade){
+    
+    public ClassroomVacancyDTO[] getDetailClassroom(final GradeDTO grade){
         final int codeGrade = grade.getCode();
         final ArrayList<HashMap<String,String>> table = new ClassroomModel().getDetailClassroom(codeGrade);
-        return table.size() > 0 ? getDTOforRowHashMapDetailClassroom(table.get(0)) : null;
+        return table.size() > 0 ? toArrayClassroomVacancyDTOs(table) : null;
+    }
+    private ClassroomVacancyDTO[] toArrayClassroomVacancyDTOs(ArrayList<HashMap<String, String>> table) {
+        final Object[] objArray = EntityHelper.hashMapArrayListToObjArray(
+                table, 
+                this::getDTOforRowHashMapDetailClassroom
+        );
+        return Arrays.copyOf(objArray, objArray.length, ClassroomVacancyDTO[].class);
     }
     private ClassroomVacancyDTO getDTOforRowHashMapDetailClassroom(HashMap<String, String> row) {
         final ClassroomVacancyDTO classroomVacancy = new ClassroomVacancyDTO();
