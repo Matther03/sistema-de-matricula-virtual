@@ -21,30 +21,23 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
             
     final String limitTop = request.getParameter("limitTop");
-    final String amount = request.getParameter("amount");
-    if (limitTop == null || amount == null){
+    if (limitTop == null){
         HelperController.templatePrintable(
                 FormatResponse.getErrorResponse("Parameter not sent.", 400) ,
                 response);
         return;
     }
     final AdminEntity adminEntity = new AdminEntity();
-    final Integer intLimitTop = adminEntity.isNumber(limitTop);
-    if (intLimitTop == null) {
+    final Integer parsedLimitTop = adminEntity.isNumber(limitTop);
+    if (parsedLimitTop == null) {
         HelperController.templatePrintable(
                 FormatResponse.getErrorResponse("Parameter limitTop is not number.", 400) ,
                 response);
         return;
     }
-    final Integer intamount = adminEntity.isNumber(amount);
-    if (intamount == null) {
-        HelperController.templatePrintable(
-                FormatResponse.getErrorResponse("Parameter amount is not number.", 400) ,
-                response);
-        return;
-    }
-    
-    final StudentDTO[] registerStudent = adminEntity.getStudentRegister(intLimitTop,intamount);
+
+    final int intamount = parsedLimitTop + 5;
+    final StudentDTO[] registerStudent = adminEntity.getStudentRegister(parsedLimitTop,intamount);
 
     HelperController.templatePrintable(registerStudent == null?
             FormatResponse.getErrorResponse("Not found", 400):
