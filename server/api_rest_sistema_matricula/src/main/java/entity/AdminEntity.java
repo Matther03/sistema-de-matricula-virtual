@@ -9,12 +9,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import model.AdminModel;
+
 public class AdminEntity {
     
-     public StudentDTO[] getStudents() {
-         return toArrayStudentsDTOs(new AdminModel().getStudents());
+    public StudentDTO[] getStudentRegister(){
+        final ArrayList<HashMap<String,String>> table = new  AdminModel().getStudents();
+        return table.size() > 0 ? toArrayStudentsDTOs(table) : null;
     }
-     private StudentDTO[] toArrayStudentsDTOs(ArrayList<HashMap<String, String>> table) {
+    private StudentDTO[] toArrayStudentsDTOs(ArrayList<HashMap<String, String>> table) {
         final Object[] objArray = EntityHelper.hashMapArrayListToObjArray(
                 table, 
                 (HashMap<String, String> row) -> getEnrollmentDTOforRowHashMap(row)

@@ -47,7 +47,7 @@ const Home = () => {
     return (
         <ContainerSectionHome>
             <HeaderSectionHome>
-                <HeaderProfileHome/>
+                <HeaderProfileHome only={true}/>
                 <h3 className="custom-title-4">
                     I.E.P VICTOR MANUEL MAURTUA - ICA - PERÚ
                 </h3>

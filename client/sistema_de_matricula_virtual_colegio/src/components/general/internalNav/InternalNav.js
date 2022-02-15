@@ -9,7 +9,10 @@ import { useLocation } from 'react-router';
 import { ContainerNav, NavLink, ArrowNav } from './styles';
 //#endregion
 
-const InternalNav = ({ information }) => {
+const InternalNav = ({ information = [
+            { path: "", nameRoute: "" }
+        ] 
+    }) => {
     //#region Extra Hooks
     const location = useLocation();
     //#endregion
@@ -21,9 +24,8 @@ const InternalNav = ({ information }) => {
         setCurrentPath((prev) => {
             const { pathname } = location;
             for (const idx in information) {
-                if (equalsWithSlash(
-                        pathname === information[idx].path, 
-                        pathname))
+                const currentPath = information[idx].path;
+                if (areEquals(currentPath, pathname)) 
                     return Number(idx);
             }
             return prev;
@@ -31,9 +33,8 @@ const InternalNav = ({ information }) => {
     }, [location.pathname]);
     //#endregion
     //#region Functions
-    const equalsWithSlash = (areEquals, pathname) => 
-        (areEquals || 
-        (areEquals && pathname.endsWith('/')));
+    const areEquals = (currentPath, pathname) => 
+        pathname === currentPath || pathname === `${currentPath}/`;
     //#endregion
     return (
         <ContainerNav>
@@ -43,7 +44,7 @@ const InternalNav = ({ information }) => {
                 ? [information[0]] 
                 : [...information]).map((row, idx) => (
                         <InternalNavLink key={idx}
-                            text={row.nameItemPath}
+                            text={row.nameRoute}
                             to={row.path}
                             end={
                                 currentPath === idx || 

@@ -13,7 +13,7 @@ export const FrameEnrollmentData = styled.section`
     gap: 30px;
     border: 1px solid #737373;
     border-radius: 20px;
-    padding: 50px 200px 80px 100px;
+    padding: 50px 100px;
     width: 100%;
     & h3 {
         font-weight: 600;
@@ -21,14 +21,8 @@ export const FrameEnrollmentData = styled.section`
         padding: 0;
         font-size: 20px;
     }
-    @media (max-width: 1200px) {
-        width: 95%
-    }
-    @media (max-width: 970px) {
-        justify-content: center;
-    }
     @media (max-width: 850px) {
-        padding: 50px 100px 80px 100px;
+        padding: 20px 70px;
     }
 `
 export const ContainerDataField = styled.div`
@@ -78,8 +72,9 @@ export const ContainerDataField = styled.div`
 `;
 export const ContentEnrollmentData = styled.section`
     display: flex;
+    flex-direction: ${props => props.direction};
     justify-content: space-between;
-    gap: 100px;
+    gap: 20px;
     @media (max-width: 973px) {
         display: flex;
         justify-content: center;
@@ -88,5 +83,11 @@ export const ContentEnrollmentData = styled.section`
     }
     @media (max-width: 850px) {
         flex-direction: column;
+    }
+    & .row {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        flex-wrap: wrap;
     }
 `;

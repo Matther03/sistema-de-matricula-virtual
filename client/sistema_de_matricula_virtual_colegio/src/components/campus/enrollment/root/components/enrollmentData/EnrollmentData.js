@@ -25,42 +25,75 @@ const DataField = ({ className, input, description, value }) => {
         </ContainerDataField>
     );
 }
-const EnrollmentData = () => {
+const sectionsTest = [
+    {codeSection: 1, nameSection: "A"},
+    {codeSection: 2, nameSection: "B"},
+    {codeSection: 3, nameSection: "C"}
+];
+const EnrollmentData = ({enrollmentInformation}) => {
     //#region States
-    const [section, setSection] = useState(0);
+    const [codeSection, setCodeSection] = useState(0);
+    //#endregion
+    //#region Functions
+    const getStudentDataDetail = (data) => [
+        [
+            { description: "Apellidos y Nombres", value: data.fullName },
+            { description: "DNI", value: data.dni },
+        ]
+    ];
+    const getEnrollmentDataDetail = (data) => [
+        [
+            { description: "Grado", value: data.grade },
+            { 
+                description: "Sección", 
+                input: (
+                    <Select 
+                        value={codeSection} 
+                        onChange={(e) => setCodeSection(Number(e.target.value))}
+                        className="select-section">
+                        <MenuItem value={0} disabled>- SECCIÓN -</MenuItem>
+                        {sectionsTest.map((sectionsTest, idx) => (
+                            <MenuItem 
+                            key={idx} 
+                            value={sectionsTest.codeSection}>{sectionsTest.nameSection}</MenuItem>
+                        ))}
+                    </Select>
+                )
+            },
+            { description: "Turno", value: data.shift }
+        ]
+    ];
     //#endregion
     return (
         <ContainerEnrollmentData>
             <FrameEnrollmentData>
                 <h3>DATOS DEL ALUMNO</h3>
-                <ContentEnrollmentData>
-                    <DataField 
-                        description="DNI" value="70290308"/>
-                    <DataField 
-                        className="student-name" 
-                        description="Alumno" 
-                        value="Salazar Carbajal Yoni Raymundo"/>
+                <ContentEnrollmentData direction="column">
+                    {getStudentDataDetail(enrollmentInformation).map((column, idx1) => (
+                        <div key={idx1} className="row">
+                            {column.map((dataDetail, idx2) => (
+                                <DataField
+                                    key={idx2}
+                                    description={dataDetail.description}
+                                    value={dataDetail.value}/>
+                            ))}
+                        </div>
+                    ))}
                 </ContentEnrollmentData>
                 <h3>MATRÍCULA</h3>
-                <ContentEnrollmentData>
-                    <DataField 
-                        description="Grado" value="1ero Sec"/>
-                    <DataField 
-                        description="Sección" input={
-                            <Select 
-                                value={section} 
-                                onChange={(e) => setSection(Number(e.target.value))}
-                                className="select-section">
-                                <MenuItem value={0} disabled>- SECCIÓN -</MenuItem>
-                                <MenuItem value={1}>A</MenuItem>
-                                <MenuItem value={2}>B</MenuItem>
-                                <MenuItem value={3}>C</MenuItem>
-                                <MenuItem value={4}>D</MenuItem>
-                                <MenuItem value={5}>E</MenuItem>
-                            </Select>
-                        }/>
-                    <DataField 
-                        description="Turno" value="Mañana"/>
+                <ContentEnrollmentData direction="row">
+                    {getEnrollmentDataDetail(enrollmentInformation)
+                        .map((column, idx1) => (
+                        <div key={idx1} className="row">
+                            {column.map((dataDetail, idx2) => (
+                                <DataField
+                                    key={idx2}
+                                    description={dataDetail.description}
+                                    value={dataDetail.value && dataDetail.value}
+                                    input={dataDetail.input && dataDetail.input}/>
+                            ))}
+                        </div>
+                    ))}
                 </ContentEnrollmentData>
             </FrameEnrollmentData>
         </ContainerEnrollmentData>

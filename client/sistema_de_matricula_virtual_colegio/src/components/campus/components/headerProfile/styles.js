@@ -4,15 +4,16 @@ import styled from "styled-components";
 
 export const ContainerProfile = styled.article`
     position: relative;
+    align-self: flex-end;
+    margin-right: 20px;
+    z-index: 0;
     & .icons {
         display: flex;
         align-items: center;
         cursor: pointer;
         user-select: none;
     }
-    & h3 {
-        font-weight: normal;
-    }
+    & h3 { font-weight: normal; }
     & .iconify {
         color: var(--fourth-color);
         font-size: 45px;
@@ -29,23 +30,31 @@ export const ContentProfile = styled.article`
     gap: 15px;
     cursor: pointer;
     user-select: none;
-    z-index: 1;
     transition: 0.35s;
-    & .arrow {
-        width: 0;
-        height: 0;
-        border-left: 6px solid transparent;
-        border-right: 6px solid transparent;
-        border-top: 6px solid var(--fourth-color); 
-        font-size: 0;
-        line-height: 0;
+    z-index: 0;
+    & span { font-weight: 500; }
+    & .iconify.arrow {
+        font-size: 11px;
         transition: 0.35s;
     }
-    & .up {
-        transform: rotate(-180deg);
+    & .iconify.arrow.up {
+        transform: rotate(180deg);
     }
     &:hover {
         background-color: var(--secondary-blue);
+    }
+    &.only {
+        border-radius: 10px;
+        align-self: flex-end;
+        & span {
+            color: var(--eight-color);
+        }
+        & .icons .iconify {
+            color: var(--eight-color);
+        }
+    }
+    &.only:hover {
+        background-color: var(--fourth-color);
     }
 `
 export const ContainerLogoutBtn = styled.button`
