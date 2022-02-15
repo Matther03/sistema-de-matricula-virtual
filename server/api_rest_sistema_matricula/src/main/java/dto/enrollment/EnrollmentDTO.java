@@ -6,7 +6,7 @@ import java.sql.Date;
 public class EnrollmentDTO {
     //<editor-fold defaultstate="collapsed" desc="Properties">
     private Integer code;
-    private Date date;
+    private Long date;
     private Boolean repeater;
     private PaymentDTO payment;
     private ClassroomDTO classroom;
@@ -22,7 +22,7 @@ public class EnrollmentDTO {
         this.repeater= false;
     }
 
-    public EnrollmentDTO(Integer code, Date date, Boolean repeater, PaymentDTO payment, ClassroomDTO classroom, TypeSchoolDTO typeSChool) {
+    public EnrollmentDTO(Integer code, Long date, Boolean repeater, PaymentDTO payment, ClassroomDTO classroom, TypeSchoolDTO typeSChool) {
         this.code = code;
         this.date = date;
         this.repeater = repeater;
@@ -40,11 +40,11 @@ public class EnrollmentDTO {
         this.code = code;
     }
 
-    public Date getDate() {
+    public Long getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Long date) {
         this.date = date;
     }
 

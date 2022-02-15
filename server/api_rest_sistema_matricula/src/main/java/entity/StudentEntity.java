@@ -20,6 +20,7 @@ import utils.Encrypt;
 import utils.validation.Validation;
 import utils.authentication.JWTAuthentication;
 import utils.authentication.RoleAuthJWT;
+import utils.enums.ResponseEnrollment;
 
 public class StudentEntity {
     
@@ -79,43 +80,21 @@ public class StudentEntity {
             return false;
         }
     }
-    
-    
-    enum Response{
-    END_STUDIES, ENROLLED, PAID;}
-    
-    public String response(final StudentDTO student){
+    public boolean canEnrolled (final StudentDTO student){
         final boolean paid = hasPaid(student);
-        final boolean grade = verifyGradeEnroll(student);
-        final boolean enrolled = verifyEnroll(student);
-        Response rpt = null;
-        String msg = null;
-        
-        if (!paid) {
-            rpt = Response.PAID;
-        }
-        if (!enrolled) {
-            rpt = Response.ENROLLED;
-        }
-        if (!grade) {
-            rpt = Response.END_STUDIES;
-        }
-        
-        switch(rpt){
-            case END_STUDIES:
-                msg = "END_STUDIES";
-                break;
-            case ENROLLED:
-                msg = "ENROLLED";
-                break;
-            case PAID:
-                msg = "PAID";
-                break;
-        }
-        
-        return msg ;
+        final boolean verifiedEnroll = verifyEnroll(student);
+        return paid && verifiedEnroll;
     }
     
+    public ResponseEnrollment canEnroll(final StudentDTO student){
+        if (!verifyGradeEnroll(student)) 
+            return ResponseEnrollment.COMPLETED_STUDIES;
+        if (!verifyEnroll(student)) 
+            return ResponseEnrollment.ENROLLED;
+        if (!hasPaid(student)) 
+            return ResponseEnrollment.NO_PAID;
+        return ResponseEnrollment.CAN_ENROLL ;
+    }
     //</editor-fold>
     
     //Get grade to entollment
@@ -162,12 +141,7 @@ public class StudentEntity {
         int grade = newGrade.getCode();
         return grade != 6;
     }
-    public boolean canEnroll (final StudentDTO student){
-        final boolean paid = hasPaid(student);
-        final boolean verifiedGradeEnroll = verifyGradeEnroll(student);
-        final boolean verifiedEnroll = verifyEnroll(student);
-        return paid && verifiedEnroll && verifiedEnroll;
-    }
+
     public boolean isValidAccount(final AccountDTO accountToLogin) {
         if (!Validation.isValidDNI(accountToLogin.getStudent().getDni())) 
             return false;
@@ -215,12 +189,10 @@ public class StudentEntity {
         
         enrollment.setPayment(payment); //name-apellidos- apelidos -dni-codigo de pago
         enrollment.setCode(Integer.parseInt(row.get("code_enrollment")));//codigo de matricula
-        
-        String dateFormat = "yyyy-MM-dd";
-        //enrollment.setDate();
+
         String str=row.get("date_enrollment");  
         Date date=Date.valueOf(str);
-        enrollment.setDate(date);
+        enrollment.setDate(date.getTime());
         enrollment.setClassroom(classroom); //grado-letra-seccion
         return enrollment;
     }

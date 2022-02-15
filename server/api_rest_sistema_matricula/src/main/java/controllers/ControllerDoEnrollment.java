@@ -50,25 +50,23 @@ public class ControllerDoEnrollment extends HttpServlet {
         // Validacion de matriculación
         final StudentDTO student = new StudentDTO();
         student.setCode(codeStudent.getAsInt());
-        final boolean canEnroll = entityStudent.canEnroll(student);
+        final boolean canEnroll = entityStudent.canEnrolled(student);
         
         // Control de estudiantes que se pueden matricular y quienes no
         if(!canEnroll){
             return FormatResponse.getErrorResponse("The student cannot enroll.", 400);
         }
 
-        Boolean rpt = entityStudent.doEnrollment(codeStudentParsed, codeGradeParsed, codeSectionParsed);
-        if (rpt==null) {
+        Boolean responseCanEnroll = entityStudent.doEnrollment(codeStudentParsed, codeGradeParsed, codeSectionParsed);
+        if (responseCanEnroll==null) {
             return FormatResponse.getErrorResponse("The student does not meet any requirement.", 400);
         }
         
         //Estructura de la respuesta
-        body.addProperty("enrolled",rpt);
-        body.remove("codeStudent");
-        body.remove("codeGrade");
-        body.remove("codeSection");
+        final JsonObject data = new JsonObject();
+        data.addProperty("enrolled",responseCanEnroll);
                 
-        return FormatResponse.getSuccessResponse(body);
+        return FormatResponse.getSuccessResponse(data);
     }
 
 }

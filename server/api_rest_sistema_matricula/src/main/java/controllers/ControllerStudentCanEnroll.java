@@ -42,16 +42,10 @@ public class ControllerStudentCanEnroll extends HttpServlet {
         // Estructura de la respuesta 
         final StudentDTO student = new StudentDTO();
         student.setCode(codeStudent.getAsInt());
-        
-        final boolean canEnroll = entityStudent.canEnroll(student);
-        body.addProperty("canEnroll", canEnroll);
+        final JsonObject data = new JsonObject();
+        final String reason = entityStudent.canEnroll(student).toString();
+        data.addProperty("stateEnroll", reason);
 
-        if (!canEnroll) {
-            final String reason = entityStudent.response(student);
-            body.addProperty("reason", reason);
-        }
-        
-        body.remove("codeStudent");  
-        return FormatResponse.getSuccessResponse(body);
+        return FormatResponse.getSuccessResponse(data);
     }
 }
