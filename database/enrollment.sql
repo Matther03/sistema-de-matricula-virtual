@@ -16,6 +16,7 @@ CREATE TABLE representative(
     dni CHAR(8) NOT NULL,
     email VARCHAR(50) NOT NULL,
     phone CHAR(9) NOT NULL,
+    UNIQUE (dni),
     PRIMARY KEY(code_representative)
 );
 
@@ -29,6 +30,8 @@ CREATE TABLE student(
     dni CHAR(8) NOT NULL,
     direction VARCHAR(50) NOT NULL,
     code_representative INT(5) NOT NULL,
+    active BIT NOT NULL,
+    UNIQUE (dni),
     PRIMARY KEY(code_student),
     FOREIGN KEY (code_representative) REFERENCES representative(code_representative)
 );
@@ -444,16 +447,16 @@ INSERT INTO representative(_name,father_surname,mother_surname,dni,email,phone) 
 INSERT INTO representative(_name,father_surname,mother_surname,dni,email,phone) VALUES('Maria','Perez','Ribeira','78945601','@gmail.com','987654329');
 INSERT INTO representative(_name,father_surname,mother_surname,dni,email,phone) VALUES('Martha','Gordis','Nouns','78945602','@gmail.com','987654300');
 
-INSERT INTO student(_name,father_surname,mother_surname,date_of_birth,dni,direction,code_representative) VALUES('Luis Aldair','Eto','Lucas','2008-01-20','77665501','Av. San Carlos #222','1');
-INSERT INTO student(_name,father_surname,mother_surname,date_of_birth,dni,direction,code_representative) VALUES('Neymar Junior','Pele','Messi','2009-03-20','77665502','Av. San Miguel #152','2');
-INSERT INTO student(_name,father_surname,mother_surname,date_of_birth,dni,direction,code_representative) VALUES('Leonel Jose','Zidane','Robinho','2008-02-14','77665503','Av. San Pollitos #265','3');
-INSERT INTO student(_name,father_surname,mother_surname,date_of_birth,dni,direction,code_representative) VALUES('Manuel Junior','Rivera','Nose','2008-02-10','77665504','Av. Narnia #233','4');
-INSERT INTO student(_name,father_surname,mother_surname,date_of_birth,dni,direction,code_representative) VALUES('Karen','Carlos','Pancha','2007-04-25','77665505','Av. Quito #123','5');
-INSERT INTO student(_name,father_surname,mother_surname,date_of_birth,dni,direction,code_representative) VALUES('Vania','Danfris','Ratona','2006-05-22','77665506','Av. San clemente #111','6');
-INSERT INTO student(_name,father_surname,mother_surname,date_of_birth,dni,direction,code_representative) VALUES('Penita','Dorada','Tijuan','2008-01-18','77665507','Calle Los Fiqus #77','7');
-INSERT INTO student(_name,father_surname,mother_surname,date_of_birth,dni,direction,code_representative) VALUES('Luz','Bravo','Tintin','2007-03-15','77665508','Av. San Carlos #112','8');
-INSERT INTO student(_name,father_surname,mother_surname,date_of_birth,dni,direction,code_representative) VALUES('Maria','Pia','tazo','2006-06-13','77665509','Urb. Portales #454','9');
-INSERT INTO student(_name,father_surname,mother_surname,date_of_birth,dni,direction,code_representative) VALUES('Timoteo','Bacial','San','2007-06-21','77665500','Av. ','10');
+INSERT INTO student(_name,father_surname,mother_surname,date_of_birth,dni,direction,code_representative,active) VALUES('Luis Aldair','Eto','Lucas','2008-01-20','77665501','Av. San Carlos #222','1','1');
+INSERT INTO student(_name,father_surname,mother_surname,date_of_birth,dni,direction,code_representative,active) VALUES('Neymar Junior','Pele','Messi','2009-03-20','77665502','Av. San Miguel #152','2','1');
+INSERT INTO student(_name,father_surname,mother_surname,date_of_birth,dni,direction,code_representative,active) VALUES('Leonel Jose','Zidane','Robinho','2008-02-14','77665503','Av. San Pollitos #265','3','1');
+INSERT INTO student(_name,father_surname,mother_surname,date_of_birth,dni,direction,code_representative,active) VALUES('Manuel Junior','Rivera','Nose','2008-02-10','77665504','Av. Narnia #233','4','1');
+INSERT INTO student(_name,father_surname,mother_surname,date_of_birth,dni,direction,code_representative,active) VALUES('Karen','Carlos','Pancha','2007-04-25','77665505','Av. Quito #123','5','1');
+INSERT INTO student(_name,father_surname,mother_surname,date_of_birth,dni,direction,code_representative,active) VALUES('Vania','Danfris','Ratona','2006-05-22','77665506','Av. San clemente #111','6','1');
+INSERT INTO student(_name,father_surname,mother_surname,date_of_birth,dni,direction,code_representative,active) VALUES('Penita','Dorada','Tijuan','2008-01-18','77665507','Calle Los Fiqus #77','7','1');
+INSERT INTO student(_name,father_surname,mother_surname,date_of_birth,dni,direction,code_representative,active) VALUES('Luz','Bravo','Tintin','2007-03-15','77665508','Av. San Carlos #112','8','1');
+INSERT INTO student(_name,father_surname,mother_surname,date_of_birth,dni,direction,code_representative,active) VALUES('Maria','Pia','tazo','2006-06-13','77665509','Urb. Portales #454','9','1');
+INSERT INTO student(_name,father_surname,mother_surname,date_of_birth,dni,direction,code_representative,active) VALUES('Timoteo','Bacial','San','2007-06-21','77665500','Av. ','10','1');
 
 INSERT INTO account(_password,code_student) VALUES('$2a$10$JmACanPS43pCL7ogvywlFOrGQyyUBivP6QIf1ly.GOpn/lq05tfWi','1'); -- Contralumno1
 INSERT INTO account(_password,code_student) VALUES('$2a$10$M0uQXWkKGRyTlUEbKyV3XuStDaEpWeemF2iufG1E3gFS53Kf0JOtq','2'); -- Elcrack123
@@ -655,3 +658,46 @@ BEGIN
             ON section.code_shift = shift.code_shift
                 WHERE student.code_student = __code_student;
 END//
+
+-- admin
+
+DROP PROCEDURE IF EXISTS sp_get_register_student;
+DELIMITER //
+CREATE PROCEDURE sp_get_register_student(
+    IN __limit_top INT(6),
+    IN __amount INT(6)
+)
+BEGIN
+    SELECT  
+        code_student,
+        dni,
+        _name,
+        father_surname,
+        mother_surname,
+        direction,
+        date_of_birth
+    FROM
+        student
+    LIMIT __limit_top,__amount;
+END//
+
+DROP PROCEDURE IF EXISTS sp_get_representative;
+DELIMITER //
+CREATE PROCEDURE sp_get_representative(
+    IN __code_student INT(6)
+)
+BEGIN
+    SELECT  
+        representative.dni,
+        representative._name,
+        representative.father_surname,
+        representative.mother_surname,
+        representative.email,
+        representative.phone
+    FROM
+        student
+    INNER JOIN representative
+        ON  student.code_representative = representative.code_representative 
+    WHERE student.code_student = __code_student;
+END//
+
