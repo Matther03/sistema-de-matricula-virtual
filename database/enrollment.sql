@@ -697,3 +697,39 @@ BEGIN
         ON  student.code_representative = representative.code_representative 
     WHERE student.code_student = __code_student;
 END//
+
+DROP PROCEDURE IF EXISTS sp_get_amount_register_student;
+DELIMITER //
+CREATE PROCEDURE sp_get_amount_register_student()
+BEGIN
+    SELECT  count(*) AS 'RES' FROM student;
+END//
+
+DROP PROCEDURE IF EXISTS sp_update_student;
+DELIMITER //
+CREATE PROCEDURE sp_update_student(
+    IN __dni CHAR(8),  
+    IN __name VARCHAR(50), 
+    IN __father_surname VARCHAR(25), 
+    IN __mother_surname VARCHAR(25),
+    IN __direction VARCHAR(50),
+    IN __date_of_birth DATE,
+    IN __active BIT,
+    IN __code_student INT(6)
+) 
+BEGIN
+    UPDATE student 
+    SET
+        _name = CASE WHEN __name IS NOT NULL THEN __name ELSE _name END, 
+        father_surname = CASE WHEN __father_surname IS NOT NULL THEN __father_surname ELSE father_surname END,
+        mother_surname = CASE WHEN __mother_surname IS NOT NULL THEN __mother_surname ELSE mother_surname END,
+        date_of_birth = CASE WHEN __date_of_birth IS NOT NULL THEN __date_of_birth ELSE date_of_birth END,
+        dni = CASE WHEN __dni IS NOT NULL THEN __dni ELSE dni END, 
+        direction = CASE WHEN __direction IS NOT NULL THEN __direction ELSE direction END,
+        active = CASE WHEN __active IS NOT NULL THEN __active ELSE active END
+    WHERE student.code_student= __code_student;
+    SELECT 'SUCCESS' AS 'RES';
+END
+//
+
+
