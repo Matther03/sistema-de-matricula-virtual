@@ -6,10 +6,14 @@ public class ControllerAuthenticationPatterns {
         "/student/detail-classroom", 
         "/student/enrollment",
         "/student/can-enroll",
-        "/student/grade-to-enrollment"
+        "/student/grade-to-enrollment",
+        
+        "/student/register"
+        
     };
     public static String[] ADMIN_PATHS = {
-        "/student/register"
+        "/student/register",
+        "/"
     };
     public static String ROOT = "/api_rest_sistema_matricula/api";
 }
