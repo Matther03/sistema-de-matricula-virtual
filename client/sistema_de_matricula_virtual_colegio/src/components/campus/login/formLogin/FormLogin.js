@@ -30,7 +30,8 @@ import {
     isLoggedStudent } from '../../../../services/campus/auth';
 import { 
     getDetailCampusRequest,  
-    setDetailCampus } from '../../../../services/campus/student';
+    setDetailCampus 
+} from '../../../../services/campus/student';
 //#endregion
 
 const regex = {

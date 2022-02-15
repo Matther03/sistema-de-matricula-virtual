@@ -35,9 +35,12 @@ const CustomDataTable = ({
         </TableHead>
         <TableBody>
             {rows && rows.map((row, idx) => (
-                <StyledTableRow key={idx}>
+                <StyledTableRow 
+                    key={idx}>
                     {Object.entries(row).map(([key, value]) => (
-                        <StyledTableCell key={key}>
+                        <StyledTableCell 
+                            key={key}
+                            className={className}>
                             {value}
                         </StyledTableCell>
                     ))}

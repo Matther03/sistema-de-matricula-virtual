@@ -19,7 +19,8 @@ import PopupMessage from '../../../general/popupMessage/PopupMessage';
 import CustomDataTable from '../../../general/customDataTable/CustomDataTable';
 //#endregion
 //#region Services
-import { getSections } from '../../../../services/campus/enrollment';
+import { getDetailCampus } from '../../../../services/campus/student';
+import { getGradeToEnroll, getDetailClassroom } from '../../../../services/campus/enrollment';
 //#endregion
 
 const tableDataVacancies = {
@@ -37,18 +38,29 @@ const EnrollmentRoot = () => {
     //#region States
     const [enrollmentInformation, setEnrollmentInformation] = useState({
         dni: "76086866",
-        student: "Luján Carrión Mayimbú",
+        fullName: "Luján Carrión Mayimbú",
         grade: "1ero Sec",
         shift: "Madrugada"
     });
     //#endregion
     //#region Effects
     useEffect(() => {
-        (async () => {
-            const res = await getSections();
-            console.log(res);
-        })();
-    });
+        fillEnrollmentInformation();
+    }, []);
+    const fillEnrollmentInformation = async () => {
+        const  { _, ...restDetailCampus } = getDetailCampus();
+        let objToSet = {
+            ...restDetailCampus
+        };
+        const resGradeToEnroll = await getGradeToEnroll();
+        const codeGrade = resGradeToEnroll[0].data.code;
+        const resDetailClassroom = await getDetailClassroom(codeGrade);
+        console.log(resDetailClassroom);
+        objToSet = {
+            ...objToSet
+        }
+        setEnrollmentInformation(objToSet);
+    }
     //#endregion
     return (
         <ContainerSectionEnrollment>
