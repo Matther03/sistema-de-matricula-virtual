@@ -19,7 +19,7 @@ public class JWTAuthentication {
                     .setSubject(username)
                     .claim("role", role.toString())
                     .setIssuedAt(new Date(System.currentTimeMillis()))
-                    .setExpiration(new Date(System.currentTimeMillis() + 600000))
+                    .setExpiration(new Date(System.currentTimeMillis() + 300000))
                     .signWith(
                         SignatureAlgorithm.HS512,
                         SECRET_KEY.getBytes())

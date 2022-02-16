@@ -10,25 +10,29 @@ public class StudentDTO {
     private String name;
     private String fatherSurname;
     private String motherSurname;
-    private Date dateBirth;
+    private Long dateBirth;
     private String dni;
-    private String direction;
+    private String address;
     private RepresentativeDTO representative;
+    private Boolean active;
     //</editor-fold>  
-
+    
     public StudentDTO(){
     }
-
-    public StudentDTO(Integer code, String name, String fatherSurname, String motherSurname, Date dateBirth, String dni, String direction, RepresentativeDTO representative) {
+    
+    public StudentDTO(Integer code, String name, String fatherSurname, String motherSurname, Long dateBirth, String dni, String address, RepresentativeDTO representative, Boolean active) {
         this.code = code;
         this.name = name;
         this.fatherSurname = fatherSurname;
         this.motherSurname = motherSurname;
         this.dateBirth = dateBirth;
         this.dni = dni;
-        this.direction = direction;
+        this.address = address;
         this.representative = representative;
+        this.active = active;
     }
+
+  
     
 
     //<editor-fold defaultstate="collapsed" desc="Getters and Setters">  
@@ -64,11 +68,11 @@ public class StudentDTO {
         this.motherSurname = motherSurname;
     }
 
-    public Date getDateBirth() {
+    public Long getDateBirth() {
         return dateBirth;
     }
 
-    public void setDateBirth(Date dateBirth) {
+    public void setDateBirth(Long dateBirth) {
         this.dateBirth = dateBirth;
     }
 
@@ -80,12 +84,12 @@ public class StudentDTO {
         this.dni = dni;
     }
 
-    public String getDirection() {
-        return direction;
+    public String getAddress() {
+        return address;
     }
 
-    public void setDirection(String direction) {
-        this.direction = direction;
+    public void setAddress(String address) {
+        this.address = address;
     }
     
     public RepresentativeDTO getRepresentative() {
@@ -96,6 +100,14 @@ public class StudentDTO {
         this.representative = representative;
     }
     
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
     //</editor-fold>  
 
     
