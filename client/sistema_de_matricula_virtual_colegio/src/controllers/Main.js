@@ -2,7 +2,8 @@
 import { 
     BrowserRouter, 
     Routes, 
-    Route 
+    Route, 
+    Navigate
 } from "react-router-dom";
 //#endregion
 //#region Components
@@ -18,7 +19,9 @@ const Main = () => {
                 <Routes>
                     <Route path="campus/*" element={<Campus/>}/>
                     <Route path="admin/*" element={<Administrator/>}/>
-                    <Route path="*" element={<Campus/>}/>
+                    <Route 
+                        path="*" 
+                        element={<Navigate to="/campus" replace={true}/>}/>
                 </Routes>
                 <MainFooter/>
             </BrowserRouter>
