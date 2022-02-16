@@ -192,7 +192,7 @@ const FormLogin = () => {
                 icons="ci:error-outline"
                 buttons={[
                     () => <a 
-                        href="https://google.com"
+                        href="http://localhost/sitio_web_colegio/html/admision.html"
                         target="_blank">
                         <CustomButton
                             variant="outlined"

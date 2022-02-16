@@ -1,67 +1,58 @@
 //#region Libraries
 import styled from "styled-components";
+import {
+    Select,
+    MenuItem
+} from '@mui/material';
 //#endregion
 
 export const ContainerEnrollmentData = styled.section`
     display: flex;
-    padding: 40px 0;
     justify-content: center;
+    width: 100%;
+    max-width: 700px;
+    margin-bottom: 20px;
+    @media (max-width: 750px) {
+        width: 92%
+    }
 `;
 export const FrameEnrollmentData = styled.section`
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 35px;
     border: 1px solid #737373;
     border-radius: 20px;
-    padding: 50px 100px;
-    width: 100%;
+    padding: 30px 40px;
+    width: 90%;
+    & .content {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
     & h3 {
         font-weight: 600;
         margin: 0;
         padding: 0;
         font-size: 20px;
     }
-    @media (max-width: 850px) {
-        padding: 20px 70px;
+    @media (max-width: 750px) {
+        width: 100%;
     }
 `
 export const ContainerDataField = styled.div`
     display: flex;
     flex-direction: column;
+    gap: 6px;
     & .description {
-        padding: 0 50px 0 20px;
         font-size: 20px;
         color: #737373;
         font-weight: 400;
         margin: 0;
     }
     & .value {
-        padding: 0 0 0 40px;
         font-size: 19px;
         font-weight: 400;
-        margin: 5px 0 0 0;
-    }
-    &.student-name {
-        padding: 0 0 0 115px;
-        @media (max-width: 1200px) {
-            padding: 0 0 0 30px;
-        }
-        @media (max-width: 973px) {
-            padding: 0 0 0 50px;
-        }
-        @media (max-width: 567px) {
-            padding: 0 0 0 40px;
-        }
-    }
-    & .section-selection {
-        padding: 0 0 0 30px;
-    }
-    & .select-section {
-        flex-direction: row;
-        width: 150px;
-        border-radius: 10px;
-        font-size: 20px;
-        margin-left: 30px;
+        margin-left: 25px;
     }
     & .css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
         border-color: var(--primary-color);
@@ -70,24 +61,29 @@ export const ContainerDataField = styled.div`
         padding: 5px 0 5px 15px;
     }
 `;
+export const SelectSection = styled(Select)`
+    width: 150px !important;
+    & div {
+        text-align: center !important;
+    }
+    border-radius: 10px;
+    font-size: 20px;
+    margin-left: 30px;
+`;
+export const MenuItemSection = styled(MenuItem)`
+    display: flex !important;
+    justify-content: center !important;
+`;
 export const ContentEnrollmentData = styled.section`
     display: flex;
-    flex-direction: ${props => props.direction};
     justify-content: space-between;
     gap: 20px;
-    @media (max-width: 973px) {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 30px;
-    }
-    @media (max-width: 850px) {
-        flex-direction: column;
-    }
     & .row {
         display: flex;
         flex-direction: row;
-        width: 100%;
         flex-wrap: wrap;
+        justify-content: space-between;
+        width: 100%;
+        gap: 15px;
     }
 `;

@@ -8,13 +8,10 @@ import {
     ContainerDataField, 
     ContainerEnrollmentData,
     FrameEnrollmentData, 
-    ContentEnrollmentData } from './styles';
-//#endregion
-//#region mui
-import {
-    Select,
-    MenuItem
-} from '@mui/material';
+    ContentEnrollmentData,  
+    SelectSection,
+    MenuItemSection
+} from './styles';
 //#endregion
 
 const DataField = ({ className, input, description, value }) => {
@@ -25,14 +22,13 @@ const DataField = ({ className, input, description, value }) => {
         </ContainerDataField>
     );
 }
-const sectionsTest = [
-    {codeSection: 1, nameSection: "A"},
-    {codeSection: 2, nameSection: "B"},
-    {codeSection: 3, nameSection: "C"}
-];
-const EnrollmentData = ({enrollmentInformation}) => {
+
+const EnrollmentData = ({ 
+        information, 
+        sections,
+        changeSection 
+}) => {
     //#region States
-    const [codeSection, setCodeSection] = useState(0);
     //#endregion
     //#region Functions
     const getStudentDataDetail = (data) => [
@@ -43,58 +39,72 @@ const EnrollmentData = ({enrollmentInformation}) => {
     ];
     const getEnrollmentDataDetail = (data) => [
         [
-            { description: "Grado", value: data.grade },
+            { description: "Grado", value: data.grade.name },
             { 
                 description: "Sección", 
                 input: (
-                    <Select 
-                        value={codeSection} 
-                        onChange={(e) => setCodeSection(Number(e.target.value))}
-                        className="select-section">
-                        <MenuItem value={0} disabled>- SECCIÓN -</MenuItem>
-                        {sectionsTest.map((sectionsTest, idx) => (
-                            <MenuItem 
-                            key={idx} 
-                            value={sectionsTest.codeSection}>{sectionsTest.nameSection}</MenuItem>
+                    <SelectSection 
+                        value={data.codeSection} 
+                        onChange={(e) => {
+                            const codeSection = Number(e.target.value);
+                            changeSection(
+                                sections.find(
+                                    section => section.code === codeSection
+                                )
+                            );
+                        }}>
+                        <MenuItemSection 
+                            value={0} 
+                            disabled>- SECCIÓN -</MenuItemSection>
+                        {sections.map((section, idx) => (
+                            <MenuItemSection 
+                                key={idx} 
+                                value={section.code}>
+                                {section.letter}
+                            </MenuItemSection>
                         ))}
-                    </Select>
+                    </SelectSection>
                 )
             },
-            { description: "Turno", value: data.shift }
+            { description: "Turno", value: data.shiftCategory }
         ]
     ];
     //#endregion
     return (
         <ContainerEnrollmentData>
             <FrameEnrollmentData>
-                <h3>DATOS DEL ALUMNO</h3>
-                <ContentEnrollmentData direction="column">
-                    {getStudentDataDetail(enrollmentInformation).map((column, idx1) => (
-                        <div key={idx1} className="row">
-                            {column.map((dataDetail, idx2) => (
-                                <DataField
-                                    key={idx2}
-                                    description={dataDetail.description}
-                                    value={dataDetail.value}/>
-                            ))}
-                        </div>
-                    ))}
-                </ContentEnrollmentData>
-                <h3>MATRÍCULA</h3>
-                <ContentEnrollmentData direction="row">
-                    {getEnrollmentDataDetail(enrollmentInformation)
-                        .map((column, idx1) => (
-                        <div key={idx1} className="row">
-                            {column.map((dataDetail, idx2) => (
-                                <DataField
-                                    key={idx2}
-                                    description={dataDetail.description}
-                                    value={dataDetail.value && dataDetail.value}
-                                    input={dataDetail.input && dataDetail.input}/>
-                            ))}
-                        </div>
-                    ))}
-                </ContentEnrollmentData>
+                <section className="content">                    
+                    <h3>DATOS DEL ALUMNO</h3>
+                    <ContentEnrollmentData>
+                        {getStudentDataDetail(information).map((column, idx1) => (
+                            <div key={idx1} className="row">
+                                {column.map((dataDetail, idx2) => (
+                                    <DataField
+                                        key={idx2}
+                                        description={dataDetail.description}
+                                        value={dataDetail.value}/>
+                                ))}
+                            </div>
+                        ))}
+                    </ContentEnrollmentData>
+                </section>
+                <section className="content">                    
+                    <h3>MATRÍCULA</h3>
+                    <ContentEnrollmentData>
+                        {getEnrollmentDataDetail(information)
+                            .map((column, idx1) => (
+                            <div key={idx1} className="row">
+                                {column.map((dataDetail, idx2) => (
+                                    <DataField
+                                        key={idx2}
+                                        description={dataDetail.description}
+                                        value={dataDetail.value && dataDetail.value}
+                                        input={dataDetail.input && dataDetail.input}/>
+                                ))}
+                            </div>
+                        ))}
+                    </ContentEnrollmentData>
+                </section>
             </FrameEnrollmentData>
         </ContainerEnrollmentData>
     )

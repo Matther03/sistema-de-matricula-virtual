@@ -23,4 +23,15 @@ export const getDetailClassroom = async (codeGrade) => {
         `/student/detail-classroom?codeGrade=${codeGrade}`, "GET"
     );
 }
+export const doEnrollment = async (data) => {
+    return await doRequestCampus(
+        "/student/enrollment", "POST", data);
+}
+export const getDetailEnrollment = async (codeStudent) => {
+    return await doRequestCampus(
+        "/student/detail-enrollment", "POST", {
+            codeStudent
+        }
+    );
+}
 //#endregion

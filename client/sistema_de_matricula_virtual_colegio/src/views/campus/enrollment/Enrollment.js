@@ -48,8 +48,10 @@ const enrollResponse = {
 }
 
 const Enrollment = () => {
+    //#region States
     const [didMount, setDidMount] = useState(false);
     const [stateEnroll, setStateEnroll] = useState("");
+    //#endregion
     //#region Effects
     useEffect(() => {
         setDidMount(true);
@@ -70,28 +72,32 @@ const Enrollment = () => {
     } 
     //#endregion
     if (!didMount) return null;
-    if (stateEnroll === enrollResponse.ERROR)
-        return (
-            <DialogAlertRedirectToHome 
-                title="ERROR INESPERADO" 
-                description="Ha ocurrido un error inesperado. Inténtelo más tarde."/>
-        );
-    if (stateEnroll === "") 
-        return null;
-    if (stateEnroll === enrollResponse.COMPLETED_STUDIES)
-        return (
-            <DialogAlertRedirectToHome 
-                title="INFORMACIÓN" 
-                description="Usted ya completó sus estudios satisfactoriamente."/>
+    switch (stateEnroll) {
+        case enrollResponse.ERROR:
+            return (
+                <DialogAlertRedirectToHome 
+                    title="ERROR INESPERADO" 
+                    description="Ha ocurrido un error inesperado. Inténtelo más tarde."/>
             );
-    if (stateEnroll === enrollResponse.ENROLLED)
-        return (<Navigate to="/campus/matricula/informacion" replace={true}/>);
-    if (stateEnroll === enrollResponse.NO_PAID)
-        return (
-            <DialogAlertRedirectToHome 
-                title="PAGO NO REALIZADO" 
-                description="Debe realizar el pago correspondiente para poder matricularse."/>
-        );
+        case "": return null;
+        case enrollResponse.COMPLETED_STUDIES:
+            return (
+                <DialogAlertRedirectToHome 
+                    title="INFORMACIÓN" 
+                    description="Usted ya completó sus estudios satisfactoriamente."/>
+                );
+        case enrollResponse.ENROLLED:
+            break;
+        case enrollResponse.NO_PAID:
+            return (
+                <DialogAlertRedirectToHome 
+                    title="PAGO NO REALIZADO" 
+                    description="Debe realizar el pago correspondiente para poder matricularse."/>
+            );
+        default:
+            break;
+    }
+    const enrolled = (stateEnroll === enrollResponse.ENROLLED);
     return (
         <>
             <HeaderUser/>
@@ -101,12 +107,15 @@ const Enrollment = () => {
                 <Route
                     path="informacion" 
                     element={
-                        <EnrollmentInformation/>
+                        <EnrollmentInformation
+                            enrolled={enrolled}/>
                     }/>
                 <Route
                     path="" 
                     element={
-                        <EnrollmentRoot/>
+                        <EnrollmentRoot 
+                            manageCanEnroll={manageCanEnroll} 
+                            enrolled={enrolled}/>
                     }/>
                 <Route
                     path="*"
