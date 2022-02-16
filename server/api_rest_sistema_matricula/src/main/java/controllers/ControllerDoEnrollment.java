@@ -44,12 +44,12 @@ public class ControllerDoEnrollment extends HttpServlet {
         final Integer codeSectionParsed = entityStudent.isValidCodeSection(codeSection.toString());
         
         if (codeStudentParsed == null || codeGradeParsed == null || codeSectionParsed == null){
-            return FormatResponse.getErrorResponse("the student data is not valid.", 400);
+            return FormatResponse.getErrorResponse("The student data is not valid.", 400);
         }
         
         // Validacion de matriculación
         final StudentDTO student = new StudentDTO();
-        student.setCode(codeStudent.getAsInt());
+        student.setCode(codeStudentParsed);
         final boolean canEnroll = entityStudent.canEnrolled(student);
         
         // Control de estudiantes que se pueden matricular y quienes no
@@ -58,7 +58,7 @@ public class ControllerDoEnrollment extends HttpServlet {
         }
 
         Boolean responseCanEnroll = entityStudent.doEnrollment(codeStudentParsed, codeGradeParsed, codeSectionParsed);
-        if (responseCanEnroll==null) {
+        if (responseCanEnroll == false) {
             return FormatResponse.getErrorResponse("The student does not meet any requirement.", 400);
         }
         

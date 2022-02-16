@@ -112,11 +112,11 @@ public class StudentEntity {
     // Boolean para validar si se puede hacer la matricula
     public Boolean doEnrollment(
         final Integer codeStudent,
-        final Integer CodeGrade,
+        final Integer codeGrade,
         final Integer codeSection){
         try {
             final ArrayList<HashMap<String,String>> table = new StudentModel().
-                doEnrollment(codeStudent, CodeGrade, codeSection);
+                doEnrollment(codeStudent, codeGrade, codeSection);
             String valueEnroll = table.size() > 0 ? table.get(0).get("RES"): null;
             return  "SUCCESSFULLY".equals(valueEnroll);
         } catch (Exception e) {

@@ -13,7 +13,7 @@ import model.AdminModel;
 public class AdminEntity {
     
     //<editor-fold defaultstate="collapsed" desc="Representative">
-     public RepresentativeDTO[] getRepresentative(final Integer codeStudent){
+    public RepresentativeDTO[] getRepresentative(final Integer codeStudent){
         final ArrayList<HashMap<String,String>> table = new  AdminModel().getRepresentative(codeStudent);
         return table.size() > 0 ? toArrayRepresentativeDTOs(table) : null;
     }
@@ -35,7 +35,6 @@ public class AdminEntity {
         return representative;
     }    
     //</editor-fold>
-    
     
     //<editor-fold defaultstate="collapsed" desc="Student Register">
     public StudentDTO[] getStudentRegister(final Integer limitTop, final Integer amount){
@@ -62,6 +61,56 @@ public class AdminEntity {
         student.setAddress(row.get("direction"));
         return student;
     }    
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="AMOUNT REGISTER">
+    public Boolean isEndRows (final Integer limitTop, final Integer amount){
+        final Integer amountRegister = getAmountRegister();
+        if (amountRegister == null) return null;
+        return limitTop + amount >= amountRegister;
+    }
+    
+    private Integer getAmountRegister(){
+        try {
+            final ArrayList<HashMap<String,String>> table = new AdminModel().getAmountRegister();
+            final String amount_ = table.get(0).get("RES");
+            return Integer.parseInt(amount_);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Update Student">
+    public boolean updateStudent(
+            final String dni,
+            final String name,
+            final String fatherSurname,
+            final String motherSurname,
+            final String direction,
+            final String dateOfBirth,
+            final Boolean active,
+            final Integer codeStudent
+        ){
+        try {
+            final ArrayList<HashMap<String,String>> 
+            table = new AdminModel().updateStudent(
+                dni, 
+                name, 
+                fatherSurname, 
+                motherSurname, 
+                direction, 
+                dateOfBirth, 
+                active, 
+                codeStudent
+            );
+            final String updateStudent = table.get(0).get("RES");
+            return Integer.parseInt(updateStudent) == 1;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
     //</editor-fold>
     
     public Integer isNumber(final String parameter){
