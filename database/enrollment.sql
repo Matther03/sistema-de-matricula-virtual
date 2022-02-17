@@ -594,7 +594,7 @@ BEGIN
     SET __repeater = (  SELECT _repeat FROM history_detail_student WHERE history_detail_student.code_student = __code_student );
     SET __code_grade = (  SELECT code_grade FROM history_detail_student WHERE history_detail_student.code_student = __code_student );
     SET __name_grade = (  SELECT name_grade FROM grade WHERE grade.code_grade = __code_grade );
-    SELECT IF (__code_grade IS NULL, 1, IF (__repeater = 1, __code_grade, __code_grade+1 ) ) AS 'code_grade',__name_grade AS 'name_grade';
+    SELECT IF (__code_grade IS NULL, 1, IF (__repeater = 1, __code_grade, __code_grade+1 ) ) AS 'code_grade',IF (__name_grade IS NULL, 'PRIMERO', __name_grade ) AS 'name_grade';
 END//
 
 
