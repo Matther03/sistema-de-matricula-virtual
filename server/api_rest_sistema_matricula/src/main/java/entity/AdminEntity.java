@@ -117,6 +117,9 @@ public class AdminEntity {
     }
     //</editor-fold>
     
+    
+    
+    
     //<editor-fold defaultstate="collapsed" desc="GET Teacher">
     public TeacherDTO getTeacher(final Integer codeStudent){
         final ArrayList<HashMap<String,String>> table = new AdminModel().getTeacher(codeStudent);
