@@ -57,11 +57,10 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
         return;
     }
     
-    
     final JsonObject data = new JsonObject();
     final Gson gson = new Gson();
         data.addProperty("isEndRows", isEndRows);
-        data.add("registerStudent", gson.fromJson(gson.toJson(registerStudent), JsonElement.class));
+        data.add("studentRegister", gson.fromJson(gson.toJson(registerStudent), JsonElement.class));
         
     HelperController.templatePrintable(
         FormatResponse.getSuccessResponse(data),
