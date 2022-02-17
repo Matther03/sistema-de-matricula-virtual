@@ -38,8 +38,6 @@ const responseEnrollmentType = {
 };
 
 const EnrollmentRoot = ({ manageCanEnroll, enrolled = false }) => {
-    if (enrolled === true) 
-        return (<Navigate to="/campus/matricula/informacion" replace={true}/>);
     //#region Extra hooks
     const navigate = useNavigate();
     //#endregion
@@ -127,6 +125,8 @@ const EnrollmentRoot = ({ manageCanEnroll, enrolled = false }) => {
         setShowTableInformationSections(prev => !prev);
     }
     //#endregion
+    if (enrolled === true) 
+        return (<Navigate to="/campus/matricula/informacion" replace={true}/>);
     const tableDataVacancies = getSectionTable();
     return (
         <ContainerSectionEnrollment>
