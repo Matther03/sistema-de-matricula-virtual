@@ -48,7 +48,6 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
             response);
         return;
     }
-    /* 
     
     final Boolean isEndRows = adminEntity.isEndRows(parsedLimitTop, amount);
     if (isEndRows == null) {
@@ -60,13 +59,8 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
     
     
     final JsonObject data = new JsonObject();
-    data.addProperty("isEndRows", isEndRows);
-    
-
-    */
-    final JsonObject data = new JsonObject();
-        final Gson gson = new Gson();
-        
+    final Gson gson = new Gson();
+        data.addProperty("isEndRows", isEndRows);
         data.add("registerStudent", gson.fromJson(gson.toJson(registerStudent), JsonElement.class));
         
     HelperController.templatePrintable(
