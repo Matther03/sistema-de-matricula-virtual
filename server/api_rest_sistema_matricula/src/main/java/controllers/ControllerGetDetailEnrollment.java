@@ -57,19 +57,25 @@ public class ControllerGetDetailEnrollment extends HttpServlet {
         //Obtener profesores por salón
         final CourseTeacherDTO[] classroomTeachers = adminEntity.getTeacherClassroom(codeStudentParsed);
         
-        //Respuesta de error
-        if (detailEnrollment == null || teacher == null || classroomTeachers == null ) {
+        if (!areParametersValid(detailEnrollment, teacher, classroomTeachers)) 
             return FormatResponse.getErrorResponse("The student is not enrolled.", 400);
-        }
-
-        //Estructurar Respuesta
+   
+        return FormatResponse.getSuccessResponse(fillResponse(detailEnrollment, teacher, classroomTeachers));
+    }
+    
+    private boolean areParametersValid(
+            final EnrollmentDTO detailEnrollment, 
+            final TeacherDTO teacher, final CourseTeacherDTO[] classroomTeachers) {
+        return  detailEnrollment != null && teacher != null && classroomTeachers != null;
+    }
+    
+    private JsonObject fillResponse (final EnrollmentDTO detailEnrollment, 
+            final TeacherDTO teacher, final CourseTeacherDTO[] classroomTeachers) {
         final JsonObject data = new JsonObject();
-        final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        
-        data.addProperty("detailEnrollment", gson.toJson(detailEnrollment));
-        data.addProperty("teacher", gson.toJson(teacher));
-        data.addProperty("classroomTeachers", gson.toJson(classroomTeachers));
-        
-        return FormatResponse.getSuccessResponse(data);
+        final Gson gson = new Gson();
+        data.add("detailEnrollment", gson.fromJson(gson.toJson(detailEnrollment), JsonElement.class));
+        data.add("teacher", gson.fromJson(gson.toJson(teacher), JsonElement.class));
+        data.add("classroomTeachers", gson.fromJson(gson.toJson(classroomTeachers), JsonElement.class));
+        return data;
     }
 }
