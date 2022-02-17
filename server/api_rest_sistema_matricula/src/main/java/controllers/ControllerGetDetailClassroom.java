@@ -26,6 +26,7 @@ public class ControllerGetDetailClassroom extends HttpServlet {
                     response);
             return;
         }
+        
         final ClassroomEntity classroomEntity = new ClassroomEntity();
         if (!classroomEntity.isValidCodeGrade(codeGrade)) {
             HelperController.templatePrintable(
@@ -35,6 +36,7 @@ public class ControllerGetDetailClassroom extends HttpServlet {
         }
         final GradeDTO grade = new GradeDTO();
         grade.setCode(Integer.parseInt(codeGrade));
+        
         final ClassroomVacancyDTO[] classroomVacancy = classroomEntity.getDetailClassroom(grade);
         HelperController.templatePrintable(
                 classroomVacancy == null?

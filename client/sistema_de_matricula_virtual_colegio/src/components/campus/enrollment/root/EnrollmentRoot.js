@@ -58,8 +58,7 @@ const EnrollmentRoot = ({ manageCanEnroll, enrolled = false }) => {
     //#endregion
     //#region Effects
     useEffect(() => {
-        console.log(enrolled);
-        fillEnrollmentInformation();
+        !enrolled && fillEnrollmentInformation();
     }, []);
     //#endregion
     //#region Functions

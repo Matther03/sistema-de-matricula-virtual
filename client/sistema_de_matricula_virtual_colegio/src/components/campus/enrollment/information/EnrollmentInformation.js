@@ -13,6 +13,9 @@ import { ContainerEnrollmentInformation } from './styles';
 //#region Components
 import EnrollmentDataInformation from "./components/enrollmentDataInformation/EnrollmentDataInformation";
 import EnrollmentTableInformation from "./components/enrollmentTableInformation/EnrollmentTableInformation";
+//#region Utils
+import { getDate } from '../../../../utils/date';
+//#endregion
 //#region Services
 import { getDetailCampus } from '../../../../services/campus/student';
 import { getDetailEnrollment } from '../../../../services/campus/enrollment';
@@ -21,19 +24,15 @@ import { getDetailEnrollment } from '../../../../services/campus/enrollment';
 const EnrollmentInformation = ({ enrolled }) => {
     //#region States
     const [information, setInformation] = useState({
-        fullName: "", 
-        grade: "PRIMERO",
-        section: "Z",
-        shift: "MADRUGADA",
-        dni: "",
-        date: "12/12/2012"
+        fullName: "-", 
+        grade: "-",
+        section: "-",
+        shift: "-",
+        dni: "-",
+        date: "-"
     });
     //#endregion
     //#region Effects
-    const getDate = (data) => {
-        const date = new Date(data);
-        return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
-    }
     const fillInformation = async () => {
         const { codeStudent, dni, fullName } = getDetailCampus();
         const [payload, err] =  await getDetailEnrollment(codeStudent);
@@ -50,7 +49,7 @@ const EnrollmentInformation = ({ enrolled }) => {
         }));
     };
     useEffect(() => {
-        fillInformation();
+        enrolled && fillInformation();
     }, []);
     if (!enrolled) 
         return (<Navigate to="/campus/matricula/" replace={true}/>);

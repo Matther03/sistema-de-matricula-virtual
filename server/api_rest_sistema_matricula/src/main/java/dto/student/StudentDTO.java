@@ -14,12 +14,13 @@ public class StudentDTO {
     private String dni;
     private String address;
     private RepresentativeDTO representative;
+    private Boolean active;
     //</editor-fold>  
-
+    
     public StudentDTO(){
     }
-
-    public StudentDTO(Integer code, String name, String fatherSurname, String motherSurname, Long dateBirth, String dni, String address, RepresentativeDTO representative) {
+    
+    public StudentDTO(Integer code, String name, String fatherSurname, String motherSurname, Long dateBirth, String dni, String address, RepresentativeDTO representative, Boolean active) {
         this.code = code;
         this.name = name;
         this.fatherSurname = fatherSurname;
@@ -28,7 +29,10 @@ public class StudentDTO {
         this.dni = dni;
         this.address = address;
         this.representative = representative;
+        this.active = active;
     }
+
+  
     
 
     //<editor-fold defaultstate="collapsed" desc="Getters and Setters">  
@@ -96,6 +100,14 @@ public class StudentDTO {
         this.representative = representative;
     }
     
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
     //</editor-fold>  
 
     

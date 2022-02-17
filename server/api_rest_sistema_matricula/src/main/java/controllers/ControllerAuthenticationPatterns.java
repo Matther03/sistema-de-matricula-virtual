@@ -8,8 +8,8 @@ public class ControllerAuthenticationPatterns {
         "/student/can-enroll",
         "/student/grade-to-enrollment",
         
-        "/student/register"
-        
+        "/student/register",
+        "/student/update"
     };
     public static String[] ADMIN_PATHS = {
         "/student/register",

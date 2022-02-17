@@ -32,8 +32,6 @@ public class ClassroomEntity {
     private ClassroomVacancyDTO getDTOforRowHashMapDetailClassroom(HashMap<String, String> row) {
         final ClassroomVacancyDTO classroomVacancy = new ClassroomVacancyDTO();
         final ClassroomDTO classroom = new ClassroomDTO();
-        final GradeDTO grade = new GradeDTO();
-        grade.setName(row.get("name_grade"));
         final ShiftDTO shift = new ShiftDTO();
         shift.setCategory(row.get("category"));
         final SectionDTO section = new SectionDTO(
@@ -41,7 +39,6 @@ public class ClassroomEntity {
                 row.get("letter"),
                 shift
         );
-        classroom.setGrade(grade);
         classroom.setSection(section);
         classroomVacancy.setClassroom(classroom);
         classroomVacancy.setQuantity(Integer.parseInt(row.get("quantity")));

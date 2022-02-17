@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ClassroomModel extends ModelParent {
-    
+   
     //<editor-fold defaultstate="default" desc="Access Methods">
     public ArrayList<HashMap<String, String>> getSections() {
         return doActionQuery((Connection cnObj, PreparedStatement prSt) -> {
@@ -24,6 +24,7 @@ public class ClassroomModel extends ModelParent {
             return prSt;
         });
     }
+    //</editor-fold>
     
     public ArrayList<HashMap<String, String>> getDetailClassroom(final Integer codeGrado) {
         return doActionQuery((cnObj, prSt) -> {
@@ -32,5 +33,5 @@ public class ClassroomModel extends ModelParent {
             return prSt;
         });
     }
-    //</editor-fold>
+    
 }
