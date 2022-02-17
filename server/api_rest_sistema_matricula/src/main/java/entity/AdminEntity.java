@@ -1,7 +1,9 @@
 package entity;
 
-import dto.enrollment.EnrollmentDTO;
-import dto.enrollment.PaymentDTO;
+import dto.admin.AdminAccountDTO;
+import dto.classroom.CourseDTO;
+import dto.classroom.CourseTeacherDTO;
+import dto.classroom.TeacherDTO;
 import dto.student.StudentDTO;
 import dto.student.RepresentativeDTO;
 import java.sql.Date;
@@ -9,8 +11,24 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import model.AdminModel;
+import utils.authentication.JWTAuthentication;
+import utils.authentication.RoleAuthJWT;
+import utils.validation.Validation;
 
 public class AdminEntity {
+    
+    final String testUser = "adminmaurtua", testPassword = "Admin123";
+    public String verifyAccount(
+            final AdminAccountDTO adminAccount, 
+            final JWTAuthentication jwtAuth) {
+        final String user = adminAccount.getUser();
+        final String password = adminAccount.getPassword();
+        final boolean matched = testUser.equals(user) 
+                && testPassword.equals(password);
+        if (!matched)
+            return null;
+        return jwtAuth.getToken(user, RoleAuthJWT.ADMIN_ROLE);
+    }
     
     //<editor-fold defaultstate="collapsed" desc="Representative">
     public RepresentativeDTO[] getRepresentative(final Integer codeStudent){
@@ -63,7 +81,7 @@ public class AdminEntity {
     }    
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="AMOUNT REGISTER">
+    //<editor-fold defaultstate="collapsed" desc="Amount Register">
     public Boolean isEndRows (final Integer limitTop, final Integer amount){
         final Integer amountRegister = getAmountRegister();
         if (amountRegister == null) return null;
@@ -110,7 +128,49 @@ public class AdminEntity {
             return false;
         }
     }
+    //</editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc="Get Teacher">
+    public TeacherDTO getTeacher(final Integer codeStudent){
+        final ArrayList<HashMap<String,String>> table = new AdminModel().getTeacher(codeStudent);
+        return table.size() > 0 ? getTeacherDTOforRowHashMap(table.get(0)) : null;
+    }
+    
+    private TeacherDTO getTeacherDTOforRowHashMap(HashMap<String, String> row) {
+        final TeacherDTO teacher = new TeacherDTO();
+        teacher.setName(row.get("_name"));
+        teacher.setFatherSurname(row.get("father_surname"));
+        teacher.setMotherSurname(row.get("mother_surname"));
+        return teacher;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Get Teacher Classroom">
+    public CourseTeacherDTO[] getTeacherClassroom(final Integer codeStudent){
+        final ArrayList<HashMap<String,String>> table = new AdminModel().getTeacherClassroom(codeStudent);
+        return table.size() > 0 ? toArrayTeacherClassroomDTOs(table) : null;
+    }
+    
+    private CourseTeacherDTO[] toArrayTeacherClassroomDTOs(ArrayList<HashMap<String, String>> table) {
+        final Object[] objArray = EntityHelper.hashMapArrayListToObjArray(
+                table, 
+                (HashMap<String, String> row) -> getTeacherClassroomDTOforRowHashMap(row)
+        );
+        return Arrays.copyOf(objArray, objArray.length, CourseTeacherDTO[].class);
+    }
+        
+    private CourseTeacherDTO getTeacherClassroomDTOforRowHashMap(HashMap<String, String> row) {
+        final CourseTeacherDTO courseTeacher = new CourseTeacherDTO();
+        final CourseDTO course = new CourseDTO();
+            course.setName(row.get("name_course"));
+        courseTeacher.setCourse(course);
+        final TeacherDTO teacher = new TeacherDTO();
+            teacher.setName(row.get("_name"));
+            teacher.setFatherSurname(row.get("father_surname"));
+            teacher.setMotherSurname(row.get("mother_surname"));
+        courseTeacher.setTeacher(teacher);
+        return courseTeacher;
+    }
     //</editor-fold>
     
     public Integer isNumber(final String parameter){
@@ -119,5 +179,10 @@ public class AdminEntity {
         } catch (Exception e) {
             return null;
         }
+    }
+    
+    public boolean isValidAccount(final AdminAccountDTO adminAccount) {
+        return Validation.isValidAdminUser(adminAccount.getUser()) 
+                && Validation.isValidPassword(adminAccount.getPassword());
     }
 }

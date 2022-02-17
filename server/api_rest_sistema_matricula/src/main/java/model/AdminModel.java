@@ -29,6 +29,24 @@ public class AdminModel extends ModelParent {
     });
     }
     
+    public ArrayList<HashMap<String, String>> getTeacher(            
+        final Integer codeStudent){
+    return doActionQuery((cnObj, prSt) -> {
+        prSt = cnObj.prepareStatement(ProceduresDB.GET_TEACHER);
+        prSt.setInt(1, codeStudent);
+        return prSt;
+    });
+    }
+    
+    public ArrayList<HashMap<String, String>> getTeacherClassroom(            
+        final Integer codeStudent){
+    return doActionQuery((cnObj, prSt) -> {
+        prSt = cnObj.prepareStatement(ProceduresDB.GET_TEACHER_CLASSROOM);
+        prSt.setInt(1, codeStudent);
+        return prSt;
+    });
+    }
+    
     public ArrayList<HashMap<String, String>> getAmountRegister(){
     return doActionQuery((cnObj, prSt) -> {
         prSt = cnObj.prepareStatement(ProceduresDB.GET_AMOUNT_REGISTER);
