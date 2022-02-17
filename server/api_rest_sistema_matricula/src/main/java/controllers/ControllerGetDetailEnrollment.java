@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import utils.FormatResponse;
 import utils.HelperController;
 
-@WebServlet(name = "ControllerGetDetailEnrollment", urlPatterns = {"/api/student/detail_enrollment"})
+@WebServlet(name = "ControllerGetDetailEnrollment", urlPatterns = {"/api/student/detail-enrollment"})
 public class ControllerGetDetailEnrollment extends HttpServlet {
     
     @Override
