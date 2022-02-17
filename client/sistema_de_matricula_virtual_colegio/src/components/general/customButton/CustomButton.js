@@ -1,5 +1,5 @@
 //#region Styles
-import { StyledCustomLoader, StyledButton } from "./styled";
+import { StyledCustomLoader, StyledButton } from "./styles";
 //#endregion
 
 const CustomButton = ({ text, variant, loading, ...props }) => {

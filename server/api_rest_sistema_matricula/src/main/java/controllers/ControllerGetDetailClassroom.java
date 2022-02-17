@@ -4,7 +4,6 @@ import dto.classroom.ClassroomVacancyDTO;
 import dto.classroom.GradeDTO;
 import entity.ClassroomEntity;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,7 +14,7 @@ import utils.HelperController;
 
 
 @WebServlet(name = "ControllerDetailClassroom", urlPatterns = {"/api/student/detail-classroom"})
-public class ControllerDetailClassroom extends HttpServlet {
+public class ControllerGetDetailClassroom extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -36,7 +35,7 @@ public class ControllerDetailClassroom extends HttpServlet {
         }
         final GradeDTO grade = new GradeDTO();
         grade.setCode(Integer.parseInt(codeGrade));
-        final ClassroomVacancyDTO classroomVacancy = classroomEntity.getDetailClassroom(grade);
+        final ClassroomVacancyDTO[] classroomVacancy = classroomEntity.getDetailClassroom(grade);
         HelperController.templatePrintable(
                 classroomVacancy == null?
                 FormatResponse.getErrorResponse("Code grade is not found.", 400):

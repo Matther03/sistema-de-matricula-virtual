@@ -1,6 +1,6 @@
 //#region Libraries
 // import { 
-//     useState 
+//     useEffect  
 // } from 'react';
 //#endregion
 //#region Styles
@@ -34,7 +34,7 @@ const EnrollmentDataInformation = ({ enrollmentInformation }) => {
                 <hr/>
             </HeaderEnrollmentDataInformation>
             <ContentEnrollmentDataInformation>
-                {getDataDetails({...enrollmentInformation, fullName: "Luján Carrión Mayimbú"}).map((column, idx1) => (
+                {getDataDetails(enrollmentInformation).map((column, idx1) => (
                     <div key={idx1} className="column">
                         {column.map((dataDetail, idx2) => (
                             <DataDetail

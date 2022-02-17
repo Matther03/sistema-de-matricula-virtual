@@ -1,6 +1,8 @@
 
 package dto.student;
 
+import java.util.Date;
+
 public class StudentDTO {
     
     //<editor-fold defaultstate="collapsed" desc="Properties">
@@ -8,23 +10,23 @@ public class StudentDTO {
     private String name;
     private String fatherSurname;
     private String motherSurname;
-    private Integer age;
+    private Long dateBirth;
     private String dni;
-    private String direction;
+    private String address;
     private RepresentativeDTO representative;
     //</editor-fold>  
 
     public StudentDTO(){
     }
 
-    public StudentDTO(Integer code, String name, String fatherSurname, String motherSurname, Integer age, String dni, String direction, RepresentativeDTO representative) {
+    public StudentDTO(Integer code, String name, String fatherSurname, String motherSurname, Long dateBirth, String dni, String address, RepresentativeDTO representative) {
         this.code = code;
         this.name = name;
         this.fatherSurname = fatherSurname;
         this.motherSurname = motherSurname;
-        this.age = age;
+        this.dateBirth = dateBirth;
         this.dni = dni;
-        this.direction = direction;
+        this.address = address;
         this.representative = representative;
     }
     
@@ -62,12 +64,12 @@ public class StudentDTO {
         this.motherSurname = motherSurname;
     }
 
-    public Integer getAge() {
-        return age;
+    public Long getDateBirth() {
+        return dateBirth;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setDateBirth(Long dateBirth) {
+        this.dateBirth = dateBirth;
     }
 
     public String getDni() {
@@ -78,12 +80,12 @@ public class StudentDTO {
         this.dni = dni;
     }
 
-    public String getDirection() {
-        return direction;
+    public String getAddress() {
+        return address;
     }
 
-    public void setDirection(String direction) {
-        this.direction = direction;
+    public void setAddress(String address) {
+        this.address = address;
     }
     
     public RepresentativeDTO getRepresentative() {
