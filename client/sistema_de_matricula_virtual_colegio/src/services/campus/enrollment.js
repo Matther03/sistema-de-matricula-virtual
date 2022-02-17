@@ -29,7 +29,7 @@ export const doEnrollment = async (data) => {
 }
 export const getDetailEnrollment = async (codeStudent) => {
     return await doRequestCampus(
-        "/student/detail-enrollment", "POST", {
+        "/student/detail_enrollment", "POST", {
             codeStudent
         }
     );
