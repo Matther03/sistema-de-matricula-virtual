@@ -109,6 +109,7 @@ public class StudentEntity {
         return grade;
     }
     
+    
     // Boolean para validar si se puede hacer la matricula
     public Boolean doEnrollment(
         final Integer codeStudent,
