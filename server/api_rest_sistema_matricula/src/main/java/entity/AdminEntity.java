@@ -1,5 +1,9 @@
 package entity;
 
+import dto.classroom.CourseDTO;
+import dto.classroom.CourseTeacherDTO;
+import dto.classroom.GradeDTO;
+import dto.classroom.TeacherDTO;
 import dto.enrollment.EnrollmentDTO;
 import dto.enrollment.PaymentDTO;
 import dto.student.StudentDTO;
@@ -9,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import model.AdminModel;
+import model.StudentModel;
 
 public class AdminEntity {
     
@@ -110,7 +115,49 @@ public class AdminEntity {
             return false;
         }
     }
+    //</editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc="GET Teacher">
+    public TeacherDTO getTeacher(final Integer codeStudent){
+        final ArrayList<HashMap<String,String>> table = new AdminModel().getTeacher(codeStudent);
+        return table.size() > 0 ? getTeacherDTOforRowHashMap(table.get(0)) : null;
+    }
+    
+    private TeacherDTO getTeacherDTOforRowHashMap(HashMap<String, String> row) {
+        final TeacherDTO teacher = new TeacherDTO();
+        teacher.setName(row.get("_name"));
+        teacher.setFatherSurname(row.get("father_surname"));
+        teacher.setMotherSurname(row.get("mother_surname"));
+        return teacher;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="GET Teacher Classroom">
+    public CourseTeacherDTO[] getTeacherClassroom(final Integer codeStudent){
+        final ArrayList<HashMap<String,String>> table = new AdminModel().getTeacherClassroom(codeStudent);
+        return table.size() > 0 ? toArrayTeacherClassroomDTOs(table) : null;
+    }
+    
+    private CourseTeacherDTO[] toArrayTeacherClassroomDTOs(ArrayList<HashMap<String, String>> table) {
+        final Object[] objArray = EntityHelper.hashMapArrayListToObjArray(
+                table, 
+                (HashMap<String, String> row) -> getTeacherClassroomDTOforRowHashMap(row)
+        );
+        return Arrays.copyOf(objArray, objArray.length, CourseTeacherDTO[].class);
+    }
+        
+    private CourseTeacherDTO getTeacherClassroomDTOforRowHashMap(HashMap<String, String> row) {
+        final CourseTeacherDTO courseTeacher = new CourseTeacherDTO();
+        final CourseDTO course = new CourseDTO();
+            course.setName(row.get("name_course"));
+        courseTeacher.setCourse(course);
+        final TeacherDTO teacher = new TeacherDTO();
+            teacher.setName(row.get("_name"));
+            teacher.setFatherSurname(row.get("father_surname"));
+            teacher.setMotherSurname(row.get("mother_surname"));
+        courseTeacher.setTeacher(teacher);
+        return courseTeacher;
+    }
     //</editor-fold>
     
     public Integer isNumber(final String parameter){

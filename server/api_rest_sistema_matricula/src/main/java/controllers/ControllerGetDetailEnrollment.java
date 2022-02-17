@@ -47,5 +47,4 @@ public class ControllerGetDetailEnrollment extends HttpServlet {
         }
         return FormatResponse.getSuccessResponse(detailEnrollment);
     }
-
 }
