@@ -514,8 +514,7 @@ CREATE PROCEDURE sp_get_detail_classroom(
     IN __code_grade TINYINT(1)
 )
 BEGIN
-    SELECT  grade.name_grade,
-            section.code_section,
+    SELECT  section.code_section,
             section.letter, 
             classroom_vacancy.quantity, 
             shift.category 
@@ -565,7 +564,7 @@ BEGIN
     DECLARE __code_grade TINYINT(1);
     DECLARE __repeater BIT; 
     SET __repeater = (  SELECT _repeat FROM history_detail_student WHERE history_detail_student.code_student = __code_student );
-    SET __code_grade= (  SELECT code_grade FROM history_detail_student WHERE history_detail_student.code_student = __code_student );  
+    SET __code_grade= (  SELECT code_grade FROM history_detail_student WHERE history_detail_student.code_student = __code_student );   
     SELECT IF (__code_grade = 5 AND __repeater = 0 , 0, 1) AS 'RES';
 END//
 
@@ -590,10 +589,12 @@ CREATE PROCEDURE sp_get_grade_to_enrollment(
 )
 BEGIN
     DECLARE __repeater BIT; 
-    DECLARE __code_grade TINYINT(1);  
+    DECLARE __code_grade TINYINT(1);
+    DECLARE __name_grade VARCHAR(10);  
     SET __repeater = (  SELECT _repeat FROM history_detail_student WHERE history_detail_student.code_student = __code_student );
     SET __code_grade = (  SELECT code_grade FROM history_detail_student WHERE history_detail_student.code_student = __code_student );
-    SELECT IF (__code_grade IS NULL, 1, IF (__repeater = 1, __code_grade, __code_grade+1 ) ) AS 'RES';
+    SET __name_grade = (  SELECT name_grade FROM grade WHERE grade.code_grade = __code_grade );
+    SELECT IF (__code_grade IS NULL, 1, IF (__repeater = 1, __code_grade, __code_grade+1 ) ) AS 'code_grade',__name_grade AS 'name_grade';
 END//
 
 
@@ -658,6 +659,53 @@ BEGIN
             ON section.code_shift = shift.code_shift
                 WHERE student.code_student = __code_student;
 END//
+
+
+DROP PROCEDURE IF EXISTS sp_get_form_teacher;
+DELIMITER //
+CREATE PROCEDURE sp_get_form_teacher(
+    IN __code_student INT(6)
+)
+BEGIN
+    SELECT  _name, 
+            father_surname, 
+            mother_surname 
+    FROM teacher 
+            INNER JOIN classroom
+        ON teacher.code_teacher = classroom.code_teacher
+            INNER JOIN enrollment
+        ON classroom.code_classroom = enrollment.code_classroom
+            INNER JOIN payment
+        ON enrollment.code_payment = payment.code_payment
+        WHERE payment.code_student = __code_student;       
+END//
+
+DROP PROCEDURE IF EXISTS sp_get_teacher_classroom;
+DELIMITER //
+CREATE PROCEDURE sp_get_teacher_classroom(
+    IN __code_student INT(6)
+)
+BEGIN
+    DECLARE __code_grade TINYINT(1);
+    SET __code_grade = (SELECT code_grade 
+                            FROM classroom 
+                                INNER JOIN enrollment
+                            ON classroom.code_classroom = enrollment.code_classroom
+                                INNER JOIN payment
+                            ON enrollment.code_payment = payment.code_payment
+                            WHERE payment.code_student = __code_student);
+    SELECT  course.name_course,
+            teacher._name,
+            teacher.father_surname,
+            teacher.mother_surname
+    FROM    course
+            INNER JOIN  course_teacher
+        ON course.code_course = course_teacher.code_course
+            INNER JOIN teacher
+        ON course_teacher.code_teacher = teacher.code_teacher 
+        WHERE course.code_grade = __code_grade;       
+END//
+
 
 -- admin
 
