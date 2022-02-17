@@ -514,8 +514,7 @@ CREATE PROCEDURE sp_get_detail_classroom(
     IN __code_grade TINYINT(1)
 )
 BEGIN
-    SELECT  grade.name_grade,
-            section.code_section,
+    SELECT  section.code_section,
             section.letter, 
             classroom_vacancy.quantity, 
             shift.category 
@@ -565,7 +564,7 @@ BEGIN
     DECLARE __code_grade TINYINT(1);
     DECLARE __repeater BIT; 
     SET __repeater = (  SELECT _repeat FROM history_detail_student WHERE history_detail_student.code_student = __code_student );
-    SET __code_grade= (  SELECT code_grade FROM history_detail_student WHERE history_detail_student.code_student = __code_student );  
+    SET __code_grade= (  SELECT code_grade FROM history_detail_student WHERE history_detail_student.code_student = __code_student );   
     SELECT IF (__code_grade = 5 AND __repeater = 0 , 0, 1) AS 'RES';
 END//
 
@@ -590,10 +589,12 @@ CREATE PROCEDURE sp_get_grade_to_enrollment(
 )
 BEGIN
     DECLARE __repeater BIT; 
-    DECLARE __code_grade TINYINT(1);  
+    DECLARE __code_grade TINYINT(1);
+    DECLARE __name_grade VARCHAR(10);  
     SET __repeater = (  SELECT _repeat FROM history_detail_student WHERE history_detail_student.code_student = __code_student );
     SET __code_grade = (  SELECT code_grade FROM history_detail_student WHERE history_detail_student.code_student = __code_student );
-    SELECT IF (__code_grade IS NULL, 1, IF (__repeater = 1, __code_grade, __code_grade+1 ) ) AS 'RES';
+    SET __name_grade = (  SELECT name_grade FROM grade WHERE grade.code_grade = __code_grade );
+    SELECT IF (__code_grade IS NULL, 1, IF (__repeater = 1, __code_grade, __code_grade+1 ) ) AS 'code_grade',__name_grade AS 'name_grade';
 END//
 
 
@@ -659,6 +660,53 @@ BEGIN
                 WHERE student.code_student = __code_student;
 END//
 
+
+DROP PROCEDURE IF EXISTS sp_get_form_teacher;
+DELIMITER //
+CREATE PROCEDURE sp_get_form_teacher(
+    IN __code_student INT(6)
+)
+BEGIN
+    SELECT  _name, 
+            father_surname, 
+            mother_surname 
+    FROM teacher 
+            INNER JOIN classroom
+        ON teacher.code_teacher = classroom.code_teacher
+            INNER JOIN enrollment
+        ON classroom.code_classroom = enrollment.code_classroom
+            INNER JOIN payment
+        ON enrollment.code_payment = payment.code_payment
+        WHERE payment.code_student = __code_student;       
+END//
+
+DROP PROCEDURE IF EXISTS sp_get_teacher_classroom;
+DELIMITER //
+CREATE PROCEDURE sp_get_teacher_classroom(
+    IN __code_student INT(6)
+)
+BEGIN
+    DECLARE __code_grade TINYINT(1);
+    SET __code_grade = (SELECT code_grade 
+                            FROM classroom 
+                                INNER JOIN enrollment
+                            ON classroom.code_classroom = enrollment.code_classroom
+                                INNER JOIN payment
+                            ON enrollment.code_payment = payment.code_payment
+                            WHERE payment.code_student = __code_student);
+    SELECT  course.name_course,
+            teacher._name,
+            teacher.father_surname,
+            teacher.mother_surname
+    FROM    course
+            INNER JOIN  course_teacher
+        ON course.code_course = course_teacher.code_course
+            INNER JOIN teacher
+        ON course_teacher.code_teacher = teacher.code_teacher 
+        WHERE course.code_grade = __code_grade;       
+END//
+
+
 -- admin
 
 DROP PROCEDURE IF EXISTS sp_get_register_student;
@@ -711,13 +759,13 @@ END//
 
 DROP PROCEDURE IF EXISTS sp_update_student;
 DELIMITER //
-CREATE PROCEDURE sp_update_student(
-    IN __dni CHAR(8),  
+CREATE PROCEDURE sp_update_student(   
     IN __name VARCHAR(50), 
     IN __father_surname VARCHAR(25), 
-    IN __mother_surname VARCHAR(25),
-    IN __direction VARCHAR(50),
+    IN __mother_surname VARCHAR(25), 
     IN __date_of_birth DATE,
+    IN __dni CHAR(8), 
+    IN __direction VARCHAR(50),
     IN __active BIT,
     IN __code_student INT(6)
 ) 
@@ -737,4 +785,60 @@ END
 //
 
 
+
+DROP PROCEDURE IF EXISTS sp_insert_student;
+DELIMITER //
+CREATE PROCEDURE sp_insert_student(
+    IN __name VARCHAR(50), 
+    IN __father_surname VARCHAR(25), 
+    IN __mother_surname VARCHAR(25), 
+    IN __date_of_birth DATE,
+    IN __dni CHAR(8), 
+    IN __direction VARCHAR(50),
+    IN __dni_representative CHAR(8)
+) 
+BEGIN
+    DECLARE __verify_dni_representative BIT;
+    DECLARE __verify_dni BIT;
+    DECLARE __code_representative INT(5);
+    SET __verify_dni_representative = (SELECT 1 FROM representative WHERE representative.dni = __dni_representative);
+    IF __verify_dni_representative IS NULL THEN 
+        SELECT "THERE ISN'T A REPRESENTATIVE WITH THIS DNI" AS 'RES';
+    ELSE
+        SET __verify_dni = (SELECT 1 FROM student WHERE student.dni = __dni);
+        SET __code_representative = (SELECT code_representative FROM representative WHERE representative.dni = __dni_representative);
+        IF __verify_dni IS NULL THEN
+            INSERT INTO student(_name,father_surname,mother_surname,date_of_birth,dni,direction,code_representative,active) VALUES(__name,__father_surname,__mother_surname,convert(__date_of_birth,DATE),__dni,__direction,__code_representative,0);
+            SELECT 'SUCCESS' AS 'RES';
+        ELSE
+            SELECT 'THERE IS A STUDENT WITH THE SAME DNI' AS 'RES';
+        END IF;
+    END IF;
+END
+//
+
+-- CALL sp_insert_student('Joel','Ccaico','Gonzales','2008-02-01','11111111','AV.  narnia','78945617')
+
+DROP PROCEDURE IF EXISTS sp_insert_representative;
+DELIMITER //
+CREATE PROCEDURE sp_insert_representative(
+    IN __name VARCHAR(50), 
+    IN __father_surname VARCHAR(25), 
+    IN __mother_surname VARCHAR(25), 
+    IN __dni CHAR(8), 
+    IN __email VARCHAR(50),
+    IN __phone CHAR(9)
+) 
+BEGIN
+    DECLARE __verify_dni BIT;
+    SET __verify_dni = (SELECT 1 FROM representative WHERE representative.dni = __dni);
+    IF __verify_dni IS NULL THEN
+        INSERT INTO representative(_name,father_surname,mother_surname,dni,email,phone) VALUES(__name,__father_surname,__mother_surname,__dni,__email,__phone);
+        SELECT 'SUCCESS' AS 'RES';
+    ELSE
+        SELECT 'THERE IS A REPRESENTATIVE WITH THE SAME DNI' AS 'RES';
+    END IF;
+END
+//
+-- CALL sp_insert_representative('Juan','Soto','Ccaccc','78945655','juan_soto@gmail.com','987654000')
 
