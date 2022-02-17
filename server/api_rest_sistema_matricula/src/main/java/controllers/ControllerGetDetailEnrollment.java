@@ -1,12 +1,19 @@
 package controllers;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import dto.classroom.CourseTeacherDTO;
+import dto.classroom.TeacherDTO;
 import dto.enrollment.EnrollmentDTO;
 import dto.student.StudentDTO;
+import entity.AdminEntity;
 import entity.StudentEntity;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
+import java.util.Arrays;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import utils.FormatResponse;
 import utils.HelperController;
 
-@WebServlet(name = "ControllerGetDetailEnrollment", urlPatterns = {"/api/student/detail_enrollment"})
+@WebServlet(name = "ControllerGetDetailEnrollment", urlPatterns = {"/api/student/detail-enrollment"})
 public class ControllerGetDetailEnrollment extends HttpServlet {
     
     @Override
@@ -33,19 +40,42 @@ public class ControllerGetDetailEnrollment extends HttpServlet {
         final JsonElement codeStudent = body.get("codeStudent");
         if (codeStudent == null) 
             return FormatResponse.getErrorResponse("Mising parameters.", 400);
+
+        final StudentEntity entityStudent = new StudentEntity();
+        final AdminEntity adminEntity = new AdminEntity();
         
         // Validación del codigo de estudiante
-        final StudentEntity entityStudent = new StudentEntity();
         final Integer codeStudentParsed = entityStudent.isValidCodeStudent(codeStudent.toString());
         if (codeStudentParsed == null){
             return FormatResponse.getErrorResponse("The code student is not valid.", 400);
         }
         
+        //Detalle de Matricula
         final EnrollmentDTO detailEnrollment = entityStudent.getDetailEnrollment(codeStudentParsed);
-        if (detailEnrollment == null) {
+        //Obetener Tutor
+        final TeacherDTO teacher = adminEntity.getTeacher(codeStudentParsed);
+        //Obtener profesores por salón
+        final CourseTeacherDTO[] classroomTeachers = adminEntity.getTeacherClassroom(codeStudentParsed);
+        
+        if (!areParametersValid(detailEnrollment, teacher, classroomTeachers)) 
             return FormatResponse.getErrorResponse("The student is not enrolled.", 400);
-        }
-        return FormatResponse.getSuccessResponse(detailEnrollment);
+   
+        return FormatResponse.getSuccessResponse(fillResponse(detailEnrollment, teacher, classroomTeachers));
     }
-
+    
+    private boolean areParametersValid(
+            final EnrollmentDTO detailEnrollment, 
+            final TeacherDTO teacher, final CourseTeacherDTO[] classroomTeachers) {
+        return  detailEnrollment != null && teacher != null && classroomTeachers != null;
+    }
+    
+    private JsonObject fillResponse (final EnrollmentDTO detailEnrollment, 
+            final TeacherDTO teacher, final CourseTeacherDTO[] classroomTeachers) {
+        final JsonObject data = new JsonObject();
+        final Gson gson = new Gson();
+        data.add("detailEnrollment", gson.fromJson(gson.toJson(detailEnrollment), JsonElement.class));
+        data.add("teacher", gson.fromJson(gson.toJson(teacher), JsonElement.class));
+        data.add("classroomTeachers", gson.fromJson(gson.toJson(classroomTeachers), JsonElement.class));
+        return data;
+    }
 }

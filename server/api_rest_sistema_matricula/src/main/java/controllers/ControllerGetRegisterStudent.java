@@ -1,6 +1,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dto.student.StudentDTO;
@@ -63,8 +64,13 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
     
 
     */
+    final JsonObject data = new JsonObject();
+        final Gson gson = new Gson();
+        
+        data.add("registerStudent", gson.fromJson(gson.toJson(registerStudent), JsonElement.class));
+        
     HelperController.templatePrintable(
-        FormatResponse.getSuccessResponse(registerStudent),
+        FormatResponse.getSuccessResponse(data),
         response);
     }
 }
