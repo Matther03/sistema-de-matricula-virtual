@@ -101,12 +101,7 @@ public class StudentEntity {
     public GradeDTO getGradeToEnrollment(final StudentDTO student){
         int codigo = student.getCode();
         final ArrayList<HashMap<String,String>> table = new StudentModel().gradeToEnrollment(codigo);
-        return table.size() > 0 ? getGrade(table.get(0)) : null;
-    }
-    private GradeDTO getGrade(HashMap<String, String> row) {
-        final GradeDTO grade = new GradeDTO();
-        grade.setCode(Integer.parseInt(row.get("RES")));
-        return grade;
+        return table.size() > 0 ? getgradeDTOforRowHashMap(table.get(0)) : null;
     }
     
     // Boolean para validar si se puede hacer la matricula
@@ -150,6 +145,13 @@ public class StudentEntity {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Helper Methods">
+    private GradeDTO getgradeDTOforRowHashMap(HashMap<String, String> row) {
+        final GradeDTO grade = new GradeDTO();
+        grade.setCode(Integer.parseInt(row.get("code_grade")));
+        grade.setName(row.get("name_grade"));
+        return grade;
+    }
+    
     private StudentDTO getDTOforRowHashMap(HashMap<String, String> row) {
         final StudentDTO student = new StudentDTO();
         student.setCode(Integer.parseInt(row.get("code_student")));

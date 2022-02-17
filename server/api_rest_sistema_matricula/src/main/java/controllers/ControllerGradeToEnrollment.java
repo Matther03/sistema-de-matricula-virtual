@@ -43,7 +43,7 @@ public class ControllerGradeToEnrollment extends HttpServlet {
         
         // Estructura de la respuesta
         final StudentDTO student = new StudentDTO();
-        student.setCode(codeStudent.getAsInt());
+        student.setCode(codeStudentParsed);
         final GradeDTO newGrade = entityStudent.getGradeToEnrollment(student);
         
         // Validación del grado
