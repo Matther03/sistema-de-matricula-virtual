@@ -24,6 +24,8 @@ export const HeaderCustomDialogAlert = styled.header`
     & h3 {
         color: var(--seventh-color);
         font-weight: 500;
+        margin: 0 10px;
+        margin-top: 5px;
     }
     & .iconify {
         color: var(--seventh-color);

@@ -134,13 +134,12 @@ public class StudentEntity {
     // Validación del grado para GradeToEnrollment
     public boolean isGradeValid(final GradeDTO newGrade){
         int grade = newGrade.getCode();
-        return grade != 6;
+        return grade < 6;
     }
 
     public boolean isValidAccount(final AccountDTO accountToLogin) {
-        if (!Validation.isValidDNI(accountToLogin.getStudent().getDni())) 
-            return false;
-        return Validation.isValidPassword(accountToLogin.getPassword());
+        return Validation.isValidDNI(accountToLogin.getStudent().getDni()) 
+                && Validation.isValidPassword(accountToLogin.getPassword());
     }
     //</editor-fold>
     

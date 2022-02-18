@@ -20,7 +20,7 @@ const informationInternalNav = (() => {
     const root = "/admin/registro/alumno";
     return [
         { path: `/admin/home`, nameRoute: "INICIO" }, 
-        { path: `${root}`, nameRoute: "ALUMNO" }, 
+        { path: root, nameRoute: "ALUMNO" }, 
         { path: `${root}/nuevo`, nameRoute: "NUEVO" }, 
     ];
 })();

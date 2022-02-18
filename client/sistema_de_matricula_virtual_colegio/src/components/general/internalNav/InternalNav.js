@@ -29,12 +29,14 @@ const InternalNav = ({ information = [
                     return Number(idx);
             }
             return prev;
-        });    
+        });
     }, [location.pathname]);
     //#endregion
     //#region Functions
-    const areEquals = (currentPath, pathname) => 
-        pathname === currentPath || pathname === `${currentPath}/`;
+    const areEquals = (currentPath, pathname) => {
+        console.log();
+        return pathname === currentPath || pathname === `${currentPath}/`;
+    }
     //#endregion
     return (
         <ContainerNav>
