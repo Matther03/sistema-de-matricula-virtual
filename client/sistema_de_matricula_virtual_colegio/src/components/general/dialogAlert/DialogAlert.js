@@ -25,17 +25,17 @@ const Transition = forwardRef((props, ref) => {
 const DialogAlert = ({
         open, 
         handleOpen,
+        handleClose, 
         title, 
         description,
         buttons,
         titleIcon
     }) => {
-    const handleClose = () => handleOpen(false);
     return (
         <ContainerCustomDialogAlert 
             open={open}
             TransitionComponent={Transition}
-            onClose={handleClose}>
+            onClose={handleClose ? handleClose : () => handleOpen(false)}>
             <HeaderCustomDialogAlert>
                 {titleIcon && <Icon icon={titleIcon}/>}
                 <h3 className="custom-title-2">{title || " TÍTULO"}</h3>

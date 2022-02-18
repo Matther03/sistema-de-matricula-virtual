@@ -4,11 +4,15 @@ import { ContainerMessage } from './styles';
 //#region Icons
 import { Icon } from '@iconify/react';
 //#endregion
-const PopupMessage = (props) => {
+const PopupMessage = ({ 
+        onClick, 
+        className, iconName, 
+        color, message
+}) => {
     return (
-        <ContainerMessage>
-            <Icon className={props.className} icon={props.iconName} color={props.color} />
-            <h3 className={props.className} color={props.color}>{props.message}</h3>
+        <ContainerMessage onClick={onClick}>
+            <Icon className={className} icon={iconName} color={color} />
+            <h3 className={className} color={color}>{message}</h3>
         </ContainerMessage>
     );
 }

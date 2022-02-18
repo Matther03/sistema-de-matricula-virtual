@@ -35,10 +35,12 @@ export const StyledTableCell = styled(TableCell)`
         background-color: var(--fifth-color);
     }
     &.MuiTableCell-body {
-        font-size: 14;
+        font-size: 14px;
+    }
+    &.MuiTableCell-body.secondary {
         padding: 0px 20px;
     }
-    &:hover {
+    &.MuiTableCell-body.secondary:hover {
         background: #ffff0088;
     }
 `;
