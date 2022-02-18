@@ -7,7 +7,6 @@ const NewStudent = () => {
     return (
         <>
             <FormInfoStudent/>
-            <br></br>
             <FormInfoRepresentative/>
         </>
     );

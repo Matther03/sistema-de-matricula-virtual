@@ -53,14 +53,16 @@ const FormInfoStudent = () => {
         showNoMatchMessageLogin && setShowNoMatchMessageLogin(false);
     }
     const handleDateValue = (e) => {
-        const date = new Date();
-        console.log(e.target.value);
+        console.log(e.target.value)
+        const date = new Date(e.target.value.replace(/-/g,"/"));
+        //date.setMinutes(date.getMinutes()+date.getTimezoneOffset())
+        
+        const dateParsed = new Date(date.getTime());
+        console.log(dateParsed.getDate()+"/"+dateParsed.getMonth()+"/"+dateParsed.getFullYear());   
         //const year = date.getFullYear();
         //const month = String(date.getMonth()+1).padStart(2,'0');
         //const todayDate = String(date.getDate()).padStart(2,'0');
         //const datePattern = year + '-' + month + '-' + todayDate;
-        //document.getElementById("date-picker").value = datePattern;
-        //console.log(document.getElementById("date-picker").value);
     }
     //#endregion
 
@@ -107,10 +109,10 @@ const FormInfoStudent = () => {
                     errors={errors}/>
                     <CustomInputDate 
                         type="date" 
-                        id="date-picker" 
+                        id="date-picker"
+                        dateFormat="aaaa-mm-dd" 
                         onChange={(e) => handleDateValue(e)}
-                        dateFormat="dd/MM/yyyy"
-                        min="1970-01-01" max="2029-12-31"/>
+                        min="2000-01-01" max="2029-12-31"/>
             </section>
             <footer>
                 <CustomButton
