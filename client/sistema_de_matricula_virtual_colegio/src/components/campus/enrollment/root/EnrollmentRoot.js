@@ -39,9 +39,6 @@ const responseEnrollmentType = {
 };
 
 const EnrollmentRoot = ({ manageCanEnroll, enrolled = false }) => {
-    //#region Extra hooks
-    const navigate = useNavigate();
-    //#endregion
     //#region States
     const [information, setInformation] = useState({
         dni: "",
@@ -81,7 +78,7 @@ const EnrollmentRoot = ({ manageCanEnroll, enrolled = false }) => {
         };
     }
     const fillEnrollmentInformation = async () => {
-        const  { _, ...restDetailCampus } = getDetailCampus();
+        const  { codeStudent, ...restDetailCampus } = getDetailCampus();
         const resGradeToEnroll = await getGradeToEnroll();
         const grade = resGradeToEnroll[0].data;
         const resDetailClassroom = await getDetailClassroom(grade.code);
@@ -161,12 +158,12 @@ const EnrollmentRoot = ({ manageCanEnroll, enrolled = false }) => {
                     )}
                 {responseEnrollment === responseEnrollmentType.ERROR 
                     && <PopupMessage 
-                        color="var(--seventh-color)"
-                        message="Ocurrió un error inesperado" 
-                        iconName="clarity:error-line"/>}
+                            color="var(--seventh-color)"
+                            message="Ocurrió un error inesperado" 
+                            iconName="clarity:error-line"/>}
                     <ShowEyePopupMessage 
                         message="VER VACANTES" 
-                        onClick={(toggleShowTableInformationSections)}
+                        onClick={toggleShowTableInformationSections}
                         iconName={`el:eye-${showTableInformationSections 
                             ? "close" : "open"}`}/>
                 </footer>

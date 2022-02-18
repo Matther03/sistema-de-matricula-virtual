@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dto.admin.AdminAccountDTO;
 import entity.AdminEntity;
+import entity.admin.AdminLoginEntity;
 import utils.FormatResponse;
 import utils.HelperController;
 import java.io.IOException;
@@ -45,14 +46,13 @@ public class ControllerLoginAdmin extends HttpServlet {
                 user.getAsString(), 
                 password.getAsString()
         );
-
-        final AdminEntity adminEntity = new AdminEntity();
-        final boolean isValid = adminEntity.isValidAccount(accountToLogin);
+        final AdminLoginEntity adminLoginEntity = new AdminLoginEntity();
+        final boolean isValid = adminLoginEntity.isValidAccount(accountToLogin);
         if (!isValid)
             return FormatResponse.getErrorResponse("The parameters body aren't valid.", 400);
 
         // Verificando cuenta de estudiante
-        final String token = adminEntity.verifyAccount(accountToLogin, jwtAuth);
+        final String token = adminLoginEntity.verifyAccount(accountToLogin, jwtAuth);
         // Mostrando error de no coincidir
         if (token == null)
             return FormatResponse.getErrorResponse("The account credentials don't match.", 401);

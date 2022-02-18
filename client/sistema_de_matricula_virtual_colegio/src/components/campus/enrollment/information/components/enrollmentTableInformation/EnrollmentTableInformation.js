@@ -10,7 +10,7 @@ const getData = (data) => ({
 	rows: data.courses
 });
 
-const EnrollmentTableInformation = ({ tableInformation = {} }) => {
+const EnrollmentTableInformation = ({ tableInformation }) => {
 	const data = getData(tableInformation);
 	return (
 		<CustomDataTable

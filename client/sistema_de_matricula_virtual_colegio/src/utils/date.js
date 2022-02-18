@@ -1,6 +1,6 @@
-const getDayDate = (date) => getDigitDateWith2DigitsMinutes(date.getDate());
-const getMonthDate = (date) => getDigitDateWith2DigitsMinutes(date.getMonth() + 1);
-const getDigitDateWith2DigitsMinutes = (value) => {
+const getDayDate = (date) => getDigitDateWith2Digits(date.getDate());
+const getMonthDate = (date) => getDigitDateWith2Digits(date.getMonth() + 1);
+const getDigitDateWith2Digits = (value) => {
     const valueWithZero = `0${value}`;
     return valueWithZero.substring(valueWithZero.length - 2);
 }

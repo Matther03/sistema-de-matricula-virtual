@@ -15,6 +15,7 @@ import EnrollmentDataInformation from "./components/enrollmentDataInformation/En
 import EnrollmentTableInformation from "./components/enrollmentTableInformation/EnrollmentTableInformation";
 //#region Utils
 import { getDate } from '../../../../utils/date';
+import useDidMount from "../../../../utils/hooks/useDidMount";
 //#endregion
 //#region Services
 import { getDetailCampus } from '../../../../services/campus/student';
@@ -23,8 +24,10 @@ import { getDetailEnrollment } from '../../../../services/campus/enrollment';
 
 const getTeacherFullName = (teacher) => `${teacher.fatherSurname} ${teacher.motherSurname}, ${teacher.name}`;
 
-
 const EnrollmentInformation = ({ enrolled }) => {
+    //#region Extra hooks
+    const didMount = useDidMount();
+    //#endregion
     //#region States
     const [dataInformation, setDataInformation] = useState({
         fullName: "-", 
@@ -37,7 +40,7 @@ const EnrollmentInformation = ({ enrolled }) => {
     const [tableInformation, setTableInformation] = useState([]);
     //#endregion
     //#region Effects
-        useEffect(() => {
+    useEffect(() => {
         enrolled && doGetDetailEnrollment();
     }, []);
     //#endregion
@@ -47,20 +50,20 @@ const EnrollmentInformation = ({ enrolled }) => {
         const [payload, err] =  await getDetailEnrollment(codeStudent);
         if (!payload.data || err) return;
         const { 
-            detailEnrollment, 
+            information, 
             classroomTeachers, 
-            teacher } = payload.data;
-        fillInformation(restDetailCampus, detailEnrollment);
-        fillTableData(teacher, classroomTeachers);
+            formTeacher } = payload.data;
+        fillInformation(restDetailCampus, information);
+        fillTableData(formTeacher, classroomTeachers);
     }
-    const fillInformation = (detailCampus, detailEnrollment) => {
+    const fillInformation = (detailCampus, information) => {
         setDataInformation(prev => ({
             ...prev, 
             ...detailCampus, 
-            date: getDate(detailEnrollment.date),
-            grade: detailEnrollment.classroom.grade.name, 
-            section: detailEnrollment.classroom.section.letter, 
-            shift: detailEnrollment.classroom.section.shift.category
+            date: getDate(information.date),
+            grade: information.classroom.grade.name, 
+            section: information.classroom.section.letter, 
+            shift: information.classroom.section.shift.category
         }));
     };
     const fillTableData = (formTeacher, classroomTeachers) => {
@@ -75,6 +78,7 @@ const EnrollmentInformation = ({ enrolled }) => {
         });
     }
     //#endregion
+    if (!didMount) return null;
     if (!enrolled) 
         return (<Navigate to="/campus/matricula/" replace={true}/>);
     return (

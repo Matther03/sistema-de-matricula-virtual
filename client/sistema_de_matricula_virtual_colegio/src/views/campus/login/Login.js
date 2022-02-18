@@ -15,14 +15,10 @@ import schoolImg from '../../../img/campus/login/school-img.jpg';
 import SymbolHeader from "../../../components/general/symbolHeader/SymbolHeader";
 import FormLogin from "../../../components/campus/login/formLogin/FormLogin";
 //#endregion
-//#region Services
-import { isLoggedStudent } from '../../../services/campus/auth';
-//#endregion
 
 const Login = () => {
     return (
         <>
-            {isLoggedStudent() && <Navigate to="/campus/home" replace={true}/>}
             <SymbolHeader showTitle={true}/>
             <ContainerSectionLogin>
                 <img src={schoolImg} alt="escuela, colegio"/>

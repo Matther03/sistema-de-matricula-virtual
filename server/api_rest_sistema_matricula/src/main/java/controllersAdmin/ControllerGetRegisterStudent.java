@@ -6,6 +6,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dto.student.StudentDTO;
 import entity.AdminEntity;
+import entity.ValidateInput;
+import entity.admin.GetStudentRegisterEntity;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
@@ -30,27 +32,27 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
             response);
         return;
     }
-    final AdminEntity adminEntity = new AdminEntity();
-    final Integer parsedLimitTop = adminEntity.isNumber(limitTop);
+    final GetStudentRegisterEntity getStudentRegisterEntity = new GetStudentRegisterEntity();
+    final ValidateInput validateImput = new ValidateInput();
+    final Integer parsedLimitTop = validateImput.isNumberGreaterThanZero(limitTop);
     if (parsedLimitTop == null) {
         HelperController.templatePrintable(
-            FormatResponse.getErrorResponse("Parameter limitTop is not number.", 400) ,
+            FormatResponse.getErrorResponse("Parameter limitTop is not number valid.", 400) ,
             response);
         return;
     }
 
     final int amount = 3;
-    
-    final StudentDTO[] registerStudent = adminEntity.getStudentRegister(parsedLimitTop,amount);
+    final int newLimitTop = parsedLimitTop-1;
+    final StudentDTO[] registerStudent = getStudentRegisterEntity.getStudentRegister(newLimitTop,amount);
     if (registerStudent == null) {
         HelperController.templatePrintable(
             FormatResponse.getErrorResponse("Not found.", 400) ,
             response);
         return;
     }
-    /* 
     
-    final Boolean isEndRows = adminEntity.isEndRows(parsedLimitTop, amount);
+    final Boolean isEndRows = getStudentRegisterEntity.isEndRows(newLimitTop, amount);
     if (isEndRows == null) {
         HelperController.templatePrintable(
             FormatResponse.getErrorResponse("Unexpected error.", 400) ,
@@ -58,16 +60,10 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
         return;
     }
     
-    
     final JsonObject data = new JsonObject();
-    data.addProperty("isEndRows", isEndRows);
-    
-
-    */
-    final JsonObject data = new JsonObject();
-        final Gson gson = new Gson();
-        
-        data.add("registerStudent", gson.fromJson(gson.toJson(registerStudent), JsonElement.class));
+    final Gson gson = new Gson();
+        data.addProperty("isEndRows", isEndRows);
+        data.add("studentRegister", gson.fromJson(gson.toJson(registerStudent), JsonElement.class));
         
     HelperController.templatePrintable(
         FormatResponse.getSuccessResponse(data),

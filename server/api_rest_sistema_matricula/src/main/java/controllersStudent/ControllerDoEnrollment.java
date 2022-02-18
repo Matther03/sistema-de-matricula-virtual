@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import dto.classroom.GradeDTO;
 import dto.student.StudentDTO;
 import entity.StudentEntity;
+import entity.ValidateInput;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -38,10 +39,10 @@ public class ControllerDoEnrollment extends HttpServlet {
         
         // Validación de ingreso de datos validos
         final StudentEntity entityStudent = new StudentEntity();        
-
-        final Integer codeStudentParsed = entityStudent.isValidCodeStudent(codeStudent.toString());
-        final Integer codeGradeParsed = entityStudent.isValidCodeGrade(codeGrade.toString());
-        final Integer codeSectionParsed = entityStudent.isValidCodeSection(codeSection.toString());
+        final ValidateInput validateImput = new ValidateInput();
+        final Integer codeStudentParsed = validateImput.isValidCodeStudent(codeStudent.toString());
+        final Integer codeGradeParsed = validateImput.isValidCodeGrade(codeGrade.toString());
+        final Integer codeSectionParsed = validateImput.isValidCodeSection(codeSection.toString());
         
         if (codeStudentParsed == null || codeGradeParsed == null || codeSectionParsed == null){
             return FormatResponse.getErrorResponse("The student data is not valid.", 400);

@@ -25,7 +25,7 @@ import CustomButton from "../../../general/customButton/CustomButton";
 import { loginAdmin, isLoggedAdmin } from '../../../../services/admin/auth';
 //#endregion
 const regex = {
-    user: /^[0-9]{8}$/,
+    user: /^.{8,16}$/,
     password: /^.{8,16}$/
 }
 
