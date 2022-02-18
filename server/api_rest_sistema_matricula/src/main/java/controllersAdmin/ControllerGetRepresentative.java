@@ -3,6 +3,8 @@ package controllersAdmin;
 import dto.student.RepresentativeDTO;
 import dto.student.StudentDTO;
 import entity.AdminEntity;
+import entity.ValidateInput;
+import entity.admin.GetStudentRegisterEntity;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -26,18 +28,16 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
                 response);
         return;
     }
-    final AdminEntity adminEntity = new AdminEntity();
-    final Integer intcodeStudent = adminEntity.isNumberGreaterThanZero(codeStudent);
+    final GetStudentRegisterEntity getStudentRegisterEntity = new GetStudentRegisterEntity();
+    final ValidateInput validateImput = new ValidateInput();
+    final Integer intcodeStudent = validateImput.isNumberGreaterThanZero(codeStudent);
     if (intcodeStudent == null) {
         HelperController.templatePrintable(
                 FormatResponse.getErrorResponse("Parameter codeStudent is not number.", 400) ,
                 response);
         return;
     }
-    
-    
-    final RepresentativeDTO[] registerStudent = adminEntity.getRepresentative(intcodeStudent);
-
+    final RepresentativeDTO[] registerStudent = getStudentRegisterEntity.getRepresentative(intcodeStudent);
     HelperController.templatePrintable(registerStudent == null?
             FormatResponse.getErrorResponse("Not found", 400):
             FormatResponse.getSuccessResponse(registerStudent),
