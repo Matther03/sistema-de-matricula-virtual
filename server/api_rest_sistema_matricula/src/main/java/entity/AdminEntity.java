@@ -173,9 +173,12 @@ public class AdminEntity {
     }
     //</editor-fold>
     
-    public Integer isNumber(final String parameter){
+    public Integer isNumberGreaterThanZero(final String parameter){
         try {
-            return Integer.parseInt(parameter);
+            final Integer number = Integer.parseInt(parameter);
+            if (number>0) 
+                return number;
+            return null;
         } catch (Exception e) {
             return null;
         }

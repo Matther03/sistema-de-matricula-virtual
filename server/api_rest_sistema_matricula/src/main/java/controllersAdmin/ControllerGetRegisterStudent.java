@@ -31,17 +31,17 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
         return;
     }
     final AdminEntity adminEntity = new AdminEntity();
-    final Integer parsedLimitTop = adminEntity.isNumber(limitTop);
+    final Integer parsedLimitTop = adminEntity.isNumberGreaterThanZero(limitTop);
     if (parsedLimitTop == null) {
         HelperController.templatePrintable(
-            FormatResponse.getErrorResponse("Parameter limitTop is not number.", 400) ,
+            FormatResponse.getErrorResponse("Parameter limitTop is not number valid.", 400) ,
             response);
         return;
     }
 
     final int amount = 3;
-    
-    final StudentDTO[] registerStudent = adminEntity.getStudentRegister(parsedLimitTop,amount);
+    final int newLimitTop = parsedLimitTop-1;
+    final StudentDTO[] registerStudent = adminEntity.getStudentRegister(newLimitTop,amount);
     if (registerStudent == null) {
         HelperController.templatePrintable(
             FormatResponse.getErrorResponse("Not found.", 400) ,
@@ -49,7 +49,7 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
         return;
     }
     
-    final Boolean isEndRows = adminEntity.isEndRows(parsedLimitTop, amount);
+    final Boolean isEndRows = adminEntity.isEndRows(newLimitTop, amount);
     if (isEndRows == null) {
         HelperController.templatePrintable(
             FormatResponse.getErrorResponse("Unexpected error.", 400) ,
