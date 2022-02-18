@@ -24,7 +24,7 @@ const getDataDetails = (data) => [
     ]
 ];
 
-const EnrollmentDataInformation = ({ enrollmentInformation }) => {
+const EnrollmentDataInformation = ({ dataInformation }) => {
     //#region States
     //#endregion
     return (
@@ -34,7 +34,7 @@ const EnrollmentDataInformation = ({ enrollmentInformation }) => {
                 <hr/>
             </HeaderEnrollmentDataInformation>
             <ContentEnrollmentDataInformation>
-                {getDataDetails(enrollmentInformation).map((column, idx1) => (
+                {getDataDetails(dataInformation).map((column, idx1) => (
                     <div key={idx1} className="column">
                         {column.map((dataDetail, idx2) => (
                             <DataDetail

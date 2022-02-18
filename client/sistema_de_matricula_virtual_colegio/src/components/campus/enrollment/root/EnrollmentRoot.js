@@ -14,7 +14,8 @@ import {
     TaskInfo, 
     DoEnrollmentButton, 
     FormDoEnrollment, 
-    ShowEyePopupMessage 
+    ShowEyePopupMessage, 
+    SuccesResponseEnrollment
 } from './styles';
 //#endregion
 //#region Components
@@ -82,8 +83,8 @@ const EnrollmentRoot = ({ manageCanEnroll, enrolled = false }) => {
     const fillEnrollmentInformation = async () => {
         const  { _, ...restDetailCampus } = getDetailCampus();
         const resGradeToEnroll = await getGradeToEnroll();
-        const codeGrade = resGradeToEnroll[0].data.code;
-        const resDetailClassroom = await getDetailClassroom(codeGrade);
+        const grade = resGradeToEnroll[0].data;
+        const resDetailClassroom = await getDetailClassroom(grade.code);
         setClassroomsObj(prev => (
             [ 
                 ...prev, 
@@ -93,10 +94,7 @@ const EnrollmentRoot = ({ manageCanEnroll, enrolled = false }) => {
         setInformation(prev => ({
             ...prev,
             ...restDetailCampus,
-            grade: {
-                code: codeGrade, 
-                name: resDetailClassroom[0].data[0].classroom.grade.name,
-            }
+            grade
         }));
     }
     const doEnrollmentSubmit = async (e) => {
@@ -110,15 +108,14 @@ const EnrollmentRoot = ({ manageCanEnroll, enrolled = false }) => {
             codeGrade: grade.code,
             codeSection 
         });
-        if (payload.data && payload.data.enrolled && !err) {
-            setResponseEnrollment(responseEnrollmentType.SUCCESS);
-            await manageCanEnroll();
-            setTimeout(() => {
-                navigate("/campus/matricula/informacion");
-            }, 5000);
+        if (err || !payload.data || !payload.data.enrolled) {
+            setResponseEnrollment(responseEnrollmentType.ERROR);
             return;
         }
-        setResponseEnrollment(responseEnrollmentType.ERROR);
+        setResponseEnrollment(responseEnrollmentType.SUCCESS);
+        setTimeout(async () => {
+            await manageCanEnroll();
+        }, 3000);
     }
     const toggleShowTableInformationSections = () => {
         setShowTableInformationSections(prev => !prev);
@@ -153,10 +150,15 @@ const EnrollmentRoot = ({ manageCanEnroll, enrolled = false }) => {
                             responseEnrollment === responseEnrollmentType.LOADING}
                         text="REALIZAR MATRÍCULA"/>
                 {responseEnrollment === responseEnrollmentType.SUCCESS 
-                    && <PopupMessage 
-                        color="var(--verification)" 
-                        message="La matrícula se ha realizado correctamente" 
-                        iconName="bi:check-circle-fill"/>}
+                    && (
+                        <SuccesResponseEnrollment>
+                            <h3 className="message">Redirigiendo a información de matrícula...</h3>
+                            <PopupMessage 
+                                color="var(--verification)" 
+                                message="La matrícula se ha realizado correctamente" 
+                                iconName="bi:check-circle-fill"/>
+                        </SuccesResponseEnrollment>
+                    )}
                 {responseEnrollment === responseEnrollmentType.ERROR 
                     && <PopupMessage 
                         color="var(--seventh-color)"
