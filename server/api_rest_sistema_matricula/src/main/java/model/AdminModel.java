@@ -1,6 +1,7 @@
 package model;
 
 import database.ProceduresDB;
+import dto.student.RepresentativeDTO;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -99,22 +100,16 @@ public class AdminModel extends ModelParent {
     }
     
     public ArrayList<HashMap<String, String>> insertRepresentative(
-            final String name,
-            final String fatherSurname,
-            final String motherSurname,
-            final String dni,
-            final String email,
-            final String phone
-    ){
-    return doActionQuery((cnObj, prSt) -> {
-        prSt = cnObj.prepareStatement(ProceduresDB.INSERT_REPRESENTATIVE);
-            prSt.setString(1, name);
-            prSt.setString(2, fatherSurname);
-            prSt.setString(3, motherSurname);
-            prSt.setString(4, dni);
-            prSt.setString(5, email);
-            prSt.setString(6, phone);
-        return prSt;
-    });
+            final RepresentativeDTO representative) {
+        return doActionQuery((cnObj, prSt) -> {
+            prSt = cnObj.prepareStatement(ProceduresDB.INSERT_REPRESENTATIVE);
+                prSt.setString(1, representative.getName());
+                prSt.setString(2, representative.getFatherSurname());
+                prSt.setString(3, representative.getMotherSurname());
+                prSt.setString(4, representative.getIdCard());
+                prSt.setString(5, representative.getEmail());
+                prSt.setString(6, representative.getPhone());
+            return prSt;
+        });
     }
 }

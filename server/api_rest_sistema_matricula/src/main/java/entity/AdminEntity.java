@@ -1,5 +1,6 @@
 package entity;
 
+import dto.student.RepresentativeDTO;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,8 +66,15 @@ public class AdminEntity {
     }
     //</editor-fold>
     
-        
-    public String inserRepresentative(
+    public String insertRepresentative(final RepresentativeDTO representative) {
+        try {
+            ArrayList<HashMap<String, String>> table = new AdminModel().insertRepresentative(representative);
+            return table.size() > 0 ? table.get(0).get("RES"): null;
+        } catch (Exception e) {
+            return null;
+        }
+    }    
+    /*public String inserRepresentative(
             final String name,
             final String fatherSurname,
             final String motherSurname,
@@ -87,7 +95,7 @@ public class AdminEntity {
         } catch (Exception e) {
             return null;
         }     
-    }
+    }*/
     
     public String insertStudent(
             final String name,
