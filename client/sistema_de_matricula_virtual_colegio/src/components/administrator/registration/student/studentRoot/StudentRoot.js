@@ -15,8 +15,27 @@ import {
 } from "./styles";
 //#endregion
 //#region Components
-import CustomDataTable, { InputTable } from "../../../../general/customDataTable/CustomDataTable";
+import CustomDataTable, { 
+    InputTable 
+} from "../../../../general/customDataTable/CustomDataTable";
 //#endregion
+//#region Components
+import CustomButton from "../../../../general/customButton/CustomButton";
+//#endregion
+//#region Utils
+import { getDate } from "../../../../../utils/date";
+//#endregion
+//#region Services
+import { getStudents } from "../../../../../services/admin/studentsRegister";
+//#endregion
+
+const keysRows = [
+    "dni",
+    "name", 
+    "fatherSurname", 
+    "motherSurname", 
+    "address"
+];
 
 const rowsToDataTable = (
     tableData = [], 
@@ -26,21 +45,17 @@ const rowsToDataTable = (
         values: [], 
         handle: null
     },
-    handleChangeInputText 
+    handleChangeInput 
 ) => {
-    const getRowInputsText = (data, idx) => [
-        "dni",
-        "names", 
-        "fatherSurname", 
-        "motherSurname", 
-        "address"
-    ].reduce((acc, key) => {
+    if (tableData.length < 1 || disabledValuesInputsText.values.length < 1) 
+        return [];
+    const getRowInputsText = (data, idx) => keysRows.reduce((acc, key) => {
         const newObj = {
             ...acc,
             [key]: (
                 <InputTable 
                     value={data[key]} 
-                    onChange={(e) => handleChangeInputText(idx, key, e.target.value)}
+                    onChange={(e) => handleChangeInput(idx, key, e.target.value)}
                     onDoubleClick={(e) => {
                         disabledValuesInputsText.handle(idx, key, false);
                         setTimeout(() => {
@@ -58,8 +73,27 @@ const rowsToDataTable = (
     
     return tableData.map((data, idx) => ({
             ...getRowInputsText(data, idx),
-            dateOfBirth: (
-                <InputTable onChange={(e) => handleChangeInputText(idx, "dateOfBirth", e.target.value)} value={data.dateOfBirth}/>
+            dateBirth: (
+                <InputTable 
+                    onChange={
+                        (e) => handleChangeInput(
+                            idx, 
+                            "dateBirth", 
+                            {
+                                date: getDate(e.target.value),
+                                value: e.target.value
+                            })} 
+                    value={data.dateBirth.date}
+                    onDoubleClick={(e) => {
+                        disabledValuesInputsText.handle(idx, "dateBirth", false);
+                        setTimeout(() => {
+                            e.target.parentElement.children[0].focus();
+                        }, 100);
+                    }}
+                    onBlur={() => {
+                        disabledValuesInputsText.handle(idx, "dateBirth", true);
+                    }}
+                    disabled={disabledValuesInputsText.values[idx].dateBirth}/>
             ), 
             representative: (
                 <DetailRow 
@@ -91,11 +125,14 @@ const generateTestData = () => {
         newData.push({
             code: i, 
             dni: "70290308", 
-            names: "Manuel Alejandro", 
+            name: "Manuel Alejandro", 
             fatherSurname: "Rivera", 
             motherSurname: "Becerra", 
             address: "Av. Las Palmeras", 
-            dateOfBirth: "12/12/2012", 
+            dateBirth: {
+                date: "17/12/2000",
+                value: 0
+            }, 
             active: false
         })
     }
@@ -109,19 +146,31 @@ const StudentRoot = () => {
     //#endregion 
     //#region Effects
     useEffect(() => {
-        const generated = generateTestData();
-        setTableData(generated);
-        setDisabledValuesInputsText(generated.map((_) => ({
-            "dni": true,
-            "names": true,
-            "fatherSurname": true,
-            "motherSurname": true,
-            "address": true
-        })));
+        doGetStudents();
     }, []);
     //#endregion 
     //#region Functions
-    const handleChangeInputText = (idx, key, value) => {
+    const doGetStudents = async () => {
+        const [payload, err] = await getStudents(1);
+        if (!payload.data || err)
+        {
+            console.log(err);
+            return;
+        }
+        console.log(payload.data);
+        const { studentRegister } = payload.data;
+        setDisabledValuesInputsText(studentRegister.map((_) => ({
+            "dni": true,
+            "name": true,
+            "fatherSurname": true, 
+            "motherSurname": true, 
+            "address": true, 
+            "dateBirth": true
+        })));
+        setTableData(studentRegister);
+    }
+    const handleChangeInput = (idx, key, value) => {
+        console.log(value);
         const copy = [...tableData];
         copy[idx] = {
             ...copy[idx],
@@ -166,7 +215,7 @@ const StudentRoot = () => {
                             values: disabledValuesInputsText, 
                             handle: handleDisabledValuesTextFields
                         },
-                        handleChangeInputText)}/>
+                        handleChangeInput)}/>
         </Container>
     );
 }

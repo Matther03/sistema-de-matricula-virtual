@@ -24,19 +24,7 @@ export const ContentFormSectionLogin = styled.form`
         width: 100%;
     }
 `;
-const brightnessAnimationNoMatchMessageLogin = keyframes`
-    to {
-        filter: brightness(150%);
-    }
-`;
-export const NoMatchMessageLogin = styled.span`
-    color: var(--seventh-color);
-    font-weight: bold;
-    margin: 5px 0 0;
-    font-size: 15px;
-    filter: brightness(90%);
-    animation: linear ${brightnessAnimationNoMatchMessageLogin} 0.8s alternate-reverse infinite;
-`;
+
 export const IsNewStudent = styled.div`
     display: flex;
     flex-direction: column;

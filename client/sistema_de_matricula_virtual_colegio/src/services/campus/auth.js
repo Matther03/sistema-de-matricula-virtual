@@ -1,3 +1,6 @@
+//#region Utils
+import { typeStateRequestLogin } from '../../utils/validation';
+//#endregion
 import { doRequest } from '../helpers';
 
 //#region Secondary
@@ -13,6 +16,13 @@ export const loginStudent = async (student) => {
         student);
     if (!err && payload.data)
         saveToken(payload.data.token);
+    if (err) 
+        return typeStateRequestLogin.ERROR;
+    if (payload.status === 400)
+        return typeStateRequestLogin.INVALID_DATA;
+    if (payload.status === 401)
+        return typeStateRequestLogin.NO_MATCH;
+    return "";
 }
 export const isLoggedStudent = () => 
     sessionStorage.getItem("tokenStudent") ? true : false;
