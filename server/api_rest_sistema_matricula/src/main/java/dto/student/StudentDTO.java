@@ -32,9 +32,6 @@ public class StudentDTO {
         this.active = active;
     }
 
-  
-    
-
     //<editor-fold defaultstate="collapsed" desc="Getters and Setters">  
     public Integer getCode() {
         return code;

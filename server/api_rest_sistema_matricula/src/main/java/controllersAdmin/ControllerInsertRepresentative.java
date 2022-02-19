@@ -1,15 +1,10 @@
 package controllersAdmin;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dto.student.RepresentativeDTO;
-import dto.student.StudentDTO;
 import entity.AdminEntity;
-import entity.StudentEntity;
 import entity.admin.InsertForRegisterEntity;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -39,10 +34,15 @@ public class ControllerInsertRepresentative extends HttpServlet {
             return FormatResponse.getErrorResponse(msgError, 400);
         
         final AdminEntity adminEntity = new AdminEntity();
-        final String responseInsertRepresentative = adminEntity.insertRepresentative(representative);
-        if (!"SUCCESS".equals(responseInsertRepresentative)) 
-            return FormatResponse.getErrorResponse("There is a representative with the same DNI", 400);
+        final Boolean responseInsertRepresentative = adminEntity.insertRepresentative(representative);
 
+        if (!responseInsertRepresentative) {
+            final JsonObject data = new JsonObject();
+            final boolean representativeExists = true;
+            data.addProperty("representativeExists", representativeExists);
+            return FormatResponse.getSuccessResponse(data);
+        }
         return FormatResponse.getSuccessResponse(responseInsertRepresentative);
+        //TRUE => AGREGADO CON EXITO
     }
 }

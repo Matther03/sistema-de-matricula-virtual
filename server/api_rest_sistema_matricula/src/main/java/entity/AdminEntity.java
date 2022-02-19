@@ -1,6 +1,7 @@
 package entity;
 
 import dto.student.RepresentativeDTO;
+import dto.student.StudentDTO;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,59 +67,21 @@ public class AdminEntity {
     }
     //</editor-fold>
     
-    public String insertRepresentative(final RepresentativeDTO representative) {
+    public boolean insertRepresentative(final RepresentativeDTO representative) {
         try {
             ArrayList<HashMap<String, String>> table = new AdminModel().insertRepresentative(representative);
-            return table.size() > 0 ? table.get(0).get("RES"): null;
+            return "SUCCESS".equals(table.size() > 0 ? table.get(0).get("RES"): null);
         } catch (Exception e) {
-            return null;
+            return false;
         }
-    }    
-    /*public String inserRepresentative(
-            final String name,
-            final String fatherSurname,
-            final String motherSurname,
-            final String dni,
-            final String email,
-            final String phone){
-        try {
-            final ArrayList<HashMap<String,String>> table = new AdminModel().insertRepresentative(
-                name, 
-                fatherSurname, 
-                motherSurname, 
-                dni,
-                email,
-                phone
-            );
-            String valueEnroll = table.size() > 0 ? table.get(0).get("RES"): null;
-            return  valueEnroll;
-        } catch (Exception e) {
-            return null;
-        }     
-    }*/
-    
-    public String insertStudent(
-            final String name,
-            final String fatherSurname,
-            final String motherSurname,
-            final Date dateOfBirth,
-            final String dni,
-            final String direction,
-            final String dniRepresentative){
-        try {
-            final ArrayList<HashMap<String,String>> table = new AdminModel().insertStudent(
-                    name, 
-                    fatherSurname, 
-                    motherSurname, 
-                    dateOfBirth, 
-                    dni, 
-                    direction, 
-                    dniRepresentative);
-            String valueEnroll = table.size() > 0 ? table.get(0).get("RES"): null;
-            return  valueEnroll;
-        } catch (Exception e) {
-            return null;
-        }     
     }
-
+    
+    public boolean insertStudent(final StudentDTO student) {
+        try {
+            ArrayList<HashMap<String, String>> table = new AdminModel().insertStudent(student);
+            return "SUCCESS".equals(table.size() > 0 ? table.get(0).get("RES"): null);
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }
