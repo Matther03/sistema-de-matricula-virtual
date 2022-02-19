@@ -1,6 +1,5 @@
 package entity.admin;
 
-import dto.classroom.TeacherDTO;
 import dto.student.RepresentativeDTO;
 import dto.student.StudentDTO;
 import entity.EntityHelper;
@@ -80,4 +79,15 @@ public class GetStudentRegisterEntity {
     }
     //</editor-fold>
     
+    public Integer isNumberGreaterThanZero(final String numero){
+        try {
+            Integer numeroPositivo = Integer.parseInt(numero);
+            if (numeroPositivo>0) {
+                return numeroPositivo;
+            }
+            return null;
+        } catch (Exception e) {
+        }
+        return null;
+    }
 }

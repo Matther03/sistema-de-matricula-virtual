@@ -828,7 +828,7 @@ CREATE PROCEDURE sp_insert_representative(
     IN __dni CHAR(8), 
     IN __email VARCHAR(50),
     IN __phone CHAR(9)
-) 
+)   
 BEGIN
     DECLARE __verify_dni BIT;
     SET __verify_dni = (SELECT 1 FROM representative WHERE representative.dni = __dni);

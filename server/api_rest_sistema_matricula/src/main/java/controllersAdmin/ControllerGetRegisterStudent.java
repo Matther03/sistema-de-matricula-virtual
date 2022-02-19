@@ -1,16 +1,11 @@
 package controllersAdmin;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dto.student.StudentDTO;
-import entity.AdminEntity;
-import entity.ValidateInput;
 import entity.admin.GetStudentRegisterEntity;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Arrays;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,8 +28,7 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
         return;
     }
     final GetStudentRegisterEntity getStudentRegisterEntity = new GetStudentRegisterEntity();
-    final ValidateInput validateImput = new ValidateInput();
-    final Integer parsedLimitTop = validateImput.isNumberGreaterThanZero(limitTop);
+    final Integer parsedLimitTop = getStudentRegisterEntity.isNumberGreaterThanZero(limitTop);
     if (parsedLimitTop == null) {
         HelperController.templatePrintable(
             FormatResponse.getErrorResponse("Parameter limitTop is not number valid.", 400) ,

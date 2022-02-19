@@ -1,5 +1,6 @@
 package entity;
 
+import com.google.gson.JsonElement;
 import dto.classroom.ClassroomDTO;
 import dto.classroom.CourseDTO;
 import dto.classroom.CourseTeacherDTO;
@@ -22,6 +23,7 @@ import utils.validation.Validation;
 import utils.authentication.JWTAuthentication;
 import utils.authentication.RoleAuthJWT;
 import utils.enums.ResponseEnrollment;
+import utils.validation.RegexPatternsValidation;
 
 public class StudentEntity {
     
@@ -216,4 +218,52 @@ public class StudentEntity {
     }
     //</editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc="General Validation">
+    public Integer isValidCodeStudent(String codeStudent) {
+	return Validation.isValidCode(codeStudent, null);
+    }
+    public Integer isValidCodeGrade(String codeGrade) {
+        return Validation.isValidCode(codeGrade, 6);
+    }
+    public Integer isValidCodeSection(String codeSection) {
+        return Validation.isValidCode(codeSection, 7);
+    }
+    public boolean isGradeValid(final GradeDTO newGrade){
+        int grade = newGrade.getCode();
+        return grade < 6;
+    }
+    public String isValidDNI(final String dni) {
+        try {
+            if (Validation.regexIsMatched(RegexPatternsValidation.DNI, dni)) {
+                return dni;
+            }
+            return null ;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    public Date isValidDate(final String dateStr) {
+        try {
+            final Long dateLong = Long.parseLong(dateStr);
+            final Date date = new Date(dateLong);
+            return date ;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    public Boolean isValidBoolean(final String booleanStr) {
+        try {
+            return("1".equals(booleanStr));
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    public String isvalidString (final JsonElement str){
+        try {
+            return str.toString();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    //</editor-fold>
 }
