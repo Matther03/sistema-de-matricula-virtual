@@ -226,7 +226,7 @@ public class StudentEntity {
         return Validation.isValidCode(codeGrade, 6);
     }
     public Integer isValidCodeSection(String codeSection) {
-        return Validation.isValidCode(codeSection, 7);
+        return Validation.isValidCode(codeSection, null);
     }
     public boolean isGradeValid(final GradeDTO newGrade){
         int grade = newGrade.getCode();

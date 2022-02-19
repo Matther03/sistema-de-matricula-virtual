@@ -49,7 +49,7 @@ public class ControllerInsertStudent extends HttpServlet {
         final String motherSurname = isValidString(_motherSurname);
         if (motherSurname == null) 
             return  FormatResponse.getErrorResponse("No valid motherSurname.", 400);
-        Date validDate =isValidDate(_dateOfBirth);
+        final Date validDate = isValidDate(_dateOfBirth);
         if (validDate == null) 
             return  FormatResponse.getErrorResponse("No valid dateOfBirth.", 400);
         final String dni = isValidDni(_dni);

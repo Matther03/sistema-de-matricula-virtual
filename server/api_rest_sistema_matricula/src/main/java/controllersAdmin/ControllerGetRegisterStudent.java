@@ -17,10 +17,15 @@ import utils.HelperController;
 @WebServlet(name = "ControllerStudentRegister", urlPatterns = {"/api/student/register"})
 public class ControllerGetRegisterStudent extends HttpServlet {
     
+@Override
 protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
             
-    final String limitTop = request.getParameter("limitTop");
+    final String limitTop = request.getParameter("limitTop"),
+                seeSize = request.getParameter("seeSize");
+    
+    boolean seeSizeValue = Boolean.parseBoolean(seeSize);
+    
     if (limitTop == null){
         HelperController.templatePrintable(
             FormatResponse.getErrorResponse("Parameter not sent.", 400) ,
@@ -38,26 +43,29 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
 
     final int amount = 3;
     final int newLimitTop = parsedLimitTop-1;
-    final StudentDTO[] registerStudent = getStudentRegisterEntity.getStudentRegister(newLimitTop,amount);
-    if (registerStudent == null) {
+
+    final StudentDTO[] students = getStudentRegisterEntity.getStudentRegister(newLimitTop,amount);
+    if (students == null) {
         HelperController.templatePrintable(
             FormatResponse.getErrorResponse("Not found.", 400) ,
             response);
         return;
     }
     
-    final Boolean isEndRows = getStudentRegisterEntity.isEndRows(newLimitTop, amount);
-    if (isEndRows == null) {
-        HelperController.templatePrintable(
-            FormatResponse.getErrorResponse("Unexpected error.", 400) ,
-            response);
-        return;
+    final JsonObject data = new JsonObject();
+    System.out.println(seeSizeValue);
+    if (seeSizeValue) {
+        final Integer totalSize = getStudentRegisterEntity.getTotalSize();
+        if (totalSize == null) {
+            HelperController.templatePrintable(
+                FormatResponse.getErrorResponse("Unexpected error.", 400) ,
+                response);
+            return;
+        }
+        data.addProperty("totalSize", totalSize);
     }
     
-    final JsonObject data = new JsonObject();
-    final Gson gson = new Gson();
-        data.addProperty("isEndRows", isEndRows);
-        data.add("studentRegister", gson.fromJson(gson.toJson(registerStudent), JsonElement.class));
+    data.add("students", HelperController.toJsonElement(students, new Gson()) ) ;
         
     HelperController.templatePrintable(
         FormatResponse.getSuccessResponse(data),
