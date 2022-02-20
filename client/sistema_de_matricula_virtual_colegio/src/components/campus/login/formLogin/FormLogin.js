@@ -12,7 +12,6 @@ import {
 //#region Styles
 import { 
     ContentFormSectionLogin,
-    NoMatchMessageLogin,
     IsNewStudent
 } from './styles';
 //#endregion
@@ -21,8 +20,17 @@ import { Icon } from '@iconify/react';
 //#endregion
 //#region Components
 import DialogAlert from '../../../general/dialogAlert/DialogAlert';
+import NoMatchMessageLogin from "../../../general/noMatchMessageLogin/NoMatchMessageLogin";
 import CustomTextField from '../../../general/customTextField/CustomTextField';
 import CustomButton from '../../../general/customButton/CustomButton';
+//#endregion
+//#region Utils
+import useDidMount from '../../../../utils/hooks/useDidMount';
+import { 
+    regex,
+    fieldsHaveErrors, 
+    handleKeyPressOnlyNumbers
+} from '../../../../utils/validation';
 //#endregion
 //#region Services
 import { 
@@ -34,33 +42,28 @@ import {
 } from '../../../../services/campus/student';
 //#endregion
 
-const regex = {
-    dni: /^[0-9]{8}$/,
-    password: /^.{8,16}$/
-};
-
 const FormLogin = () => {
+    //#region Extra hooks
+    const didMount = useDidMount();
+    //#endregion
     //#region States
-    const [didMount, setDidMount] = useState(false);
+    //#region Form
     const [form, setForm] = useState({
         dni: "",
         password: ""
     });
-    const [showPassword, setShowPassword] = useState(false);
     const [errors, setErrors] = useState({
         dni: false,
         password: false
     });
+    //#endregion
+    const [showPassword, setShowPassword] = useState(false);
     const [showDialogRememberRegister, setShowDialogRememberRegister] = useState(false);
     const [showNoMatchMessageLogin, setShowNoMatchMessageLogin] = useState(false);
     const [loadingLoginRequest, setLoadingLoginRequest] = useState(false);
+    const [stateRequestLogin, setStateRequestLogin] = useState("");
     //#endregion
     //#region Effects
-    // Effect para limpiar el flujo de renderizado
-    useEffect(() => {
-        setDidMount(true);
-        return () => setDidMount(false);
-     }, [])
     useEffect(() => {
         validateField("dni");
     }, [form.dni]);
@@ -68,7 +71,7 @@ const FormLogin = () => {
         validateField("password");
     }, [form.password]);
     useEffect(() => {
-        if (localStorage.getItem("alreadyRememberRegister"))
+        if (localStorage.getItem("alreadyRememberRegister")) 
             return;
         setShowDialogRememberRegister(true);
         localStorage.setItem("alreadyRememberRegister", "true");
@@ -78,15 +81,11 @@ const FormLogin = () => {
     const navigate = useNavigate();
     //#endregion
     //#region Functions
-    const validateField = field => {
+    const validateField = (field) => {
         setErrors(prev => ({
             ...prev,
             [field]: !regex[field].test(form[field])
         }));
-    }
-    const handleKeyPressOnlyNumbers = (e) => {
-        if (!/^[0-9]$/.test(e.key))
-            e.preventDefault();
     }
     const handleChangeTextField = (e, field) => {
         const { value } = e.target;
@@ -97,15 +96,11 @@ const FormLogin = () => {
         showNoMatchMessageLogin && setShowNoMatchMessageLogin(false);
     }
     const toggleShowPassword = () => {
-        setShowPassword(prev => (!prev));
+        setShowPassword(prev => !prev);
     }
     const toggleShowDialogRememberRegister = () => {
         setShowDialogRememberRegister(prev => !prev);
     }
-    const fieldsHaveErrors = () => {
-        return Object.values(errors).some(error => error);
-    }
-    
     const saveDetailStudent = async (dni) => {
         const [payload, err] = await getDetailCampusRequest(dni);
         if (!err && payload.data) {
@@ -119,12 +114,10 @@ const FormLogin = () => {
     }
     const handleLogin = async (e) => {
         e.preventDefault();
-        if (fieldsHaveErrors()) return;
+        if (fieldsHaveErrors(errors)) return;
         setLoadingLoginRequest(true);
-        await loginStudent({ 
-            dni: form.dni, 
-            password: form.password 
-        });
+        const response = await loginStudent(form);
+        setStateRequestLogin(response);
         if (isLoggedStudent()) {
             await saveDetailStudent(form.dni);
             console.clear();
@@ -134,7 +127,8 @@ const FormLogin = () => {
         setLoadingLoginRequest(false);
     }
     //#endregion
-    return didMount && (
+    if (!didMount) return null;
+    return (
         <ContentFormSectionLogin 
             onSubmit={handleLogin}>
             <section className="fields">
@@ -143,14 +137,14 @@ const FormLogin = () => {
                         "dni": {
                             type: "text", 
                             label: "Número de DNI",
-                            helperText: "Deben haber 8 dígitos numéricos",
+                            helperText: "Deben haber 8 dígitos numéricos.",
                             onKeyPress: handleKeyPressOnlyNumbers,
                             length: [8, 8] 
                         }, 
                         "password": {
                             type: showPassword ? "text" : "password",
                             label: "Contraseña",
-                            helperText: "Deben haber entre 8 y 16 dígitos y al menos una mayúscula, una minúscula y un dígito numérico",
+                            helperText: "Deben haber entre 8 y 16 caracteres y al menos una mayúscula, una minúscula y un número.",
                             length: [8, 16], 
                             iconEnd: (
                                     <InputAdornment position="end">
@@ -169,13 +163,12 @@ const FormLogin = () => {
                     errors={errors}/>
             </section>
             <footer>
-                {showNoMatchMessageLogin && 
-                    <NoMatchMessageLogin>
-                        Las credenciales DNI / Contraseña no coinciden
-                    </NoMatchMessageLogin>}
+                <NoMatchMessageLogin 
+                    show={showNoMatchMessageLogin}
+                    stateRequestLogin={stateRequestLogin}/>
                 <CustomButton
                     type="submit"
-                    disabled={errors.dni || errors.password || loadingLoginRequest}
+                    disabled={fieldsHaveErrors(errors) || loadingLoginRequest}
                     text="Ingresar"
                     loading={loadingLoginRequest}/>
                 <IsNewStudent>

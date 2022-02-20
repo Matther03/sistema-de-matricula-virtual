@@ -1,7 +1,7 @@
 //#region Libraries
 import CustomButton from '../../../general/customButton/CustomButton';
 import PopupMessage from '../../../general/popupMessage/PopupMessage';
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 //#endregion
 
 export const ContainerSectionEnrollment = styled.section`
@@ -48,4 +48,21 @@ export const ShowEyePopupMessage = styled(PopupMessage)`
         font-weight: bold !important;
     }
     cursor: pointer;
+`;
+
+const animationMessage = keyframes`
+    to {
+        color: var(--verification);
+    }
+`;
+
+export const SuccesResponseEnrollment = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    & .message {
+        margin: 5px 0;
+        animation: linear ${animationMessage} 0.5s infinite alternate-reverse;
+    }
 `;

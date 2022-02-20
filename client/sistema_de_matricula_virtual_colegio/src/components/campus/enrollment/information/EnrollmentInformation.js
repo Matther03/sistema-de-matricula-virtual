@@ -15,15 +15,21 @@ import EnrollmentDataInformation from "./components/enrollmentDataInformation/En
 import EnrollmentTableInformation from "./components/enrollmentTableInformation/EnrollmentTableInformation";
 //#region Utils
 import { getDate } from '../../../../utils/date';
+import useDidMount from "../../../../utils/hooks/useDidMount";
 //#endregion
 //#region Services
 import { getDetailCampus } from '../../../../services/campus/student';
 import { getDetailEnrollment } from '../../../../services/campus/enrollment';
 //#endregion
 
+const getTeacherFullName = (teacher) => `${teacher.fatherSurname} ${teacher.motherSurname}, ${teacher.name}`;
+
 const EnrollmentInformation = ({ enrolled }) => {
+    //#region Extra hooks
+    const didMount = useDidMount();
+    //#endregion
     //#region States
-    const [information, setInformation] = useState({
+    const [dataInformation, setDataInformation] = useState({
         fullName: "-", 
         grade: "-",
         section: "-",
@@ -31,33 +37,56 @@ const EnrollmentInformation = ({ enrolled }) => {
         dni: "-",
         date: "-"
     });
+    const [tableInformation, setTableInformation] = useState([]);
     //#endregion
     //#region Effects
-    const fillInformation = async () => {
-        const { codeStudent, dni, fullName } = getDetailCampus();
+    useEffect(() => {
+        enrolled && doGetDetailEnrollment();
+    }, []);
+    //#endregion
+    //#region Functions
+    const doGetDetailEnrollment = async () => {
+        const { codeStudent, ...restDetailCampus } = getDetailCampus();
         const [payload, err] =  await getDetailEnrollment(codeStudent);
         if (!payload.data || err) return;
-        const { data } = payload;
-        setInformation(prev => ({
+        const { 
+            information, 
+            classroomTeachers, 
+            formTeacher } = payload.data;
+        fillInformation(restDetailCampus, information);
+        fillTableData(formTeacher, classroomTeachers);
+    }
+    const fillInformation = (detailCampus, information) => {
+        setDataInformation(prev => ({
             ...prev, 
-            fullName, 
-            dni,
-            date: getDate(data.date),
-            grade: data.classroom.grade.name, 
-            section: data.classroom.section.letter, 
-            shift: data.classroom.section.shift.category
+            ...detailCampus, 
+            date: getDate(information.date),
+            grade: information.classroom.grade.name, 
+            section: information.classroom.section.letter, 
+            shift: information.classroom.section.shift.category
         }));
     };
-    useEffect(() => {
-        enrolled && fillInformation();
-    }, []);
+    const fillTableData = (formTeacher, classroomTeachers) => {
+        setTableInformation({
+            formTeacher: getTeacherFullName(formTeacher),
+            courses: classroomTeachers.map(
+                (classroomTeacher, idx) => ({
+                    numberIdx: idx + 1,
+                    course: classroomTeacher.course.name,
+                    teacher: getTeacherFullName(classroomTeacher.teacher)
+                }))
+        });
+    }
+    //#endregion
+    if (!didMount) return null;
     if (!enrolled) 
         return (<Navigate to="/campus/matricula/" replace={true}/>);
-    //#endregion
     return (
         <ContainerEnrollmentInformation>
-            <EnrollmentDataInformation enrollmentInformation={information}/>
-            <EnrollmentTableInformation/>
+            <EnrollmentDataInformation 
+                dataInformation={dataInformation}/>
+            <EnrollmentTableInformation 
+                tableInformation={tableInformation}/>
         </ContainerEnrollmentInformation>
     );
 };

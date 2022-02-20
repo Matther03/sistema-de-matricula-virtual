@@ -30,23 +30,30 @@ const Campus = () => {
         <Routes>
             <Route 
                 path="login" 
-                element={<Login/>}/>
-            <Route path="home" element={
-                <RouteProtectedStudent>
-                    <Home/>
-                </RouteProtectedStudent>}/>
-            <Route path="matricula/*" element={
-                <RouteProtectedStudent>
-                    <Enrollment/>
-                </RouteProtectedStudent>}/>
-            <Route path="intranet" element={
-                <RouteProtectedStudent>
-                    <Intranet/>
-                </RouteProtectedStudent>}/>
-            <Route path="aula-virtual" element={
-                <RouteProtectedStudent>
-                    <AulaVirtual/>
-                </RouteProtectedStudent>}/>
+                element={
+                    <RouteProtectedStudent reverse={true}>
+                        <Login/>
+                    </RouteProtectedStudent>}/>
+            <Route path="home" 
+                element={
+                    <RouteProtectedStudent>
+                        <Home/>
+                    </RouteProtectedStudent>}/>
+            <Route path="matricula/*" 
+                element={
+                    <RouteProtectedStudent>
+                        <Enrollment/>
+                    </RouteProtectedStudent>}/>
+            <Route path="intranet" 
+                element={
+                    <RouteProtectedStudent>
+                        <Intranet/>
+                    </RouteProtectedStudent>}/>
+            <Route path="aula-virtual" 
+                element={
+                    <RouteProtectedStudent>
+                        <AulaVirtual/>
+                    </RouteProtectedStudent>}/>
             <Route 
                 path="*"
                 element={<Navigate to="/campus/home" replace={true}/>}/>

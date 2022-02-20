@@ -18,29 +18,40 @@ import {
 } from './styles';
 //#endregion
 //#region Components
+import NoMatchMessageLogin from "../../../general/noMatchMessageLogin/NoMatchMessageLogin";
 import CustomTextField from "../../../general/customTextField/CustomTextField";
 import CustomButton from "../../../general/customButton/CustomButton";
+//#endregion
+//#region Utils
+import useDidMount from '../../../../utils/hooks/useDidMount';
+import { 
+    regex, 
+    fieldsHaveErrors  
+} from '../../../../utils/validation';
 //#endregion
 //#region Services
 import { loginAdmin, isLoggedAdmin } from '../../../../services/admin/auth';
 //#endregion
-const regex = {
-    user: /^[0-9]{8}$/,
-    password: /^.{8,16}$/
-}
 
 const FormLogin = () => {
+    //#region Extra hooks
+    const didMount = useDidMount();
+    //#endregion
     //#region States
+    //#region Form
     const [form, setForm] = useState({
         user: "",
         password: ""
     });
-    const [showPassword, setShowPassword] = useState(false);
-    const [loadingLoginRequest, setLoadingLoginRequest] = useState(false);
     const [errors, setErrors] = useState({
         user: false,
         password: false
     });
+    //#endregion
+    const [showPassword, setShowPassword] = useState(false);
+    const [showNoMatchMessageLogin, setShowNoMatchMessageLogin] = useState(false);
+    const [loadingLoginRequest, setLoadingLoginRequest] = useState(false);
+    const [stateRequestLogin, setStateRequestLogin] = useState("");
     //#endregion
     //#region Effects
     useEffect(() => {
@@ -60,9 +71,10 @@ const FormLogin = () => {
             ...prev,
             [field]: value
         }));
+        showNoMatchMessageLogin && setShowNoMatchMessageLogin(false);
     }
     const toggleShowPassword = () => {
-        setShowPassword(prev => (!prev));
+        setShowPassword(prev => !prev);
     }
     const validateField = (field) => {
         setErrors(prev => ({
@@ -70,54 +82,62 @@ const FormLogin = () => {
             [field]: !regex[field].test(form[field])
         }));
     }
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-        loginAdmin({ 
-            user: form.user, 
-            password: form.password 
-        });
-        isLoggedAdmin() && navigate("/admin/home");
+        if (fieldsHaveErrors(errors)) return;
+        setLoadingLoginRequest(true);
+        const response = await loginAdmin(form);
+        setStateRequestLogin(response);
+        if (isLoggedAdmin()) {
+            console.clear();
+            navigate("/admin/home");
+        }
+        else setShowNoMatchMessageLogin(true);
+        setLoadingLoginRequest(false);
     }
     //#endregion
+    if (!didMount) return null;
     return (
-        <ContentFormSectionLogin
-            onSubmit={handleLogin}>
+        <ContentFormSectionLogin onSubmit={handleLogin}>
             <section className="fields">
                 <LoginTextFields
-                textFields={{
-                    "user": {
-                        type: "text", 
-                        label: "Usuario",
-                        helperText: "Deben haber 8 dígitos numéricos",
-                        length: [8, 8] 
-                    }, 
-                    "password": {
-                        type: showPassword ? "text" : "password",
-                        label: "Contraseña",
-                        helperText: "Deben haber entre 8 y 16 dígitos y al menos una mayúscula, una minúscula y un dígito numérico",
-                        length: [8, 16], 
-                        iconEnd: (
-                                <InputAdornment position="end">
-                                    <IconButton
-                                    onClick={toggleShowPassword}>
-                                        <Icon icon={showPassword 
-                                            ? "ic:sharp-visibility-off"
-                                            : "ic:round-visibility"} />
-                                    </IconButton>
-                                </InputAdornment>
-                            )
-                    }
-                }}
-                handleChangeTextField={handleChangeTextField}
-                form={form}
-                errors={errors}/>
+                    textFields={{
+                        "user": {
+                            type: "text", 
+                            label: "Usuario",
+                            helperText: "Deben haber de 8 a 16 caracteres.",
+                            length: [8, 16] 
+                        }, 
+                        "password": {
+                            type: showPassword ? "text" : "password",
+                            label: "Contraseña",
+                            helperText: "Deben haber entre 8 y 16 caracteres y al menos una mayúscula, una minúscula y un número.",
+                            length: [8, 16], 
+                            iconEnd: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                        onClick={toggleShowPassword}>
+                                            <Icon icon={showPassword 
+                                                ? "ic:sharp-visibility-off"
+                                                : "ic:round-visibility"} />
+                                        </IconButton>
+                                    </InputAdornment>
+                                )
+                        }
+                    }}
+                    handleChangeTextField={handleChangeTextField}
+                    form={form}
+                    errors={errors}/>
             </section>
             <footer>
+                <NoMatchMessageLogin 
+                    show={showNoMatchMessageLogin}
+                    stateRequestLogin={stateRequestLogin}/>
                 <CustomButton 
                     type="submit"
                     text="INGRESAR"
                     className="secondary"
-                    disabled={errors.user || errors.password || loadingLoginRequest}
+                    disabled={fieldsHaveErrors(errors) || loadingLoginRequest}
                     loading={loadingLoginRequest}/>
             </footer>
         </ContentFormSectionLogin>

@@ -39,6 +39,12 @@ export const StyledTableCell = styled(TableCell)`
     }
     &.MuiTableCell-body.secondary {
         padding: 0px 20px;
+        &:nth-child(1) {
+            background-color: var(--sixth-color);
+            color: var(--third-color);
+            font-weight: bold;
+            width: max-content;
+        }
     }
     &.MuiTableCell-body.secondary:hover {
         background: #ffff0088;
@@ -62,5 +68,8 @@ export const StyledInputTable = styled.input`
     }
     &:disabled {
         background-color: transparent;
+    }
+    &::-webkit-calendar-picker-indicator {
+        filter: invert(1);
     }
 `;

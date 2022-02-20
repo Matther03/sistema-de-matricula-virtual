@@ -10,6 +10,7 @@ import {
 import { useLocation } from 'react-router';
 //#endregion
 //#region Components
+import { RouteProtectedAdmin } from '../components/general/RouteProtected';
 import SymbolHeader from "../components/general/symbolHeader/SymbolHeader";
 import Login from "../views/administrator/login/Login";
 import Home from "../views/administrator/home/Home";
@@ -46,13 +47,24 @@ const Administrator = () => {
         <>
             {renderSymbolHeader()}
             <Routes>
-                <Route path="home" element={
-                        <Home infoRoutes={infoRoutes}/>
-                    }/>
-                <Route path="login" element={<Login/>}/>
-                <Route path="registro/*" element={
-                        <Registration infoRoutes={infoRoutes}/>
-                    }/>
+                <Route 
+                    path="login" 
+                    element={
+                        <RouteProtectedAdmin reverse={true}>
+                            <Login/>
+                        </RouteProtectedAdmin>}/>
+                <Route 
+                    path="home" 
+                    element={
+                        <RouteProtectedAdmin>
+                            <Home infoRoutes={infoRoutes}/>
+                        </RouteProtectedAdmin>}/>
+                <Route 
+                    path="registro/*" 
+                    element={
+                        <RouteProtectedAdmin>
+                            <Registration infoRoutes={infoRoutes}/>
+                        </RouteProtectedAdmin>}/>
                 <Route 
                     path="*" 
                     element={<Navigate to="/admin/home" replace={true}/>}/>

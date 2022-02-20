@@ -1,6 +1,5 @@
 //#region Libraries
 import { useEffect, useState } from "react";
-import { useLocation } from 'react-router';
 //#endregion
 //#region Styles
 import {
@@ -12,17 +11,14 @@ import {
 import LogoutBtn from "../../../components/logoutBtn/LogoutBtn";
 //#endregion
 
-const RegistrationNav = ({ infoRoutes = [] }) => {
-    //#region Extra Hooks
-    const location = useLocation();
-    //#endregion
-    //#region States
-    const [activeRegistrationLinks, setActiveRegistrationLinks] = useState([]);
-    //#endregion
+const RegistrationNav = ({ infoRoutes = [], location }) => {
     //#region Effects
     useEffect(() => {
         handlerActiveRegistrationLinks();
     }, [location.pathname]);
+    //#endregion
+    //#region States
+    const [activeRegistrationLinks, setActiveRegistrationLinks] = useState([]);
     //#endregion
     //#region Functions
     const handlerActiveRegistrationLinks = () => {

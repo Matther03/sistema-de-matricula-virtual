@@ -13,18 +13,13 @@ import {
 //#region Images
 import adminImg from '../../../img/administrator/login/admin-icon.png';
 //#endregion
-
 //#region Components
 import FormLogin from "../../../components/administrator/login/formLogin/FormLogin";
-//#endregion
-//#region Services
-import { isLoggedAdmin } from '../../../services/admin/auth';
 //#endregion
 
 const Login = () => {
     return (
         <>
-            {isLoggedAdmin() && <Navigate to="/admin/home" replace={true}/>}
             <ContainerBackgroundBlue>
                 <ContentSectionLogin>
                     <AdminImgContainer>
