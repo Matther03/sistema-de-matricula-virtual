@@ -10,6 +10,7 @@ import java.util.HashMap;
 import model.AdminModel;
 
 public class GetStudentRegisterEntity {
+    
     //<editor-fold defaultstate="collapsed" desc="Representative">
     
     public RepresentativeDTO getRepresentative(final Integer codeStudent){
