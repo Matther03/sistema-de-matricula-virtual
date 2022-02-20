@@ -180,6 +180,17 @@ CREATE TABLE admin_account(
     PRIMARY KEY(code_admin_account)
 );
 
+DROP TABLE IF EXISTS activation_account_student;
+CREATE TABLE activation_account_student(
+    code_activation INT(6) AUTO_INCREMENT,
+    code_student INT(6) NOT NULL,
+    token CHAR(25) NOT NULL,
+    plain_password VARCHAR(16) NOT NULL,
+    PRIMARY KEY(code_activation),
+    FOREIGN KEY(code_student) REFERENCES student(code_student)
+);
+
+
 
 -- INSERT DATA
 INSERT INTO admin_account (_user,_password) VALUES('adminmaurtua','$2a$10$mWfaHhsfLfAQHPyW6/Ta8u4puOxwmnD5mWtBaMRisR6vuw.mLuxt2'); -- Admin123
@@ -781,21 +792,27 @@ CREATE PROCEDURE sp_update_student(
     IN __code_student INT(6)
 ) 
 BEGIN
-    UPDATE student 
-    SET
-        _name = CASE WHEN __name IS NOT NULL THEN __name ELSE _name END, 
-        father_surname = CASE WHEN __father_surname IS NOT NULL THEN __father_surname ELSE father_surname END,
-        mother_surname = CASE WHEN __mother_surname IS NOT NULL THEN __mother_surname ELSE mother_surname END,
-        date_of_birth = CASE WHEN __date_of_birth IS NOT NULL THEN __date_of_birth ELSE date_of_birth END,
-        dni = CASE WHEN __dni IS NOT NULL THEN __dni ELSE dni END, 
-        direction = CASE WHEN __direction IS NOT NULL THEN __direction ELSE direction END,
-        active = CASE WHEN __active IS NOT NULL THEN __active ELSE active END
-    WHERE student.code_student= __code_student;
-    SELECT 'SUCCESS' AS 'RES';
+    DECLARE __verify_dni CHAR(8);
+    SET __verify_dni = (SELECT 1 FROM student WHERE student.dni = __dni);
+    IF __verify_dni IS NOT NULL THEN
+        SELECT 'EXI_DNI' AS 'RES';
+    ELSE
+        UPDATE student 
+        SET
+            _name = CASE WHEN __name IS NOT NULL THEN __name ELSE _name END, 
+            father_surname = CASE WHEN __father_surname IS NOT NULL THEN __father_surname ELSE father_surname END,
+            mother_surname = CASE WHEN __mother_surname IS NOT NULL THEN __mother_surname ELSE mother_surname END,
+            date_of_birth = CASE WHEN __date_of_birth IS NOT NULL THEN __date_of_birth ELSE date_of_birth END,
+            dni = CASE WHEN __dni IS NOT NULL THEN __dni ELSE dni END, 
+            direction = CASE WHEN __direction IS NOT NULL THEN __direction ELSE direction END,
+            active = CASE WHEN __active IS NOT NULL THEN __active ELSE active END
+        WHERE student.code_student= __code_student;
+        SELECT 'SUCCESS' AS 'RES';
+    END IF;
 END
 //
 
-
+-- CALL sp_update_student(null,null,null,null,'77665502',null,null,1);
 
 DROP PROCEDURE IF EXISTS sp_insert_student;
 DELIMITER //
@@ -856,15 +873,53 @@ END
 DROP PROCEDURE IF EXISTS sp_verify_account_admin;
 DELIMITER //
 CREATE PROCEDURE sp_verify_account_admin(
-    IN __user VARCHAR(16),
-    IN __password CHAR(60)
+    IN __user VARCHAR(16)
 ) 
 BEGIN
     DECLARE __verify_user BIT;
-    DECLARE __verify_password BIT;
+    DECLARE __password CHAR(60);
     SET __verify_user = (SELECT 1 FROM admin_account WHERE admin_account._user = __user);
-    SET __verify_password = (SELECT 1 FROM admin_account WHERE admin_account._password = __password);
-    SELECT IF(__verify_user IS NULL OR __verify_password IS NULL,0,1) AS 'RES';
+    SET __password = (SELECT _password FROM admin_account WHERE admin_account._user = __user);
+    SELECT IF(__verify_user IS NULL,'ERROR',__password) AS 'RES';
 END
 //
 
+DROP PROCEDURE IF EXISTS sp_do_account_student;
+DELIMITER //
+CREATE PROCEDURE sp_do_account_student(
+    IN __code_student INT(6),
+    IN __token CHAR(25),
+    IN __encrypted_password CHAR(60),
+    IN __plain_password VARCHAR(16)
+) 
+BEGIN
+    INSERT INTO account(_password,code_student) VALUES(__encrypted_password,__code_student);
+    INSERT INTO activation_account_student(token,plain_password,code_student) VALUES(__token,__plain_password,__code_student);
+    SELECT 'SUCCESS' AS 'RES';
+END
+//
+
+DROP PROCEDURE IF EXISTS sp_active_account_student;
+DELIMITER //
+CREATE PROCEDURE sp_active_account_student(
+    IN __token CHAR(25)
+) 
+BEGIN
+    DECLARE __verify_token BIT;
+    DECLARE __code_student INT(6);
+    DECLARE __plain_password VARCHAR(16);
+    SET __verify_token = (SELECT 1 FROM activation_account_student WHERE activation_account_student.token = __token);
+    IF __verify_token IS NOT NULL THEN
+        SET __code_student = (SELECT code_student FROM activation_account_student WHERE activation_account_student.token = __token);
+        UPDATE student SET active = 1 WHERE student.code_student = __code_student;
+        SET __plain_password = (SELECT plain_password FROM activation_account_student WHERE activation_account_student.code_student = __code_student);
+        DELETE FROM activation_account_student WHERE activation_account_student.code_student = __code_student;
+        SELECT __plain_password AS 'RES';
+    ELSE
+        SELECT 'ERROR' AS 'RES';
+    END IF;
+END
+//
+
+-- CALL sp_do_account_student(10,'1234512345123451234512345','$2a$10$VGk1JQvpVkrQx79wvdNRNOROWiSAF41liUum7clHuy6nZkSLgypgq','Lucas1234');
+-- CALL sp_active_account_student('1234512345123451234512345');
