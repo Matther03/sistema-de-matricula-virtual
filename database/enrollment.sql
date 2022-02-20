@@ -172,7 +172,18 @@ CREATE TABLE history_detail_student(
     FOREIGN KEY (code_grade) REFERENCES grade(code_grade)
 );
 
+DROP TABLE IF EXISTS admin_account;
+CREATE TABLE admin_account(
+    code_admin_account TINYINT(1) AUTO_INCREMENT,
+    _user VARCHAR(16) NOT NULL,
+    _password CHAR(60) NOT NULL,
+    PRIMARY KEY(code_admin_account)
+);
+
+
 -- INSERT DATA
+INSERT INTO admin_account (_user,_password) VALUES('adminmaurtua','$2a$10$mWfaHhsfLfAQHPyW6/Ta8u4puOxwmnD5mWtBaMRisR6vuw.mLuxt2'); -- Admin123
+
 
 INSERT INTO bank (_name) VALUES ('BBVA');
 INSERT INTO bank (_name) VALUES ('BCP');
@@ -498,11 +509,13 @@ CREATE PROCEDURE sp_verify_account_student(
 )
 BEGIN
     DECLARE __password CHAR(60);
+    DECLARE __active BIT;
     SET __password = (  SELECT _password 
                         FROM student 
                         INNER JOIN account ON student.code_student = account.code_student 
                         WHERE student.dni = __dni_student );
-    SELECT IF (__password IS NULL, 'NOT_FOUND', __password) AS 'RES';                      
+	SET __active = (SELECT active FROM student WHERE student.dni= __dni_student);
+    SELECT IF (__password IS NULL OR __active = 0, 'ERROR', __password) AS 'RES';                      
 END//
 
 DROP PROCEDURE IF EXISTS sp_get_detail_classroom;
@@ -578,6 +591,7 @@ BEGIN
                                     WHERE payment.code_student = __code_student); 
     SELECT IF (__verify_code_student IS NULL,1,0) AS 'RES';
 END//
+
 
 DROP PROCEDURE IF EXISTS sp_get_grade_to_enrollment;
 DELIMITER //
@@ -720,7 +734,8 @@ BEGIN
         father_surname,
         mother_surname,
         direction,
-        date_of_birth
+        date_of_birth,
+        active
     FROM
         student
     LIMIT __limit_top,__amount;
@@ -799,7 +814,7 @@ BEGIN
     DECLARE __code_representative INT(5);
     SET __verify_dni_representative = (SELECT 1 FROM representative WHERE representative.dni = __dni_representative);
     IF __verify_dni_representative IS NULL THEN 
-        SELECT "THERE ISN'T A REPRESENTATIVE WITH THIS DNI" AS 'RES';
+        SELECT "REP_NOT_EXI" AS 'RES';
     ELSE
         SET __verify_dni = (SELECT 1 FROM student WHERE student.dni = __dni);
         SET __code_representative = (SELECT code_representative FROM representative WHERE representative.dni = __dni_representative);
@@ -807,7 +822,7 @@ BEGIN
             INSERT INTO student(_name,father_surname,mother_surname,date_of_birth,dni,direction,code_representative,active) VALUES(__name,__father_surname,__mother_surname,convert(__date_of_birth,DATE),__dni,__direction,__code_representative,0);
             SELECT 'SUCCESS' AS 'RES';
         ELSE
-            SELECT 'THERE IS A STUDENT WITH THE SAME DNI' AS 'RES';
+            SELECT 'STU_EXI' AS 'RES';
         END IF;
     END IF;
 END
@@ -832,8 +847,24 @@ BEGIN
         INSERT INTO representative(_name,father_surname,mother_surname,dni,email,phone) VALUES(__name,__father_surname,__mother_surname,__dni,__email,__phone);
         SELECT 'SUCCESS' AS 'RES';
     ELSE
-        SELECT 'THERE IS A REPRESENTATIVE WITH THE SAME DNI' AS 'RES';
+        SELECT 'REP_EXI' AS 'RES';
     END IF;
 END
 //
 -- CALL sp_insert_representative('Juan','Soto','Ccaccc','78945655','juan_soto@gmail.com','987654000')
+
+DROP PROCEDURE IF EXISTS sp_verify_account_admin;
+DELIMITER //
+CREATE PROCEDURE sp_verify_account_admin(
+    IN __user VARCHAR(16),
+    IN __password CHAR(60)
+) 
+BEGIN
+    DECLARE __verify_user BIT;
+    DECLARE __verify_password BIT;
+    SET __verify_user = (SELECT 1 FROM admin_account WHERE admin_account._user = __user);
+    SET __verify_password = (SELECT 1 FROM admin_account WHERE admin_account._password = __password);
+    SELECT IF(__verify_user IS NULL OR __verify_password IS NULL,0,1) AS 'RES';
+END
+//
+
