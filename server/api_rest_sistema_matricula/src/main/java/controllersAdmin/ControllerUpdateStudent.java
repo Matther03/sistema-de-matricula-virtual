@@ -39,7 +39,7 @@ public class ControllerUpdateStudent extends HttpServlet {
         
         final Boolean responeUpdateStudent = adminEntity.updateStudent(student);
         if (!responeUpdateStudent) 
-            return FormatResponse.getErrorResponse("There is a student with the same DNI", 400);
+            return FormatResponse.getErrorResponse("There is a student with the same DNI. ", 400);
 
         return FormatResponse.getSuccessResponse(responeUpdateStudent);   
     }

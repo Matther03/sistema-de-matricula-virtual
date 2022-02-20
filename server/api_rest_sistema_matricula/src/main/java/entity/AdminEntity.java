@@ -28,7 +28,7 @@ public class AdminEntity {
     
     public boolean updateStudent(final StudentDTO student) {
         try {
-            ArrayList<HashMap<String, String>> table = new AdminModel().insertStudent(student);
+            ArrayList<HashMap<String, String>> table = new AdminModel().updateStudent(student);
             return "SUCCESS".equals(table.size() > 0 ? table.get(0).get("RES"): null);
         } catch (Exception e) {
             return false;

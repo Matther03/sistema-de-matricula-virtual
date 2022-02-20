@@ -38,7 +38,7 @@ public class ControllerInsertStudent extends HttpServlet {
         
         final Boolean responseInsertStudent = adminEntity.insertStudent(student);
         if (!responseInsertStudent) 
-            return FormatResponse.getErrorResponse("There is a student with the same DNI", 400);
+            return FormatResponse.getErrorResponse("There is a student with the same DNI. ", 400);
 
         return FormatResponse.getSuccessResponse(responseInsertStudent);
         //TRUE => AGREGADO CON EXITO

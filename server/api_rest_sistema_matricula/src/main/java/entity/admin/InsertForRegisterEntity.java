@@ -112,7 +112,7 @@ public class InsertForRegisterEntity {
                 return validateRepresentativeErrorMsg("motherSurname");
             quantityNullValues = incrementQuantityNullValues("motherSurname", jObj, quantityNullValues);
             if (!isNullPropertyOfJson(jObj, "address") && 
-                    !isValidPropertyValueString(jObj.get("address").getAsString(), 1, 50))
+                    !isValidPropertyValueString(jObj.get("address").getAsString(), 1, 300))
                 return validateRepresentativeErrorMsg("address");
             quantityNullValues = incrementQuantityNullValues("address", jObj, quantityNullValues);
             if (!isNullPropertyOfJson(jObj, "dateOfBirth") &&
@@ -130,16 +130,23 @@ public class InsertForRegisterEntity {
         catch (Exception e) {
             return "Parameter is not valid | " + e.getMessage();
         }
-        
         if (quantityNullValues == 7)
             return "There is any parameters for update";
-        student.setDni(jObj.get("dni").getAsString());
-        student.setName(jObj.get("name").getAsString());
-        student.setFatherSurname(jObj.get("fatherSurname").getAsString());
-        student.setMotherSurname(jObj.get("motherSurname").getAsString());
-        student.setAddress(jObj.get("address").getAsString());
-        student.setDateBirth(jObj.get("dateOfBirth").getAsLong());
-        student.setActive(jObj.get("active").getAsBoolean());
+        
+        student.setDni(isNullPropertyOfJson(jObj, "dni") 
+                ? null : jObj.get("dni").getAsString());
+        student.setName(isNullPropertyOfJson(jObj, "name") 
+                ? null : jObj.get("name").getAsString());
+        student.setFatherSurname(isNullPropertyOfJson(jObj, "fatherSurname") 
+                ? null : jObj.get("fatherSurname").getAsString());
+        student.setMotherSurname(isNullPropertyOfJson(jObj, "motherSurname") 
+                ? null : jObj.get("motherSurname").getAsString());
+        student.setAddress(isNullPropertyOfJson(jObj, "address") 
+                ? null : jObj.get("address").getAsString());  
+        student.setDateBirth(isNullPropertyOfJson(jObj, "dateOfBirth") 
+                ? null : jObj.get("dateOfBirth").getAsLong());
+        student.setActive(isNullPropertyOfJson(jObj, "active") 
+                ? null : "1".equals(jObj.get("active").getAsString()));
         student.setCode(jObj.get("codeStudent").getAsInt());
         return null;
     }
@@ -158,12 +165,12 @@ public class InsertForRegisterEntity {
             return false;
         }
     }
-    private boolean isValidPropertyValueBoolean( String value) {
-        if ( "1".equals(value))
-            return true;
-        if ( "0".equals(value))
+    private boolean isValidPropertyValueBoolean(final String value) {
+        try {
+            return Integer.parseInt(value)<2;
+        } catch (NumberFormatException e) {
             return false;
-        return false;
+        }
     }
     private boolean isValidPropertyValueInteger(int value, Integer limitDown, Integer limitUp) {
         return value >= (limitDown != null ? limitDown : Integer.MIN_VALUE) && 
