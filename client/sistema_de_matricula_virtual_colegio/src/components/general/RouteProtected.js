@@ -1,22 +1,45 @@
 import { Navigate } from 'react-router-dom';
-import { isLoggedAdmin, isLoggedStudent } from '../../services/auth';
+import { isLoggedStudent } from '../../services/campus/auth';
+import { isLoggedAdmin } from '../../services/admin/auth';
 
-const RouteProtected = ({ element, isLogged, to }) => {
-    return isLogged()
-        ? element
+const RenderRouteProtected = ({
+    children, 
+    renders, 
+    to 
+}) => {
+    return renders  
+        ? children  
         : <Navigate to={to} replace={true}/>;
 }
-export const RouteProtectedStudent = ({ children, to }) => {
+
+const RouteProtected = ({ 
+    element, 
+    isLogged, 
+    rootPath, reverse 
+}) => {
+    const props = {
+        renders: reverse ? !isLogged() : isLogged(), 
+        to: `${rootPath}/${reverse ? "home" : "login"}` 
+    };
+    return (
+        <RenderRouteProtected {...props}>
+            {element}
+        </RenderRouteProtected>
+    );
+}
+export const RouteProtectedStudent = ({ children, reverse = false }) => {
     return (
         <RouteProtected 
-            to="../login" element={children} 
+            rootPath="/campus" element={children} 
+            reverse={reverse} 
             isLogged={isLoggedStudent}/>
     );
 }
-export const RouteProtectedAdmin = ({ children }) => {
+export const RouteProtectedAdmin = ({ children, reverse = false }) => {
     return (
         <RouteProtected 
-            to="../login" element={children} 
+            rootPath="/admin" element={children} 
+            reverse={reverse} 
             isLogged={isLoggedAdmin}/>
     );
 }

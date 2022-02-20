@@ -1,0 +1,26 @@
+//#regions Structures
+export const regex = {
+    user: /^.{8,16}$/, 
+    dni: /^[0-9]{8}$/, 
+    password: /^.{8,16}$/
+};
+export const typeStateRequestLogin = {
+    NO_MATCH: "NO_MATCH",
+    INVALID_DATA: "INVALID_DATA", 
+    ERROR: "ERROR"
+};
+export const messageFailedLogin = {
+    NO_MATCH: "Las credenciales ingresadas no coinciden.",
+    INVALID_DATA: "Credenciales inválidas.", 
+    ERROR: "¡Ocurrió un error inesperado! Inténtelo más tarde."
+};
+//#endregion
+//#regions Functions
+export const fieldsHaveErrors = (errors) => {
+    return Object.values(errors).some(error => error);
+}
+export const handleKeyPressOnlyNumbers = (e) => {
+    if (!/^[0-9]$/.test(e.key))
+        e.preventDefault();
+}
+//#endregion

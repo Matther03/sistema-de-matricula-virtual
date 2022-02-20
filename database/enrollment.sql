@@ -505,13 +505,16 @@ INSERT INTO history_detail_student(_repeat,code_student,code_grade) VALUES(0,'10
 INSERT INTO payment(date_payment,amount_payment,code_bank,code_student) VALUES('2022-01-20','50.60','1','1');
 INSERT INTO payment(date_payment,amount_payment,code_bank,code_student) VALUES('2022-01-21','50.60','2','2');
 INSERT INTO payment(date_payment,amount_payment,code_bank,code_student) VALUES('2022-01-21','50.60','1','3');
+
 INSERT INTO payment(date_payment,amount_payment,code_bank,code_student) VALUES('2022-01-22','50.60','1','4');
 INSERT INTO payment(date_payment,amount_payment,code_bank,code_student) VALUES('2022-01-20','50.60','2','5');
 INSERT INTO payment(date_payment,amount_payment,code_bank,code_student) VALUES('2022-01-22','50.60','1','6');
 INSERT INTO payment(date_payment,amount_payment,code_bank,code_student) VALUES('2022-01-21','50.60','1','7');
 INSERT INTO payment(date_payment,amount_payment,code_bank,code_student) VALUES('2022-01-21','50.60','2','8');
 
---procedures
+
+-- Procedures
+
 
 DROP PROCEDURE IF EXISTS sp_verify_account_student;
 DELIMITER //
@@ -772,6 +775,7 @@ BEGIN
     WHERE student.code_student = __code_student;
 END//
 
+
 DROP PROCEDURE IF EXISTS sp_get_amount_register_student;
 DELIMITER //
 CREATE PROCEDURE sp_get_amount_register_student()
@@ -856,7 +860,7 @@ CREATE PROCEDURE sp_insert_representative(
     IN __dni CHAR(8), 
     IN __email VARCHAR(50),
     IN __phone CHAR(9)
-) 
+)   
 BEGIN
     DECLARE __verify_dni BIT;
     SET __verify_dni = (SELECT 1 FROM representative WHERE representative.dni = __dni);
@@ -869,6 +873,7 @@ BEGIN
 END
 //
 -- CALL sp_insert_representative('Juan','Soto','Ccaccc','78945655','juan_soto@gmail.com','987654000')
+
 
 DROP PROCEDURE IF EXISTS sp_verify_account_admin;
 DELIMITER //
@@ -921,5 +926,9 @@ BEGIN
 END
 //
 
+
 -- CALL sp_do_account_student(10,'1234512345123451234512345','$2a$10$VGk1JQvpVkrQx79wvdNRNOROWiSAF41liUum7clHuy6nZkSLgypgq','Lucas1234');
 -- CALL sp_active_account_student('1234512345123451234512345');
+
+
+

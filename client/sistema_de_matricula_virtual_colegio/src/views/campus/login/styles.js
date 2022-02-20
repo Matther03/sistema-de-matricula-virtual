@@ -4,12 +4,12 @@ import styled from "styled-components";
 
 export const ContainerSectionLogin = styled.section`
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
     flex-wrap: wrap;
     min-height: 100vh;
-    gap: 10px;
-    margin: 10px 15px;
+    row-gap: 20px;
+    column-gap: 100px;
     margin: 15px;
     margin-top: 15px;
     margin-bottom: 10px;
@@ -37,21 +37,5 @@ export const ContentHeaderSectionLogin = styled.header`
     width: 100%;
     & .custom-title-2 {
         margin: 10px 0;
-    }
-`;
-export const ContentFormSectionLogin = styled.form`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    width: 100%;
-    & .fields {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        width: 100%;
-    }
-    & footer, footer .custom-btn {
-        width: 100%;
     }
 `;
