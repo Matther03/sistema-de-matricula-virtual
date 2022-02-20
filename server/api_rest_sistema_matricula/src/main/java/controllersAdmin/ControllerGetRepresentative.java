@@ -36,10 +36,10 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
                 response);
         return;
     }
-    final RepresentativeDTO[] registerStudent = getStudentRegisterEntity.getRepresentative(intcodeStudent);
-    HelperController.templatePrintable(registerStudent == null?
+    final RepresentativeDTO representative = getStudentRegisterEntity.getRepresentative(intcodeStudent);
+    HelperController.templatePrintable(representative == null?
             FormatResponse.getErrorResponse("Not found", 400):
-            FormatResponse.getSuccessResponse(registerStudent),
+            FormatResponse.getSuccessResponse(representative),
             response);
     }
 }

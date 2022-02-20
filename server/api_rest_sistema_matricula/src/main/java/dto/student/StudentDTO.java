@@ -1,8 +1,6 @@
 
 package dto.student;
 
-import java.util.Date;
-
 public class StudentDTO {
     
     //<editor-fold defaultstate="collapsed" desc="Properties">
@@ -31,9 +29,6 @@ public class StudentDTO {
         this.representative = representative;
         this.active = active;
     }
-
-  
-    
 
     //<editor-fold defaultstate="collapsed" desc="Getters and Setters">  
     public Integer getCode() {

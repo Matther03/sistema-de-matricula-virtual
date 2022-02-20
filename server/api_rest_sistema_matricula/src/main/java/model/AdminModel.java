@@ -1,7 +1,10 @@
 package model;
 
 import database.ProceduresDB;
+import dto.student.RepresentativeDTO;
+import dto.student.StudentDTO;
 import java.sql.Date;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -37,84 +40,78 @@ public class AdminModel extends ModelParent {
     }
     
     public ArrayList<HashMap<String, String>> getTeacherClassroom(            
-        final Integer codeStudent){
-    return doActionQuery((cnObj, prSt) -> {
-        prSt = cnObj.prepareStatement(ProceduresDB.GET_TEACHER_CLASSROOM);
-        prSt.setInt(1, codeStudent);
-        return prSt;
-    });
+        final Integer codeStudent) {
+        return doActionQuery((cnObj, prSt) -> {
+            prSt = cnObj.prepareStatement(ProceduresDB.GET_TEACHER_CLASSROOM);
+            prSt.setInt(1, codeStudent);
+            return prSt;
+        });
     }
     
     public ArrayList<HashMap<String, String>> getAmountRegister(){
-    return doActionQuery((cnObj, prSt) -> {
-        prSt = cnObj.prepareStatement(ProceduresDB.GET_AMOUNT_REGISTER);
-        return prSt;
-    });
+        return doActionQuery((cnObj, prSt) -> {
+            prSt = cnObj.prepareStatement(ProceduresDB.GET_AMOUNT_REGISTER);
+            return prSt;
+        });
     }
     
     public ArrayList<HashMap<String, String>> updateStudent(
-            final String dni,
-            final String name,
-            final String fatherSurname,
-            final String motherSurname,
-            final String direction,
-            final Date dateOfBirth,
-            final Boolean active,
-            final Integer codeStudent
-    ){
-    return doActionQuery((cnObj, prSt) -> {
-        prSt = cnObj.prepareStatement(ProceduresDB.UPDATE_STUDENT);
-        prSt.setString(1, dni);
-        prSt.setString(2, name);
-        prSt.setString(3, fatherSurname);
-        prSt.setString(4, motherSurname);
-        prSt.setString(5, direction);
-        prSt.setDate(6, dateOfBirth);
-        prSt.setBoolean(7, active);
-        prSt.setInt(8, codeStudent);
-        return prSt;
-    });
+            final StudentDTO student) {
+        return doActionQuery((cnObj, prSt) -> {
+            prSt = cnObj.prepareStatement(ProceduresDB.UPDATE_STUDENT);
+                
+                if (!setParameterIfNull(prSt, 1, Types.VARCHAR, student.getName())) {
+                    prSt.setString(1, student.getName());
+                }
+                if (!setParameterIfNull(prSt, 2, Types.VARCHAR, student.getFatherSurname())) {
+                    prSt.setString(2, student.getFatherSurname());
+                }
+                if (!setParameterIfNull(prSt, 3, Types.VARCHAR, student.getMotherSurname())) {
+                    prSt.setString(3, student.getMotherSurname());
+                }
+                if (!setParameterIfNull(prSt, 4, Types.DATE, student.getDateBirth())) {
+                    prSt.setDate(4, new Date(student.getDateBirth()));
+                }
+                if (!setParameterIfNull(prSt, 5, Types.VARCHAR, student.getDni())) {
+                    prSt.setString(5, student.getDni());
+                }
+                if (!setParameterIfNull(prSt, 6, Types.VARCHAR, student.getAddress())) {
+                    prSt.setString(6, student.getAddress());
+                }
+                if (!setParameterIfNull(prSt, 7, Types.BOOLEAN, student.getActive())) {
+                    prSt.setBoolean(7, student.getActive());
+                }
+                prSt.setInt(8, student.getCode());
+            return prSt;
+        });
     }
     
     public ArrayList<HashMap<String, String>> insertStudent(
-            final String name,
-            final String fatherSurname,
-            final String motherSurname,
-            final Date dateOfBirth,
-            final String dni,
-            final String direction,
-            final String dniRepresentative
-    ){
-    return doActionQuery((cnObj, prSt) -> {
-        prSt = cnObj.prepareStatement(ProceduresDB.INSERT_STUDENT);
-        prSt.setString(1, name);
-        prSt.setString(2, fatherSurname);
-        prSt.setString(3, motherSurname);
-        prSt.setDate(4, dateOfBirth);
-        prSt.setString(5, dni);
-        prSt.setString(6, direction);
-        prSt.setString(7, dniRepresentative);
-        return prSt;
-    });
+            final StudentDTO student) {
+        return doActionQuery((cnObj, prSt) -> {
+            prSt = cnObj.prepareStatement(ProceduresDB.INSERT_STUDENT);
+                prSt.setString(1, student.getName());
+                prSt.setString(2, student.getFatherSurname());
+                prSt.setString(3, student.getMotherSurname());
+                prSt.setDate(4, new Date(student.getDateBirth()));
+                prSt.setString(5, student.getDni());
+                prSt.setString(6, student.getAddress());
+                prSt.setString(7, student.getRepresentative().getDni());
+            return prSt;
+        });
     }
     
     public ArrayList<HashMap<String, String>> insertRepresentative(
-            final String name,
-            final String fatherSurname,
-            final String motherSurname,
-            final String dni,
-            final String email,
-            final String phone
-    ){
-    return doActionQuery((cnObj, prSt) -> {
-        prSt = cnObj.prepareStatement(ProceduresDB.INSERT_REPRESENTATIVE);
-            prSt.setString(1, name);
-            prSt.setString(2, fatherSurname);
-            prSt.setString(3, motherSurname);
-            prSt.setString(4, dni);
-            prSt.setString(5, email);
-            prSt.setString(6, phone);
-        return prSt;
-    });
+            final RepresentativeDTO representative) {
+        return doActionQuery((cnObj, prSt) -> {
+            prSt = cnObj.prepareStatement(ProceduresDB.INSERT_REPRESENTATIVE);
+                prSt.setString(1, representative.getName());
+                prSt.setString(2, representative.getFatherSurname());
+                prSt.setString(3, representative.getMotherSurname());
+                prSt.setString(4, representative.getDni());
+                prSt.setString(5, representative.getEmail());
+                prSt.setString(6, representative.getPhone());
+            return prSt;
+        });
     }
 }
