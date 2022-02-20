@@ -131,6 +131,10 @@ public class InsertForRegisterEntity {
     public String validateStudentForUpdate(JsonObject jObj, StudentDTO student) {
         int quantityNullValues = 0;
         try {
+            if (isNullPropertyOfJson(jObj, "codeStudent")||
+                    (!isNullPropertyOfJson(jObj, "codeStudent") 
+                    && jObj.get("codeStudent").getAsInt() <1))
+                return validateRepresentativeErrorMsg("codeStudent");
             if (!isNullPropertyOfJson(jObj, "dni") && 
                     !isValidPropertyValueString(jObj.get("dni").getAsString(), 8, 8))
                 return validateRepresentativeErrorMsg("dni");
@@ -160,9 +164,7 @@ public class InsertForRegisterEntity {
                     jObj.get("active").getAsBoolean())
                 return validateRepresentativeErrorMsg("active");
             quantityNullValues = incrementQuantityNullValues("active", jObj, quantityNullValues);
-            if (!isNullPropertyOfJson(jObj, "codeStudent") &&
-                    !isValidPropertyValueInteger(jObj.get("codeStudent").getAsInt(), 1, null))
-                return validateRepresentativeErrorMsg("codeStudent");
+            
         }
         catch (Exception e) {
             return "Parameter is not valid | " + e.getMessage();

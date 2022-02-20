@@ -22,17 +22,19 @@ public class ControllerLoginAdmin extends HttpServlet {
     public void init() { jwtAuth = new JWTAuthentication(); }
     @Override
     public void destroy() {  jwtAuth = null; }
+    
     //<editor-fold defaultstate="collapsed" desc="HTTP Methods">
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         final JsonObject body = HelperController.getRequestBody(request);
-        final FormatResponse formatResponse = verifyAccount(body);
+        final FormatResponse formatResponse = verifyAccountAdmin(body);
         HelperController.templatePrintable(formatResponse, response);
     }
     //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Helpers HTTP methods">
-    private FormatResponse verifyAccount(final JsonObject body) {
+    private FormatResponse verifyAccountAdmin(final JsonObject body) {
         // Validando respuesta
         if (body == null)
             return FormatResponse.getErrorResponse("The request body doesn't have json format", 400);
@@ -49,17 +51,18 @@ public class ControllerLoginAdmin extends HttpServlet {
         final boolean isValid = adminLoginEntity.isValidAccount(accountToLogin);
         if (!isValid)
             return FormatResponse.getErrorResponse("The parameters body aren't valid.", 400);
-
-        // Verificando cuenta de estudiante
+        
+        
+        // Verificando cuenta del admin
         final String token = adminLoginEntity.verifyAccount(accountToLogin, jwtAuth);
-        // Mostrando error de no coincidir
         if (token == null)
             return FormatResponse.getErrorResponse("The account credentials don't match.", 401);
+        
         // Respondiendo token
         final JsonObject objToken = new JsonObject();
         objToken.addProperty("token", token);
+        
         return FormatResponse.getSuccessResponse(objToken);
     }
     //</editor-fold>
-
 }

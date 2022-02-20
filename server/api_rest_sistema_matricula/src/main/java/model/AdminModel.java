@@ -1,6 +1,7 @@
 package model;
 
 import database.ProceduresDB;
+import dto.admin.AdminAccountDTO;
 import dto.student.RepresentativeDTO;
 import dto.student.StudentDTO;
 import java.sql.Date;
@@ -111,6 +112,17 @@ public class AdminModel extends ModelParent {
                 prSt.setString(4, representative.getDni());
                 prSt.setString(5, representative.getEmail());
                 prSt.setString(6, representative.getPhone());
+            return prSt;
+        });
+    }
+    
+    public ArrayList<HashMap<String, String>> verifyAcountAdmin(
+            final AdminAccountDTO adminAcount) {
+        return doActionQuery((cnObj, prSt) -> {
+            prSt = cnObj.prepareStatement(ProceduresDB.VERIFY_ACOUNT_ADMIN);
+                prSt.setString(1, adminAcount.getUser());
+                prSt.setString(2, adminAcount.getPassword());
+                System.out.println("lo que se envia al procedure: "+ adminAcount.getPassword());
             return prSt;
         });
     }
