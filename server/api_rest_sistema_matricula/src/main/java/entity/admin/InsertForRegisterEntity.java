@@ -4,10 +4,41 @@ import com.google.gson.JsonObject;
 import dto.student.RepresentativeDTO;
 import dto.student.StudentDTO;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
+import model.AdminModel;
 import static utils.validation.Validation.isNullPropertyOfJson;
 
 public class InsertForRegisterEntity {
     
+    public boolean insertRepresentative(final RepresentativeDTO representative) {
+        try {
+            ArrayList<HashMap<String, String>> table = new AdminModel().insertRepresentative(representative);
+            return "SUCCESS".equals(table.size() > 0 ? table.get(0).get("RES"): null);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
+    public boolean insertStudent(final StudentDTO student) {
+        try {
+            ArrayList<HashMap<String, String>> table = new AdminModel().insertStudent(student);
+            return "SUCCESS".equals(table.size() > 0 ? table.get(0).get("RES"): null);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
+    public boolean updateStudent(final StudentDTO student) {
+        try {
+            ArrayList<HashMap<String, String>> table = new AdminModel().updateStudent(student);
+            return "SUCCESS".equals(table.size() > 0 ? table.get(0).get("RES"): null);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
+    //<editor-fold defaultstate="collapsed" desc="Validate Representative for Register">
     public String validateRepresentativeForRegister(JsonObject jObj, RepresentativeDTO representative) {
         try {
             if (isNullPropertyOfJson(jObj, "name") ||
@@ -46,7 +77,9 @@ public class InsertForRegisterEntity {
         representative.setPhone(jObj.get("phone").getAsString());
         return null;
     }
+    //</editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc="Validate Student for Register">
     public String validateStudentForRegister(JsonObject jObj, StudentDTO student) {
         try {
             if (isNullPropertyOfJson(jObj, "name") ||
@@ -92,6 +125,9 @@ public class InsertForRegisterEntity {
         student.setRepresentative(representative);
         return null;
     }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Validate Student for Update">
     public String validateStudentForUpdate(JsonObject jObj, StudentDTO student) {
         int quantityNullValues = 0;
         try {
@@ -120,7 +156,8 @@ public class InsertForRegisterEntity {
                 return validateRepresentativeErrorMsg("dateOfBirth");
             quantityNullValues = incrementQuantityNullValues("dateOfBirth", jObj, quantityNullValues);
             if (!isNullPropertyOfJson(jObj, "active") &&
-                    !isValidPropertyValueBoolean(jObj.get("active").getAsString()))
+                    !isValidPropertyValueBoolean(jObj.get("active").getAsBoolean()) &&
+                    jObj.get("active").getAsBoolean())
                 return validateRepresentativeErrorMsg("active");
             quantityNullValues = incrementQuantityNullValues("active", jObj, quantityNullValues);
             if (!isNullPropertyOfJson(jObj, "codeStudent") &&
@@ -146,10 +183,13 @@ public class InsertForRegisterEntity {
         student.setDateBirth(isNullPropertyOfJson(jObj, "dateOfBirth") 
                 ? null : jObj.get("dateOfBirth").getAsLong());
         student.setActive(isNullPropertyOfJson(jObj, "active") 
-                ? null : "1".equals(jObj.get("active").getAsString()));
+                ? null : (jObj.get("active").getAsBoolean()));
         student.setCode(jObj.get("codeStudent").getAsInt());
         return null;
     }
+    //</editor-fold>
+    
+    
     public boolean existsId(String idParam) {
         return idParam != null;
     }
@@ -165,12 +205,8 @@ public class InsertForRegisterEntity {
             return false;
         }
     }
-    private boolean isValidPropertyValueBoolean(final String value) {
-        try {
-            return Integer.parseInt(value)<2;
-        } catch (NumberFormatException e) {
-            return false;
-        }
+    private boolean isValidPropertyValueBoolean(final Boolean value) {
+            return value;
     }
     private boolean isValidPropertyValueInteger(int value, Integer limitDown, Integer limitUp) {
         return value >= (limitDown != null ? limitDown : Integer.MIN_VALUE) && 

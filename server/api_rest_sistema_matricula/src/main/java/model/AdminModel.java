@@ -69,7 +69,7 @@ public class AdminModel extends ModelParent {
                 if (!setParameterIfNull(prSt, 3, Types.VARCHAR, student.getMotherSurname())) {
                     prSt.setString(3, student.getMotherSurname());
                 }
-                if (!setParameterIfNull(prSt, 4, Types.DATE, new Date(student.getDateBirth()))) {
+                if (!setParameterIfNull(prSt, 4, Types.DATE, student.getDateBirth())) {
                     prSt.setDate(4, new Date(student.getDateBirth()));
                 }
                 if (!setParameterIfNull(prSt, 5, Types.VARCHAR, student.getDni())) {

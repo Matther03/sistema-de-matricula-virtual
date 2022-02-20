@@ -2,7 +2,6 @@ package controllersAdmin;
 
 import com.google.gson.JsonObject;
 import dto.student.RepresentativeDTO;
-import entity.AdminEntity;
 import entity.admin.InsertForRegisterEntity;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -33,8 +32,7 @@ public class ControllerInsertRepresentative extends HttpServlet {
         if (msgError != null) 
             return FormatResponse.getErrorResponse(msgError, 400);
         
-        final AdminEntity adminEntity = new AdminEntity();
-        final Boolean responseInsertRepresentative = adminEntity.insertRepresentative(representative);
+        final Boolean responseInsertRepresentative = insertForRegisterEntity.insertRepresentative(representative);
 
         if (!responseInsertRepresentative) {
             final JsonObject data = new JsonObject();
