@@ -3,10 +3,8 @@ package controllersStudent;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dto.classroom.GradeDTO;
-import dto.student.StudentDTO;
 import entity.StudentEntity;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -35,22 +33,18 @@ public class ControllerGradeToEnrollment extends HttpServlet {
         
         // Validación del CodeStudent
         final StudentEntity entityStudent = new StudentEntity();        
-        
+                
         final Integer codeStudentParsed = entityStudent.isValidCodeStudent(codeStudent.toString());
-        if (codeStudentParsed == null){
+        if (codeStudentParsed == null)
             return FormatResponse.getErrorResponse("The code student is not valid.", 400);
-        }
         
         // Estructura de la respuesta
-        final StudentDTO student = new StudentDTO();
-        student.setCode(codeStudentParsed);
-        final GradeDTO newGrade = entityStudent.getGradeToEnrollment(student);
+        final GradeDTO newGrade = entityStudent.getGradeToEnrollment(codeStudentParsed);
         
         // Validación del grado
         final boolean grade = entityStudent.isGradeValid(newGrade);
-        if (!grade) {
+        if (!grade)
             return FormatResponse.getErrorResponse("The student completed his studies.", 400);
-        }
         return FormatResponse.getSuccessResponse(newGrade);
     }
 }

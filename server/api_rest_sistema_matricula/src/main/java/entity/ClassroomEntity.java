@@ -2,7 +2,6 @@ package entity;
 
 import dto.classroom.ClassroomDTO;
 import dto.classroom.ClassroomVacancyDTO;
-import dto.classroom.GradeDTO;
 import dto.classroom.SectionDTO;
 import dto.classroom.ShiftDTO;
 import java.util.ArrayList;
@@ -17,8 +16,7 @@ public class ClassroomEntity {
         return toArraySectionDTOs(new ClassroomModel().getSections());
     }
     
-    public ClassroomVacancyDTO[] getDetailClassroom(final GradeDTO grade){
-        final int codeGrade = grade.getCode();
+    public ClassroomVacancyDTO[] getDetailClassroom(final Integer codeGrade){
         final ArrayList<HashMap<String,String>> table = new ClassroomModel().getDetailClassroom(codeGrade);
         return table.size() > 0 ? toArrayClassroomVacancyDTOs(table) : null;
     }
@@ -46,16 +44,8 @@ public class ClassroomEntity {
         return classroomVacancy ;
     }
     //</editor-fold>
+    
     //<editor-fold defaultstate="defaultstate" desc="Helper Methods">
-    public boolean isValidCodeGrade(String codeGrade) {
-        try {
-            final int parseCodeGrade = Integer.parseInt(codeGrade);
-            return parseCodeGrade > 0 && parseCodeGrade <= 5;
-        }
-        catch (NumberFormatException ex) {
-            return false;
-        }
-    }
     private SectionDTO getDTOforRowHashMap(HashMap<String, String> row) {
         return new SectionDTO(
                 Integer.parseInt(row.get("CODE_SECTION")),

@@ -1,26 +1,29 @@
 package entity;
 
-import com.google.gson.JsonObject;
+import com.google.gson.JsonElement;
 import dto.classroom.ClassroomDTO;
+import dto.classroom.CourseDTO;
+import dto.classroom.CourseTeacherDTO;
 import dto.classroom.GradeDTO;
 import dto.classroom.SectionDTO;
 import dto.classroom.ShiftDTO;
+import dto.classroom.TeacherDTO;
 import dto.enrollment.EnrollmentDTO;
 import dto.enrollment.PaymentDTO;
 import dto.student.StudentDTO;
 import dto.student.AccountDTO;
 import java.sql.Date;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import model.AdminModel;
 import model.StudentModel;
 import utils.Encrypt;
 import utils.validation.Validation;
 import utils.authentication.JWTAuthentication;
 import utils.authentication.RoleAuthJWT;
 import utils.enums.ResponseEnrollment;
+import utils.validation.RegexPatternsValidation;
 
 public class StudentEntity {
     
@@ -98,9 +101,8 @@ public class StudentEntity {
     //</editor-fold>
     
     //Get grade to entollment
-    public GradeDTO getGradeToEnrollment(final StudentDTO student){
-        int codigo = student.getCode();
-        final ArrayList<HashMap<String,String>> table = new StudentModel().gradeToEnrollment(codigo);
+    public GradeDTO getGradeToEnrollment(final Integer codeStudent){
+        final ArrayList<HashMap<String,String>> table = new StudentModel().gradeToEnrollment(codeStudent);
         return table.size() > 0 ? getgradeDTOforRowHashMap(table.get(0)) : null;
     }
     
@@ -120,23 +122,6 @@ public class StudentEntity {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Validate Student">
-    public Integer isValidCodeStudent(String codeStudent) {
-	return Validation.isValidCode(codeStudent, null);
-    }
-    public Integer isValidCodeGrade(String codeGrade) {
-        return Validation.isValidCode(codeGrade, 6);
-    }
-    public Integer isValidCodeSection(String codeSection) {
-        return Validation.isValidCode(codeSection, 7);
-    }
-    
-    // Validación del grado para GradeToEnrollment
-    public boolean isGradeValid(final GradeDTO newGrade){
-        int grade = newGrade.getCode();
-        return grade < 6;
-    }
-
     public boolean isValidAccount(final AccountDTO accountToLogin) {
         return Validation.isValidDNI(accountToLogin.getStudent().getDni()) 
                 && Validation.isValidPassword(accountToLogin.getPassword());
@@ -190,5 +175,95 @@ public class StudentEntity {
         return enrollment;
     }
     //</editor-fold>
+     
+    //<editor-fold defaultstate="collapsed" desc="Get Teacher Classroom">
+    public CourseTeacherDTO[] getTeacherClassroom(final Integer codeStudent){
+        final ArrayList<HashMap<String,String>> table = new AdminModel().getTeacherClassroom(codeStudent);
+        return table.size() > 0 ? toArrayTeacherClassroomDTOs(table) : null;
+    }
     
+    private CourseTeacherDTO[] toArrayTeacherClassroomDTOs(ArrayList<HashMap<String, String>> table) {
+        final Object[] objArray = EntityHelper.hashMapArrayListToObjArray(
+                table, 
+                (HashMap<String, String> row) -> getTeacherClassroomDTOforRowHashMap(row)
+        );
+        return Arrays.copyOf(objArray, objArray.length, CourseTeacherDTO[].class);
+    }
+        
+    private CourseTeacherDTO getTeacherClassroomDTOforRowHashMap(HashMap<String, String> row) {
+        final CourseTeacherDTO courseTeacher = new CourseTeacherDTO();
+        final CourseDTO course = new CourseDTO();
+            course.setName(row.get("name_course"));
+        courseTeacher.setCourse(course);
+        final TeacherDTO teacher = new TeacherDTO();
+            teacher.setName(row.get("_name"));
+            teacher.setFatherSurname(row.get("father_surname"));
+            teacher.setMotherSurname(row.get("mother_surname"));
+        courseTeacher.setTeacher(teacher);
+        return courseTeacher;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Get Teacher">
+    public TeacherDTO getTeacher(final Integer codeStudent){
+        final ArrayList<HashMap<String,String>> table = new AdminModel().getTeacher(codeStudent);
+        return table.size() > 0 ? getTeacherDTOforRowHashMap(table.get(0)) : null;
+    }
+    private TeacherDTO getTeacherDTOforRowHashMap(HashMap<String, String> row) {
+        final TeacherDTO teacher = new TeacherDTO();
+        teacher.setName(row.get("_name"));
+        teacher.setFatherSurname(row.get("father_surname"));
+        teacher.setMotherSurname(row.get("mother_surname"));
+        return teacher;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="General Validation">
+    public Integer isValidCodeStudent(String codeStudent) {
+	return Validation.isValidCode(codeStudent, null);
+    }
+    public Integer isValidCodeGrade(String codeGrade) {
+        return Validation.isValidCode(codeGrade, 6);
+    }
+    public Integer isValidCodeSection(String codeSection) {
+        return Validation.isValidCode(codeSection, null);
+    }
+    public boolean isGradeValid(final GradeDTO newGrade){
+        int grade = newGrade.getCode();
+        return grade < 6;
+    }
+    public String isValidDNI(final String dni) {
+        try {
+            if (Validation.regexIsMatched(RegexPatternsValidation.DNI, dni)) {
+                return dni;
+            }
+            return null ;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    public Date isValidDate(final String dateStr) {
+        try {
+            final Long dateLong = Long.parseLong(dateStr);
+            final Date date = new Date(dateLong);
+            return date ;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    public Boolean isValidBoolean(final String booleanStr) {
+        try {
+            return("1".equals(booleanStr));
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    public String isvalidString (final JsonElement str){
+        try {
+            return str.toString();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    //</editor-fold>
 }

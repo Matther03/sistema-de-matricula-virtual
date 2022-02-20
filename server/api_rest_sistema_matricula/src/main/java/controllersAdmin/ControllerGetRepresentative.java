@@ -1,10 +1,9 @@
 package controllersAdmin;
 
 import dto.student.RepresentativeDTO;
-import dto.student.StudentDTO;
-import entity.AdminEntity;
+import entity.StudentEntity;
+import entity.admin.GetStudentRegisterEntity;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -26,21 +25,21 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
                 response);
         return;
     }
-    final AdminEntity adminEntity = new AdminEntity();
-    final Integer intcodeStudent = adminEntity.isNumber(codeStudent);
+    final GetStudentRegisterEntity getStudentRegisterEntity = new GetStudentRegisterEntity();
+    final StudentEntity entityStudent = new StudentEntity();
+        
+    // Validación del codigo de estudiante
+    final Integer intcodeStudent = entityStudent.isValidCodeStudent(codeStudent);
     if (intcodeStudent == null) {
         HelperController.templatePrintable(
                 FormatResponse.getErrorResponse("Parameter codeStudent is not number.", 400) ,
                 response);
         return;
     }
-    
-    
-    final RepresentativeDTO[] registerStudent = adminEntity.getRepresentative(intcodeStudent);
-
-    HelperController.templatePrintable(registerStudent == null?
+    final RepresentativeDTO representative = getStudentRegisterEntity.getRepresentative(intcodeStudent);
+    HelperController.templatePrintable(representative == null?
             FormatResponse.getErrorResponse("Not found", 400):
-            FormatResponse.getSuccessResponse(registerStudent),
+            FormatResponse.getSuccessResponse(representative),
             response);
     }
 }

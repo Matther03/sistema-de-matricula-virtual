@@ -14,12 +14,6 @@ public class EnrollmentDTO {
     //</editor-fold>
 
     public EnrollmentDTO() {
-        this.code = null;
-        this.classroom = null;
-        this.payment= null;
-        this.date = null;
-        this.typeSChool = null;
-        this.repeater= false;
     }
 
     public EnrollmentDTO(Integer code, Long date, Boolean repeater, PaymentDTO payment, ClassroomDTO classroom, TypeSchoolDTO typeSChool) {

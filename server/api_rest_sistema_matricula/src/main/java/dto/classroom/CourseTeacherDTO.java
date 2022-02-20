@@ -10,9 +10,6 @@ public class CourseTeacherDTO {
     //</editor-fold>
 
     public CourseTeacherDTO() {
-        this.code = null;
-        this.teacher = null;
-        this.course = null;
     }
 
     public CourseTeacherDTO(Integer code, TeacherDTO teacher, CourseDTO course) {

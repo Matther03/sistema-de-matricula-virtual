@@ -2,11 +2,9 @@ package controllersStudent;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import dto.classroom.GradeDTO;
 import dto.student.StudentDTO;
 import entity.StudentEntity;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -37,11 +35,11 @@ public class ControllerDoEnrollment extends HttpServlet {
             return FormatResponse.getErrorResponse("Mising parameters.", 400);
         
         // Validación de ingreso de datos validos
-        final StudentEntity entityStudent = new StudentEntity();        
-
-        final Integer codeStudentParsed = entityStudent.isValidCodeStudent(codeStudent.toString());
-        final Integer codeGradeParsed = entityStudent.isValidCodeGrade(codeGrade.toString());
-        final Integer codeSectionParsed = entityStudent.isValidCodeSection(codeSection.toString());
+        final StudentEntity studentEntity = new StudentEntity();  
+        
+        final Integer codeStudentParsed = studentEntity.isValidCodeStudent(codeStudent.toString());
+        final Integer codeGradeParsed = studentEntity.isValidCodeGrade(codeGrade.toString());
+        final Integer codeSectionParsed = studentEntity.isValidCodeSection(codeSection.toString());
         
         if (codeStudentParsed == null || codeGradeParsed == null || codeSectionParsed == null){
             return FormatResponse.getErrorResponse("The student data is not valid.", 400);
@@ -50,14 +48,14 @@ public class ControllerDoEnrollment extends HttpServlet {
         // Validacion de matriculación
         final StudentDTO student = new StudentDTO();
         student.setCode(codeStudentParsed);
-        final boolean canEnroll = entityStudent.canEnrolled(student);
+        final boolean canEnroll = studentEntity.canEnrolled(student);
         
         // Control de estudiantes que se pueden matricular y quienes no
         if(!canEnroll){
             return FormatResponse.getErrorResponse("The student cannot enroll.", 400);
         }
-
-        Boolean responseCanEnroll = entityStudent.doEnrollment(codeStudentParsed, codeGradeParsed, codeSectionParsed);
+        
+        final Boolean responseCanEnroll = studentEntity.doEnrollment(codeStudentParsed, codeGradeParsed, codeSectionParsed);
         if (responseCanEnroll == false) {
             return FormatResponse.getErrorResponse("The student does not meet any requirement.", 400);
         }

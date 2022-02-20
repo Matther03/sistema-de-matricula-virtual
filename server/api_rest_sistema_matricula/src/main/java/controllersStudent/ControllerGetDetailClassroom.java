@@ -1,8 +1,8 @@
 package controllersStudent;
 
 import dto.classroom.ClassroomVacancyDTO;
-import dto.classroom.GradeDTO;
 import entity.ClassroomEntity;
+import entity.StudentEntity;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,18 +26,17 @@ public class ControllerGetDetailClassroom extends HttpServlet {
                     response);
             return;
         }
-        
         final ClassroomEntity classroomEntity = new ClassroomEntity();
-        if (!classroomEntity.isValidCodeGrade(codeGrade)) {
+        final StudentEntity studentEntity = new StudentEntity();
+        
+        final Integer codeGradeParsed = studentEntity.isValidCodeGrade(codeGrade);
+        if (codeGradeParsed==null) {
             HelperController.templatePrintable(
                         FormatResponse.getErrorResponse("Code grade is not valid.", 400) ,
                         response);
             return;
         }
-        final GradeDTO grade = new GradeDTO();
-        grade.setCode(Integer.parseInt(codeGrade));
-        
-        final ClassroomVacancyDTO[] classroomVacancy = classroomEntity.getDetailClassroom(grade);
+        final ClassroomVacancyDTO[] classroomVacancy = classroomEntity.getDetailClassroom(codeGradeParsed);
         HelperController.templatePrintable(
                 classroomVacancy == null?
                 FormatResponse.getErrorResponse("Code grade is not found.", 400):

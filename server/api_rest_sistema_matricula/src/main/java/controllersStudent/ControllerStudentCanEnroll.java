@@ -33,6 +33,7 @@ public class ControllerStudentCanEnroll extends HttpServlet {
         
         // Validación del codigo de estudiante
         final StudentEntity entityStudent = new StudentEntity();
+                
         final Integer codeStudentParsed = entityStudent.isValidCodeStudent(codeStudent.toString());
         if (codeStudentParsed == null){
             return FormatResponse.getErrorResponse("The code student is not valid.", 400);

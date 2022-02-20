@@ -16,8 +16,10 @@ public class ProceduresDB {
     public static final String GET_REPRESENTATIVE = "CALL sp_get_representative(?);";
     public static final String GET_TEACHER = "CALL sp_get_form_teacher(?)";
     public static final String GET_TEACHER_CLASSROOM = "CALL sp_get_teacher_classroom(?)";
-    
-    // falta
     public static final String GET_AMOUNT_REGISTER = "CALL sp_get_amount_register_student;";
+    //FALTA
     public static final String UPDATE_STUDENT = "CALL sp_update_student(?,?,?,?,?,?,?,?);";
+    
+    public static final String INSERT_STUDENT = "CALL sp_insert_student(?,?,?,?,?,?,?);";
+    public static final String INSERT_REPRESENTATIVE = "CALL sp_insert_representative(?,?,?,?,?,?);";
 }
