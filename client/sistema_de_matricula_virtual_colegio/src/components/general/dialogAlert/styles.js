@@ -23,7 +23,7 @@ export const HeaderCustomDialogAlert = styled.header`
     border-bottom: 1px solid #d5d5d5;
     & h3 {
         color: var(--seventh-color);
-        font-weight: 500;
+        font-weight: bold;
         margin: 0 10px;
         margin-top: 5px;
     }

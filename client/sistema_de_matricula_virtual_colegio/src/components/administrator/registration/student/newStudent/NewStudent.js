@@ -1,6 +1,14 @@
+//#region Components
+import FormInfoStudent from './formInfoStudent/FormInfoStudent';
+import FormInfoRepresentative from './formInfoRepresentative/FormInfoRepresentative';
+//#endregion
+
 const NewStudent = () => {
     return (
-        <h1>Nuevo</h1>
+        <>
+            <FormInfoStudent/>
+            <FormInfoRepresentative/>
+        </>
     );
 }
 

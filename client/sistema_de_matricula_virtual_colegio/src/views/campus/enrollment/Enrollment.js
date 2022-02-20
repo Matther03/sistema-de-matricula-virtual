@@ -16,6 +16,9 @@ import EnrollmentInformation from '../../../components/campus/enrollment/informa
 import EnrollmentRoot from '../../../components/campus/enrollment/root/EnrollmentRoot';
 import DialogAlertRedirectToHome from '../../../components/campus/enrollment/components/dialogAlertRedirectToHome/DialogAlertRedirectToHome';
 //#endregion
+//#region Utils
+import useDidMount from "../../../utils/hooks/useDidMount";
+//#endregion
 //#region Services
 import { canEnroll } from "../../../services/campus/enrollment";
 //#endregion
@@ -38,25 +41,22 @@ const informationInternalNav = (() => {
     ];
 })();
 
-
 const enrollResponse = {
     CAN_ENROLL: "CAN_ENROLL",
     COMPLETED_STUDIES: "COMPLETED_STUDIES",
     ENROLLED: "ENROLLED",
     NO_PAID: "NO_PAID",
     ERROR: "ERROR"
-}
+};
 
 const Enrollment = () => {
+    //#region Extra hooks
+    const didMount = useDidMount();
+    //#endregion
     //#region States
-    const [didMount, setDidMount] = useState(false);
     const [stateEnroll, setStateEnroll] = useState("");
     //#endregion
     //#region Effects
-    useEffect(() => {
-        setDidMount(true);
-        return () => setDidMount(false);
-     }, [])
     useEffect(() => {
         manageCanEnroll();
     }, []);

@@ -58,18 +58,25 @@ export const InputTable = ({
     disabled, 
     onChange, 
     onBlur, 
-    onDoubleClick 
+    onDoubleClick,
+    min, 
+    max,
+    maxLength, 
+    onKeyPress 
 }) => {
     return (
         <ContainerInputTable onDoubleClick={onDoubleClick}>
             <StyledInputTable 
                 type={type}
+                min={min}
+                max={max}
+                maxLength={maxLength}
                 disabled={disabled}
                 value={value}
                 title={value}
                 onChange={onChange}
                 onBlur={onBlur} 
-                disabled={disabled}/>
+                onKeyPress={onKeyPress}/>
         </ContainerInputTable>
     );
 }
