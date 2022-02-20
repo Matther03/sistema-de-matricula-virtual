@@ -4,6 +4,7 @@ import database.ProceduresDB;
 import dto.student.RepresentativeDTO;
 import dto.student.StudentDTO;
 import java.sql.Date;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -55,24 +56,32 @@ public class AdminModel extends ModelParent {
     }
     
     public ArrayList<HashMap<String, String>> updateStudent(
-            final String dni,
-            final String name,
-            final String fatherSurname,
-            final String motherSurname,
-            final String direction,
-            final Date dateOfBirth,
-            final Boolean active,
-            final Integer codeStudent) {
+            final StudentDTO student) {
         return doActionQuery((cnObj, prSt) -> {
             prSt = cnObj.prepareStatement(ProceduresDB.UPDATE_STUDENT);
-            prSt.setString(1, dni);
-            prSt.setString(2, name);
-            prSt.setString(3, fatherSurname);
-            prSt.setString(4, motherSurname);
-            prSt.setString(5, direction);
-            prSt.setDate(6, dateOfBirth);
-            prSt.setBoolean(7, active);
-            prSt.setInt(8, codeStudent);
+            
+            if (!setParameterIfNull(prSt, 1, Types.VARCHAR, student.getDni())) {
+                prSt.setString(1, student.getDni());
+            }
+            if (!setParameterIfNull(prSt, 2, Types.VARCHAR, student.getName())) {
+                prSt.setString(2, student.getName());
+            }
+            if (!setParameterIfNull(prSt, 3, Types.VARCHAR, student.getFatherSurname())) {
+                prSt.setString(3, student.getFatherSurname());
+            }
+            if (!setParameterIfNull(prSt, 4, Types.VARCHAR, student.getMotherSurname())) {
+                prSt.setString(4, student.getMotherSurname());
+            }
+            if (!setParameterIfNull(prSt, 5, Types.VARCHAR, student.getAddress())) {
+                prSt.setString(5, student.getAddress());
+            }
+            if (!setParameterIfNull(prSt, 6, Types.VARCHAR, new Date(student.getDateBirth()))) {
+                prSt.setDate(6, new Date(student.getDateBirth()));
+            }
+            if (!setParameterIfNull(prSt, 7, Types.VARCHAR, student.getActive())) {
+                prSt.setBoolean(7, student.getActive());
+            }
+            prSt.setInt(1, student.getCode());
             return prSt;
         });
     }
@@ -87,10 +96,8 @@ public class AdminModel extends ModelParent {
                 prSt.setDate(4, new Date(student.getDateBirth()));
                 prSt.setString(5, student.getDni());
                 prSt.setString(6, student.getAddress());
-                prSt.setString(7, student.getRepresentative().getIdCard());
-                System.out.println(new Date(student.getDateBirth()));
+                prSt.setString(7, student.getRepresentative().getDni());
             return prSt;
-
         });
     }
     
@@ -101,7 +108,7 @@ public class AdminModel extends ModelParent {
                 prSt.setString(1, representative.getName());
                 prSt.setString(2, representative.getFatherSurname());
                 prSt.setString(3, representative.getMotherSurname());
-                prSt.setString(4, representative.getIdCard());
+                prSt.setString(4, representative.getDni());
                 prSt.setString(5, representative.getEmail());
                 prSt.setString(6, representative.getPhone());
             return prSt;

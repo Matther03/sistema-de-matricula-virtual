@@ -11,23 +11,17 @@ import model.AdminModel;
 
 public class GetStudentRegisterEntity {
     //<editor-fold defaultstate="collapsed" desc="Representative">
-    public RepresentativeDTO[] getRepresentative(final Integer codeStudent){
-        final ArrayList<HashMap<String,String>> table = new  AdminModel().getRepresentative(codeStudent);
-        return table.size() > 0 ? toArrayRepresentativeDTOs(table) : null;
-    }
-    private RepresentativeDTO[] toArrayRepresentativeDTOs(ArrayList<HashMap<String, String>> table) {
-        final Object[] objArray = EntityHelper.hashMapArrayListToObjArray(
-                table, 
-                (HashMap<String, String> row) -> getRepresentativeDTOforRowHashMap(row)
-        );
-        return Arrays.copyOf(objArray, objArray.length, RepresentativeDTO[].class);
+    
+    public RepresentativeDTO getRepresentative(final Integer codeStudent){
+        final ArrayList<HashMap<String,String>> table = new AdminModel().getRepresentative(codeStudent);
+        return table.size() > 0 ? getRepresentativeDTOforRowHashMap(table.get(0)) : null;
     }
     private RepresentativeDTO getRepresentativeDTOforRowHashMap(HashMap<String, String> row) {
         final RepresentativeDTO representative = new RepresentativeDTO();
             representative.setName(row.get("_name"));
             representative.setFatherSurname(row.get("father_surname"));
             representative.setMotherSurname(row.get("mother_surname"));
-            representative.setIdCard(row.get("dni"));
+            representative.setDni(row.get("dni"));
             representative.setEmail(row.get("email"));
             representative.setPhone(row.get("phone"));
         return representative;

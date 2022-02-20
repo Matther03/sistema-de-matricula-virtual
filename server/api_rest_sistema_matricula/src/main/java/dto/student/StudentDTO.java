@@ -1,8 +1,6 @@
 
 package dto.student;
 
-import java.util.Date;
-
 public class StudentDTO {
     
     //<editor-fold defaultstate="collapsed" desc="Properties">
