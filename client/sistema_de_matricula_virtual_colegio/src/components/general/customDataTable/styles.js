@@ -36,6 +36,11 @@ export const StyledTableCell = styled(TableCell)`
     }
     &.MuiTableCell-body {
         font-size: 14px;
+        &:nth-child(1) {
+            background-color: var(--sixth-color);
+            color: var(--third-color);
+            font-weight: bold;
+        }
     }
     &.MuiTableCell-body.secondary {
         padding: 0px 20px;

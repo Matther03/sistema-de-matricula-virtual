@@ -1,9 +1,8 @@
 package controllersStudent;
 
 import dto.classroom.ClassroomVacancyDTO;
-import dto.classroom.GradeDTO;
 import entity.ClassroomEntity;
-import entity.ValidateInput;
+import entity.StudentEntity;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,8 +27,9 @@ public class ControllerGetDetailClassroom extends HttpServlet {
             return;
         }
         final ClassroomEntity classroomEntity = new ClassroomEntity();
-        final ValidateInput validateImput = new ValidateInput();
-        final Integer codeGradeParsed = validateImput.isValidCodeStudent(codeGrade);
+        final StudentEntity studentEntity = new StudentEntity();
+        
+        final Integer codeGradeParsed = studentEntity.isValidCodeGrade(codeGrade);
         if (codeGradeParsed==null) {
             HelperController.templatePrintable(
                         FormatResponse.getErrorResponse("Code grade is not valid.", 400) ,

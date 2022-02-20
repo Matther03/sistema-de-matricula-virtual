@@ -4,7 +4,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dto.classroom.GradeDTO;
 import entity.StudentEntity;
-import entity.ValidateInput;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -34,9 +33,8 @@ public class ControllerGradeToEnrollment extends HttpServlet {
         
         // Validación del CodeStudent
         final StudentEntity entityStudent = new StudentEntity();        
-                final ValidateInput validateImput = new ValidateInput();
                 
-        final Integer codeStudentParsed = validateImput.isValidCodeStudent(codeStudent.toString());
+        final Integer codeStudentParsed = entityStudent.isValidCodeStudent(codeStudent.toString());
         if (codeStudentParsed == null)
             return FormatResponse.getErrorResponse("The code student is not valid.", 400);
         
@@ -44,7 +42,7 @@ public class ControllerGradeToEnrollment extends HttpServlet {
         final GradeDTO newGrade = entityStudent.getGradeToEnrollment(codeStudentParsed);
         
         // Validación del grado
-        final boolean grade = validateImput.isGradeValid(newGrade);
+        final boolean grade = entityStudent.isGradeValid(newGrade);
         if (!grade)
             return FormatResponse.getErrorResponse("The student completed his studies.", 400);
         return FormatResponse.getSuccessResponse(newGrade);

@@ -19,6 +19,7 @@ public class ProceduresDB {
     public static final String GET_AMOUNT_REGISTER = "CALL sp_get_amount_register_student;";
     //FALTA
     public static final String UPDATE_STUDENT = "CALL sp_update_student(?,?,?,?,?,?,?,?);";
+    
     public static final String INSERT_STUDENT = "CALL sp_insert_student(?,?,?,?,?,?,?);";
     public static final String INSERT_REPRESENTATIVE = "CALL sp_insert_representative(?,?,?,?,?,?);";
 }

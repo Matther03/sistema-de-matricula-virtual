@@ -2,6 +2,7 @@ package utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -38,6 +39,10 @@ public class HelperController {
         } catch (Exception ex) {
             return null;
         }
+    }
+    
+    public static JsonElement toJsonElement (final Object obj, final Gson gson){
+        return gson.fromJson(gson.toJson(obj), JsonElement.class);
     }
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Helpers">

@@ -1,12 +1,9 @@
 package controllersAdmin;
 
 import dto.student.RepresentativeDTO;
-import dto.student.StudentDTO;
-import entity.AdminEntity;
-import entity.ValidateInput;
+import entity.StudentEntity;
 import entity.admin.GetStudentRegisterEntity;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,8 +26,10 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
         return;
     }
     final GetStudentRegisterEntity getStudentRegisterEntity = new GetStudentRegisterEntity();
-    final ValidateInput validateImput = new ValidateInput();
-    final Integer intcodeStudent = validateImput.isNumberGreaterThanZero(codeStudent);
+    final StudentEntity entityStudent = new StudentEntity();
+        
+    // Validación del codigo de estudiante
+    final Integer intcodeStudent = entityStudent.isValidCodeStudent(codeStudent);
     if (intcodeStudent == null) {
         HelperController.templatePrintable(
                 FormatResponse.getErrorResponse("Parameter codeStudent is not number.", 400) ,

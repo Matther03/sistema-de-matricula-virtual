@@ -2,18 +2,18 @@ package controllersAdmin;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import dto.enrollment.EnrollmentDTO;
 import entity.AdminEntity;
 import entity.StudentEntity;
-import entity.ValidateInput;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.AdminModel;
 import utils.FormatResponse;
 import utils.HelperController;
 
@@ -46,44 +46,55 @@ public class ControllerUpdateStudent extends HttpServlet {
                 _dateOfBirth,_active,_codeStudent)) 
             return FormatResponse.getErrorResponse("Mising parameters.", 400);
         
-        final ValidateInput validateImput = new ValidateInput();
-        final String dni = validateImput.isValidDNI(_dni.toString());
+        final StudentEntity studentEntity = new StudentEntity();
+        
+        //validacion de datos ingresados
+        final String dni = studentEntity.isValidDNI(_dni.toString());
         if (dni == null) 
             return FormatResponse.getErrorResponse("Error en dni.", 400);
-        final String name = _name.toString();
-        final String fatherSurname = _fatherSurname.toString();
-        final String motherSurname = _motherSurname.toString();
-        final String direction = _direction.toString();
-        final Date date = validateImput.isValidDate(_dateOfBirth.getAsString());
+        final String name = _name.getAsString();
+        final String fatherSurname = _fatherSurname.getAsString();
+        final String motherSurname = _motherSurname.getAsString();
+        final String direction = _direction.getAsString();
+        final Date date = studentEntity.isValidDate(_dateOfBirth.getAsString());
         if (date == null) 
             return FormatResponse.getErrorResponse("Error en fecha.", 400);
-        final String active = _active.toString();
-        final Integer codeStudent = validateImput.isValidCodeStudent(_codeStudent.toString());
-
-            
-        //final Date dateOfBirth = Date.valueOf(date_);
-        /*final Integer codeStuden = studentEntity.isValidCodeStudent(_codeStudent.toString());
+        final Boolean active = studentEntity.isValidBoolean(_active.toString());
+        if (active == null) 
+            return FormatResponse.getErrorResponse("Error en active.", 400);
+        final Integer codeStudent = studentEntity.isValidCodeStudent(_codeStudent.toString());
+        if (codeStudent == null) 
+            return FormatResponse.getErrorResponse("Error en codeStudent.", 400);
+        final AdminEntity adminEntity = new AdminEntity();
         
-        if (codeStuden == null) return FormatResponse.getErrorResponse("The code student is not valid.", 400);
         
-        final Boolean responseUpdateStudent = adminStudent.updateStudent(
-                dni, name, fatherSurname, motherSurname, direction, date_, active, codeStuden);
-        if (responseUpdateStudent==null) {
-            return FormatResponse.getErrorResponse("The student error.", 400);
+        final String responseUpdateStudent = adminEntity.updateStudent(
+                dni, name, fatherSurname, motherSurname, direction, date,
+                active, codeStudent);
+        if (responseUpdateStudent == null) {
+            return FormatResponse.getErrorResponse("The student error in responseUpdateStudent.", 400);
         }
         
-
-        data.addProperty("Response", responseUpdateStudent);*/
+        final  ArrayList<HashMap<String, String>> actualizar = new AdminModel().updateStudent(
+                dni, name, fatherSurname, motherSurname, direction, date,
+                active, codeStudent);
+        
+        /*final Boolean responseUpdate = adminEntity.studentUpdate(dni, name, fatherSurname, 
+                motherSurname, direction, date, active, codeStudent);
+        if (responseUpdate == false) {
+            return FormatResponse.getErrorResponse("The student does not meet any requirement.", 400);
+        }
         final JsonObject data = new JsonObject();
-            data.addProperty("dni", dni);
-            data.addProperty("nombre", name);
-            data.addProperty("apellidoPaterno", fatherSurname);
-            data.addProperty("apellidoMaterno", motherSurname);
-            data.addProperty("direccion", direction);
-            data.addProperty("date", date.toString());
-            data.addProperty("active", active);
-            data.addProperty("codeStudent", codeStudent);
-        return FormatResponse.getSuccessResponse(data);
+            data.addProperty("dni", dni.getClass().getSimpleName());
+            data.addProperty("nombre", name.getClass().getSimpleName());
+            data.addProperty("apellidoPaterno", fatherSurname.getClass().getSimpleName());
+            data.addProperty("apellidoMaterno", motherSurname.getClass().getSimpleName());
+            data.addProperty("direccion", direction.getClass().getSimpleName());
+            data.addProperty("date", date.getClass().getSimpleName());
+            data.addProperty("active", active.getClass().getSimpleName());
+            data.addProperty("codeStudent", codeStudent.getClass().getSimpleName());
+        */
+        return FormatResponse.getSuccessResponse(actualizar);
     }
     
     private boolean areParametersIsNull(
@@ -98,5 +109,4 @@ public class ControllerUpdateStudent extends HttpServlet {
         return  _dni == null || _name == null || _fatherSurname == null || _motherSurname == null || 
                 _direction == null || _dateOfBirth == null || _active == null || _codeStudent == null;
     }
-       
 }

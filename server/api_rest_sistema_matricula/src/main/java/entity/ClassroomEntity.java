@@ -2,7 +2,6 @@ package entity;
 
 import dto.classroom.ClassroomDTO;
 import dto.classroom.ClassroomVacancyDTO;
-import dto.classroom.GradeDTO;
 import dto.classroom.SectionDTO;
 import dto.classroom.ShiftDTO;
 import java.util.ArrayList;

@@ -1,17 +1,12 @@
 package controllersStudent;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dto.classroom.CourseTeacherDTO;
 import dto.classroom.TeacherDTO;
 import dto.enrollment.EnrollmentDTO;
-import dto.student.StudentDTO;
-import entity.AdminEntity;
 import entity.StudentEntity;
-import entity.ValidateInput;
-import entity.admin.GetStudentRegisterEntity;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -41,10 +36,9 @@ public class ControllerGetDetailEnrollment extends HttpServlet {
             return FormatResponse.getErrorResponse("Mising parameters.", 400);
 
         final StudentEntity entityStudent = new StudentEntity();
-        final ValidateInput validateImput = new ValidateInput();
         
         // Validación del codigo de estudiante
-        final Integer codeStudentParsed = validateImput.isValidCodeStudent(codeStudent.toString());
+        final Integer codeStudentParsed = entityStudent.isValidCodeStudent(codeStudent.toString());
         if (codeStudentParsed == null){
             return FormatResponse.getErrorResponse("The code student is not valid.", 400);
         }

@@ -1,6 +1,5 @@
 package entity.admin;
 
-import dto.classroom.TeacherDTO;
 import dto.student.RepresentativeDTO;
 import dto.student.StudentDTO;
 import entity.EntityHelper;
@@ -54,6 +53,7 @@ public class GetStudentRegisterEntity {
         student.setFatherSurname(row.get("father_surname"));
         student.setMotherSurname(row.get("mother_surname"));
         String str=row.get("date_of_birth");  
+        System.out.println(str);
         Date date=Date.valueOf(str);
         student.setDateBirth(date.getTime());
         student.setDni(row.get("dni"));
@@ -63,13 +63,11 @@ public class GetStudentRegisterEntity {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Amount Register">
-    public Boolean isEndRows (final Integer limitTop, final Integer amount){
-        final Integer amountRegister = getAmountRegister();
-        if (amountRegister == null) return null;
-        return limitTop + amount >= amountRegister;
+    public Integer getTotalSize() {
+        return getAmountRegister();
     }
     
-    private Integer getAmountRegister(){
+    private Integer getAmountRegister() {
         try {
             final ArrayList<HashMap<String,String>> table = new AdminModel().getAmountRegister();
             final String amount_ = table.get(0).get("RES");
@@ -80,4 +78,15 @@ public class GetStudentRegisterEntity {
     }
     //</editor-fold>
     
+    public Integer isNumberGreaterThanZero(final String numero) {
+        try {
+            Integer numeroPositivo = Integer.parseInt(numero);
+            if (numeroPositivo>0) {
+                return numeroPositivo;
+            }
+            return null;
+        } catch (NumberFormatException e) {
+        }
+        return null;
+    }
 }

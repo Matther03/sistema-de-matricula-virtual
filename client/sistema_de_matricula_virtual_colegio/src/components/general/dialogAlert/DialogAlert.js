@@ -44,7 +44,7 @@ const DialogAlert = ({
                 {description || <p>Descripción</p>}
             </article>
             <FooterCustomDialogAlert>
-                {buttons.length && 
+                {Array.isArray(buttons) && 
                     buttons.map(
                         (ButtonMapping, idx) => <ButtonMapping key={idx}/>)}
             </FooterCustomDialogAlert>
