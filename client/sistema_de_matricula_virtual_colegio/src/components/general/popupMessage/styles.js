@@ -2,7 +2,7 @@
 import styled from "styled-components";
 //#endregion
 
-export const ContainerMessage = styled.section`
+export const ContainerMessage = styled.div`
     display: flex;
     align-items: center;
     gap: 10px;
@@ -14,8 +14,5 @@ export const ContainerMessage = styled.section`
     }
     & .iconify{
         font-size: 45px;
-    }
-    & .register {
-        cursor: pointer;
     }
 `;

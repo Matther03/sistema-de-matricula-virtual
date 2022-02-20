@@ -3,7 +3,8 @@ package utils;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class Encrypt {
-    public static final String PEPPER_PASSWORD_ACCOUNT = "soyUnPimientoXd";
+    
+    private static final String PEPPER_PASSWORD_ACCOUNT = "soyUnPimientoXd";
 
     public static String doEncrypt(String value) {
         try {
