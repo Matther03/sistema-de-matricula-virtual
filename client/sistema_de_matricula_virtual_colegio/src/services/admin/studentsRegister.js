@@ -9,4 +9,8 @@ export const getRepresentative = async (codeStudent) => {
     return await doRequestAdmin(
         `/student/representative?codeStudent=${codeStudent}`, "GET");
 }
+export const updateStudent = async (student) => {
+    return await doRequestAdmin(
+        `/student/register`, "PUT", student);
+}
 // #endregion

@@ -36,7 +36,8 @@ import { handleKeyPressOnlyNumbers } from "../../../../../utils/validation";
 //#region Services
 import { 
     getStudents,
-    getRepresentative 
+    getRepresentative, 
+    updateStudent 
 } from "../../../../../services/admin/studentsRegister";
 //#endregion
 
@@ -186,6 +187,10 @@ const StudentRoot = () => {
     //#region Effects
     useEffect(() => {
         initTable();
+        // (async () => {
+        //     const res = await updateStudent({});
+        //     console.log(res);
+        // })();
     }, []);
     useEffect(() => {
         didMount && handlerChangePageEffect();
@@ -225,8 +230,9 @@ const StudentRoot = () => {
             "fatherSurname": true, 
             "motherSurname": true, 
             "address": true, 
-            "dateBirth": true
+            "dateBirth": true 
         })));
+        console.log(students);
         setTableData(students.map((student, idx) => {
             return {
                 numberIdx: (amountRows * idxPage) + idx + 1, 
