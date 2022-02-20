@@ -9,6 +9,10 @@ import {
     ContainerLogoutBtn
 } from './styles';
 //#endregion
+//#region Components
+import DialogAlert from "../../../general/dialogAlert/DialogAlert";
+import CustomButton from "../../../general/customButton/CustomButton";
+//#endregion
 //#region Icons
 import { Icon } from '@iconify/react';
 //#endregion
@@ -22,16 +26,40 @@ const LogoutBtn = ({
     //#region Extra hooks
     const navigate = useNavigate();
     //#endregion
+    //#region States
+    const [showConfirmLogoutDialog, setShowConfirmLogoutDialog] = useState(false);
+    //#endregion
+    //#region Functions
+    const toggleShowConfirmLogoutDialog = () => {
+        setShowConfirmLogoutDialog(prev => !prev);
+    }
+    //#endregion
     return (
-        <ContainerLogoutBtn 
-            className={className}
-            onClick={() => {
-                logoutAdmin();
-                navigate("/admin/login");
-            }}>
-            <Icon icon="ri:logout-box-line"/>
-            <span className="custom-title-3">Cerrar sesión</span>
-        </ContainerLogoutBtn>
+        <>
+            <ContainerLogoutBtn 
+                className={className}
+                onClick={() => setShowConfirmLogoutDialog(true)}>
+                <Icon icon="ri:logout-box-line"/>
+                <span className="custom-title-3">Cerrar sesión</span>
+            </ContainerLogoutBtn>
+            <DialogAlert 
+                open={showConfirmLogoutDialog}
+                handleOpen={toggleShowConfirmLogoutDialog}
+                description={<p>¿Está seguro de cerrar sesión?</p>}
+                buttons={[
+                    () => <CustomButton 
+                            text="Sí"
+                            variant="outlined"
+                            onClick={() => {
+                                logoutAdmin();
+                                navigate("/admin/login");
+                            }}/>,
+                    () => <CustomButton 
+                            text="No"
+                            variant="outlined"
+                            onClick={() => setShowConfirmLogoutDialog(false)}/>
+                ]}/>
+        </>
     );
 }
 

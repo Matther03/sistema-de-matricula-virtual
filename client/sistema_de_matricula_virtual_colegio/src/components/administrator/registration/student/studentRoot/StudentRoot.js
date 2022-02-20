@@ -23,6 +23,7 @@ import CustomDataTable, {
     InputTable 
 } from "../../../../general/customDataTable/CustomDataTable";
 import DialogAlert from "../../../../general/dialogAlert/DialogAlert";
+import CustomButton from "../../../../general/customButton/CustomButton";
 import RepresentativeDetail from "./components/representativeDetail/RepresentativeDetail";
 //#endregion
 //#region Utils
@@ -30,6 +31,7 @@ import {
     getDate, 
     getTimeMillis } from "../../../../../utils/date";
 import useDidMount from "../../../../../utils/hooks/useDidMount";
+import { handleKeyPressOnlyNumbers } from "../../../../../utils/validation";
 //#endregion
 //#region Services
 import { 
@@ -39,7 +41,6 @@ import {
 //#endregion
 
 const keysRows = [
-    "dni",
     "name", 
     "fatherSurname", 
     "motherSurname", 
@@ -51,14 +52,13 @@ const rowsToDataTable = (
     tableData = [], 
     openRepresentativeDetail, 
     desactiveStudent, 
-    disabledValuesInputsText = {
+    disabledValuesInputs = {
         values: [], 
         handle: null
     },
-    handleChangeInput,
-    idxPage 
+    handleChangeInput 
 ) => {
-    if (tableData.length !== disabledValuesInputsText.values.length) 
+    if (tableData.length !== disabledValuesInputs.values.length) 
         return [];
     const getRowInputsText = (data, idx) => keysRows.reduce((acc, key) => {
         const newObj = {
@@ -66,29 +66,58 @@ const rowsToDataTable = (
             [key]: (
                 <InputTable 
                     value={data[key]} 
+                    onKeyPress={(e) => handleEnterDisableValuesInput(e, idx, key)}
                     onChange={(e) => handleChangeInput(idx, key, e.target.value)}
                     onDoubleClick={(e) => {
-                        disabledValuesInputsText.handle(idx, key, false);
-                        setTimeout(() => {
-                            e.target.parentElement.children[0].focus();
-                        }, 100);
+                        disabledValuesInputs.handle(idx, key, false);
+                        setFocusUpdateInput(e);
                     }}
                     onBlur={() => {
-                        disabledValuesInputsText.handle(idx, key, true);
+                        disabledValuesInputs.handle(idx, key, true);
                     }}
-                    disabled={disabledValuesInputsText.values[idx][key]}/>
+                    disabled={disabledValuesInputs.values[idx][key]}/>
                 )
         };
         return newObj;
     }, {});
+    const setFocusUpdateInput = (e) => {
+        setTimeout(() => {
+            e.target.parentElement.children[0].focus();
+        }, 100);
+    }
+    const handleEnterDisableValuesInput = (e, idx, key) => {
+        if (e.key === "Enter") {
+            disabledValuesInputs.handle(idx, key, true);
+            return;
+        }
+    }
     return tableData.map((data, idx) => ({
-            numberIdx: (amountRows * idxPage) + idx + 1, 
-            ...getRowInputsText(data, idx),
+            numberIdx: data.numberIdx, 
+            dni: (
+                <InputTable 
+                    value={data.dni} 
+                    maxLength="8"
+                    onKeyPress={(e) => {
+                        handleEnterDisableValuesInput(e, idx, "dni");
+                        handleKeyPressOnlyNumbers(e);
+                    }} 
+                    onChange={(e) => handleChangeInput(idx, "dni", e.target.value)}
+                    onDoubleClick={(e) => {
+                        disabledValuesInputs.handle(idx, "dni", false);
+                        setFocusUpdateInput(e);
+                    }}
+                    onBlur={() => {
+                        disabledValuesInputs.handle(idx, "dni", true);
+                    }}
+                    disabled={disabledValuesInputs.values[idx].dni}/>
+            ),
+            ...getRowInputsText(data, idx), 
             dateBirth: (
                 <InputTable 
                     type="date" 
                     min="2005-01-01"
                     max="2010-12-31"
+                    onKeyPress={(e) => handleEnterDisableValuesInput(e, idx, "dateBirth")}
                     onChange={
                         (e) => handleChangeInput(
                             idx, 
@@ -99,15 +128,13 @@ const rowsToDataTable = (
                             })} 
                     value={data.dateBirth.date}
                     onDoubleClick={(e) => {
-                        disabledValuesInputsText.handle(idx, "dateBirth", false);
-                        setTimeout(() => {
-                            e.target.parentElement.children[0].focus();
-                        }, 100);
+                        disabledValuesInputs.handle(idx, "dateBirth", false);
+                        setFocusUpdateInput(e);
                     }}
                     onBlur={() => {
-                        disabledValuesInputsText.handle(idx, "dateBirth", true);
+                        disabledValuesInputs.handle(idx, "dateBirth", true);
                     }}
-                    disabled={disabledValuesInputsText.values[idx].dateBirth}/>
+                    disabled={disabledValuesInputs.values[idx].dateBirth}/>
             ), 
             representative: (
                 <DetailRow 
@@ -121,7 +148,7 @@ const rowsToDataTable = (
                     onChange={() => desactiveStudent(idx)}/>
             )
         })
-    )
+    );
 }
 const fieldsDataTable = [
     "N°",
@@ -140,7 +167,7 @@ const StudentRoot = () => {
     //#endregion
     //#region States
     const [tableData, setTableData] = useState([]);
-    const [disabledValuesInputsText, setDisabledValuesInputsText] = useState([]);
+    const [disabledValuesInputs, setDisabledValuesInputs] = useState([]);
     const [idxPage, setIdxPage] = useState(0);
     const [quantityPages, setQuantityPages] = useState("?");
     const [representative, setRepresentative] = useState({
@@ -149,8 +176,12 @@ const StudentRoot = () => {
         idCard: "", 
         phone: ""
     });
-    const [showRepresentativeDetail, setShowRepresentativeDetail] = useState(false);
+    const [showDialogs, setShowDialogs] = useState({
+        representativeDetail: false,
+        confirmUpdate: false  
+    });
     const [loadingRequestGetStudents, setLoadingRequestGetStudents] = useState(false);
+    const [valueBeforeUpdateField, setValueBeforeUpdateField] = useState(null);
     //#endregion
     //#region Effects
     useEffect(() => {
@@ -188,7 +219,7 @@ const StudentRoot = () => {
         fillDataStudents(students);
     }
     const fillDataStudents = (students = []) => {
-        setDisabledValuesInputsText(students.map((_) => ({
+        setDisabledValuesInputs(students.map((_) => ({
             "dni": true,
             "name": true,
             "fatherSurname": true, 
@@ -196,8 +227,9 @@ const StudentRoot = () => {
             "address": true, 
             "dateBirth": true
         })));
-        setTableData(students.map(student => {
+        setTableData(students.map((student, idx) => {
             return {
+                numberIdx: (amountRows * idxPage) + idx + 1, 
                 ...student, 
                 dateBirth: {
                     date: getDate(student.dateBirth, true), 
@@ -219,7 +251,7 @@ const StudentRoot = () => {
     }
     const openRepresentativeDetail = async (code) => {
         const [payload, err] = await getRepresentative(code);
-        setShowRepresentativeDetail(true);
+        handleShowDialog("representativeDetail", true);
         if (err || !payload.data) 
             return;
         const { 
@@ -243,12 +275,46 @@ const StudentRoot = () => {
         setTableData(copy);
     }
     const handleDisabledValuesTextFields = (idx, key, value) => {
-        const copy = [...disabledValuesInputsText];
+        const copy = [...disabledValuesInputs];
         copy[idx] = {
             ...copy[idx],
             [key]: value
         };
-        setDisabledValuesInputsText(copy);
+        setDisabledValuesInputs(copy);
+        handleValueBeforeUpdateField(idx, key, value);
+    }
+    const handleValueBeforeUpdateField = (idx, key, value) => {
+        const dataField = tableData[idx][key];
+        if (!value) {
+            setValueBeforeUpdateField(prev => prev === null ? {
+                idx,
+                key, 
+                value: dataField 
+            } : prev);
+            return;
+        }
+        if (dataField === valueBeforeUpdateField.value) {
+            setValueBeforeUpdateField(null);
+            return;
+        }
+        handleShowDialog("confirmUpdate", true);
+    }
+    const handleShowDialog = (key, value) => {
+        setShowDialogs(prev => ({
+            ...prev, 
+            [key]: value
+        }));
+    }
+    const cancelUpdateField = () => {
+        const copy = [...tableData];
+        const { idx, key, value } = valueBeforeUpdateField;
+        copy[idx] = {
+            ...copy[idx],
+            [key]: value
+        };
+        setTableData(copy);
+        setValueBeforeUpdateField(null);
+        handleShowDialog("confirmUpdate", false);
     }
     //#endregion
     return (
@@ -266,7 +332,7 @@ const StudentRoot = () => {
                                 openRepresentativeDetail,
                                 desactiveStudent, 
                                 {
-                                    values: disabledValuesInputsText, 
+                                    values: disabledValuesInputs, 
                                     handle: handleDisabledValuesTextFields
                                 },
                                 handleChangeInput, 
@@ -297,12 +363,33 @@ const StudentRoot = () => {
                 </Content>
             </Container>
             <DialogAlert 
-                open={showRepresentativeDetail}
-                handleOpen={(value) => setShowRepresentativeDetail(value)}
+                open={showDialogs.representativeDetail}
+                handleOpen={(value) => handleShowDialog("representativeDetail", value)}
                 title="DETALLE DEL APODERADO"
                 description={
                     <RepresentativeDetail data={representative}/>
                 }/>
+            <DialogAlert 
+                open={showDialogs.confirmUpdate}
+                handleOpen={(value) => handleShowDialog("confirmUpdate", value)}
+                handleClose={cancelUpdateField}
+                title="AVISO"
+                description={
+                    <p>¿Desea actualizar este campo?</p>
+                }
+                buttons={[
+                    () => <CustomButton 
+                            text="Aceptar"
+                            variant="outlined"
+                            onClick={() => {
+                                setValueBeforeUpdateField(null);
+                                handleShowDialog("confirmUpdate", false);
+                            }}/>,
+                    () => <CustomButton 
+                            text="Cancelar"
+                            variant="outlined"
+                            onClick={cancelUpdateField}/>
+                ]}/>
         </>
     );
 }
