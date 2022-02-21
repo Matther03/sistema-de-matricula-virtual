@@ -1,8 +1,10 @@
 package controllersAdmin;
 
 import com.google.gson.JsonObject;
+import dto.student.ActivationAccountStudentDTO;
+
+import entity.admin.InsertForRegisterEntity;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,6 +25,22 @@ public class ControllerDoAccountStudent extends HttpServlet {
     }   
     
     private FormatResponse doAccountStudent(final JsonObject body) {
-        return FormatResponse.getSuccessResponse(body);
+        //validacion del body
+        if (body == null) 
+                return FormatResponse.getErrorResponse("The request body doesn't have json format.", 400);
+        
+        final InsertForRegisterEntity insertForRegisterEntity = new InsertForRegisterEntity();
+        final ActivationAccountStudentDTO activationAccountStudent = new ActivationAccountStudentDTO();
+        
+        //validacion de parametros
+        final String msgError = insertForRegisterEntity.validateStudentForDoAccountStudent(body, activationAccountStudent);
+        if (msgError != null) 
+            return FormatResponse.getErrorResponse(msgError, 400);
+        
+        //validacion de activacion
+        final Boolean responseUpdateStudent = insertForRegisterEntity.doAccountStudent(activationAccountStudent);
+        if (!responseUpdateStudent) 
+            return FormatResponse.getErrorResponse("the student code does not exist", 400);
+        return FormatResponse.getSuccessResponse(responseUpdateStudent);
     }
 }

@@ -127,12 +127,12 @@ public class AdminModel extends ModelParent {
     }
     //AUN FALTA USARLOS
     public ArrayList<HashMap<String, String>> doAccountStudent(
-            final ActivationAccountStudentDTO activationAccount) {
+            final ActivationAccountStudentDTO activationAccount,final String token,final String encryptedPassword) {
         return doActionQuery((cnObj, prSt) -> {
             prSt = cnObj.prepareStatement(ProceduresDB.DO_ACCOUNT_STUDENT);
-                prSt.setInt(1, activationAccount.getCode());
-                prSt.setInt(2, activationAccount.getStudent().getCode());
-                prSt.setString(3, activationAccount.getToken());
+                prSt.setInt(1, activationAccount.getStudent().getCode());
+                prSt.setString(2, token);
+                prSt.setString(3, encryptedPassword);
                 prSt.setString(4, activationAccount.getPlainPassword());
             return prSt;
         });
