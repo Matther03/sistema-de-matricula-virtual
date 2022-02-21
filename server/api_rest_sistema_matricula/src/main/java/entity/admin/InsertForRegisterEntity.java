@@ -1,6 +1,6 @@
 package entity.admin;
 
-import utils.GenerateTokenForStudent;
+import utils.RandomString;
 import com.google.gson.JsonObject;
 import dto.student.ActivationAccountStudentDTO;
 import dto.student.RepresentativeDTO;
@@ -44,8 +44,8 @@ public class InsertForRegisterEntity {
     }
     public boolean doAccountStudent(final ActivationAccountStudentDTO activationAccount) {
         try {
-            GenerateTokenForStudent generateToken = new GenerateTokenForStudent();
-            final String token = generateToken.tokenForActivationAccountStudent();
+            RandomString generateToken = new RandomString();
+            final String token = generateToken.generate(25);
             final String encryptedPassword = doEncrypt(activationAccount.getPlainPassword());
             ArrayList<HashMap<String, String>> table = new AdminModel().doAccountStudent(
                     activationAccount,token,encryptedPassword);

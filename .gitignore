@@ -4,6 +4,11 @@
 /client/sistema_de_matricula_virtual_colegio/node_modules
 /.pnp
 .pnp.js
+/server/api_rest_sistema_matricula/target/classes
+/server/api_rest_sistema_matricula/target/api_rest_sistema_matricula-1.0/WEB-INF/classes
+/server/api_rest_sistema_matricula/target/api_rest_sistema_matricula-1.0.war
+/server/api_rest_sistema_matricula/target/maven-archiver/pom.properties
+
 
 # testing
 /coverage
