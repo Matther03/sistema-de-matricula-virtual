@@ -125,7 +125,7 @@ public class AdminModel extends ModelParent {
             return prSt;
         });
     }
-    //AUN FALTA USARLOS
+
     public ArrayList<HashMap<String, String>> doAccountStudent(
             final ActivationAccountStudentDTO activationAccount,final String token,final String encryptedPassword) {
         return doActionQuery((cnObj, prSt) -> {
@@ -137,11 +137,14 @@ public class AdminModel extends ModelParent {
             return prSt;
         });
     }
+    
+    //AUN FALTA USARLO
     public ArrayList<HashMap<String, String>> activeAccountStudent(
             final ActivationAccountStudentDTO activationAccount) {
         return doActionQuery((cnObj, prSt) -> {
             prSt = cnObj.prepareStatement(ProceduresDB.ACTIVE_ACCOUNT_STUDENT);
                 prSt.setString(1, activationAccount.getToken());
+                System.out.println("Esto se envia al procedure _ "+activationAccount.getToken());
             return prSt;
         });
     }

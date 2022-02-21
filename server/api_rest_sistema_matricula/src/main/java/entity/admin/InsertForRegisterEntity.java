@@ -55,15 +55,15 @@ public class InsertForRegisterEntity {
         }
     }
     //FALTA
-    public boolean activeAccountStudent(final ActivationAccountStudentDTO activationAccount) {
+    public String activeAccountStudent(final ActivationAccountStudentDTO activationAccount) {
         try {
             ArrayList<HashMap<String, String>> table = new AdminModel().activeAccountStudent(activationAccount);
-            return "SUCCESS".equals(table.get(0).get("RES"));
+            return table.get(0).get("RES");
         } catch (Exception e) {
-            return false;
+            return null;
         }
     }
-    //<editor-fold defaultstate="collapsed" desc="Activation o Account Student">
+    //<editor-fold defaultstate="collapsed" desc="Activation for Do Account Student">
     public String validateStudentForDoAccountStudent(JsonObject jObj, ActivationAccountStudentDTO activationAccountStudent) {
         try {
             if (isNullPropertyOfJson(jObj, "codeStudent") ||
