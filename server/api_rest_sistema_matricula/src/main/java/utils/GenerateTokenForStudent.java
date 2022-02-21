@@ -8,14 +8,14 @@ public class GenerateTokenForStudent {
     
     public String tokenForActivationAccountStudent(){
                 
-        String lettersMayus, letterMin, specialChar, number, newPassword ="";
+        String lettersMayus, letterMin, specialChar, number, newPassword = "";
         int  amountCharacter;
         
         lettersMayus = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";   
         letterMin = "abcdefghijklmnñopqrstuvwxyz";        
         specialChar = "+-*/=%&#!?^|<>()[]{}:;.;~|";
         number = "1234567890";
-        amountCharacter=5;
+        amountCharacter = 5;
 
         newPassword = random(newPassword, letterMin, amountCharacter);
         
@@ -36,7 +36,7 @@ public class GenerateTokenForStudent {
         return newPassword;
         
     }
-    private String random(String newPassword , String letters, int amount){
+    private String random(String newPassword ,final String letters,final int amount) {
         String [] arrayLetter = letters.split("");
         int numberRandom = 0;
         for (int i = 0 ; i < amount ; i++) {

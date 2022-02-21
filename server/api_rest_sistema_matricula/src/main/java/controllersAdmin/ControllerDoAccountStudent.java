@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import utils.FormatResponse;
 import utils.HelperController;
 
-@WebServlet(name = "ControllerDoAccountStudent", urlPatterns = {"/api/student/account"})
+@WebServlet(name = "ControllerDoAccountStudent", urlPatterns = {"/api/student/generate-account"})
 public class ControllerDoAccountStudent extends HttpServlet {
 
 @Override
