@@ -7,14 +7,18 @@ import { InputAdornment, IconButton } from "@mui/material";
 import { ContentFormInfoStudent } from "./styles";
 //#endregion
 //#region Components
-import CustomTextField from "../../../../../general/customTextField/CustomTextField";
-import CustomButton from "../../../../../general/customButton/CustomButton";
+import CustomTextField from "../../../../../../general/customTextField/CustomTextField";
+import CustomButton from "../../../../../../general/customButton/CustomButton";
 //#endregion
 //#region Utils
-import { fieldsHaveErrors } from "../../../../../../utils/validation";
+import { 
+	fieldsHaveErrors, 
+	handleKeyPressOnlyNumbers } from "../../../../../../../utils/validation";
 //#endregion
 
-const FormInfoStudent = () => {
+const FormInfoStudent = ({
+	nextForm 
+}) => {
 	//#region States
 	const [form, setForm] = useState({
 		dni: "",
@@ -45,12 +49,14 @@ const FormInfoStudent = () => {
 		}));
 		showNoMatchMessageLogin && setShowNoMatchMessageLogin(false);
 	};
+	const handleDoRequest = (e) => {
+        e.preventDefault();
+		nextForm();
+	}
 	//#endregion
 
 	return (
-		<ContentFormInfoStudent
-		/*onSubmit={handleLogin}*/
-		>
+		<ContentFormInfoStudent onSubmit={handleDoRequest}>
 			<section className="fields">
 				<LoginTextFields
 					textFields={{

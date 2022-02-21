@@ -17,7 +17,7 @@ const RepresentativeDetail = ({ data }) => {
         }, 
         {
             description: "NÚMERO DE DNI",
-            value: data.idCard
+            value: data.dni 
         }, 
         {
             description: "NÚMERO TELEFÓNICO",
