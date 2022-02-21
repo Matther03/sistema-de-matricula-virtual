@@ -5,7 +5,9 @@ import dto.admin.AdminAccountDTO;
 import dto.student.ActivationAccountStudentDTO;
 import dto.student.RepresentativeDTO;
 import dto.student.StudentDTO;
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -127,13 +129,14 @@ public class AdminModel extends ModelParent {
     }
 
     public ArrayList<HashMap<String, String>> doAccountStudent(
-            final ActivationAccountStudentDTO activationAccount,final String token,final String encryptedPassword) {
-        return doActionQuery((cnObj, prSt) -> {
+            final ActivationAccountStudentDTO activationAccount,final String token,
+            final String encryptedPassword, final String password) {
+        return doActionQuery((Connection cnObj, PreparedStatement prSt) -> {
             prSt = cnObj.prepareStatement(ProceduresDB.DO_ACCOUNT_STUDENT);
                 prSt.setInt(1, activationAccount.getStudent().getCode());
                 prSt.setString(2, token);
                 prSt.setString(3, encryptedPassword);
-                prSt.setString(4, activationAccount.getPlainPassword());
+                prSt.setString(4, password);
             return prSt;
         });
     }
