@@ -20,5 +20,7 @@ public class ProceduresDB {
     public static final String UPDATE_STUDENT = "CALL sp_update_student(?,?,?,?,?,?,?,?);";
     public static final String INSERT_STUDENT = "CALL sp_insert_student(?,?,?,?,?,?,?);";
     public static final String INSERT_REPRESENTATIVE = "CALL sp_insert_representative(?,?,?,?,?,?);";
-    public static final String VERIFY_ACOUNT_ADMIN = "CALL sp_verify_account_admin(?,?);";
+    public static final String VERIFY_ACOUNT_ADMIN = "CALL sp_verify_account_admin(?);";
+    public static final String DO_ACCOUNT_STUDENT = "CALL sp_do_account_student(?,?,?,?);";
+    public static final String ACTIVE_ACCOUNT_STUDENT = "CALL sp_active_account_student(?);";
 }

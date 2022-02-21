@@ -77,9 +77,11 @@ public class ControllerStudentRegister extends HttpServlet {
         final String msgError = insertForRegisterEntity.validateStudentForRegister(body, student);
         if (msgError != null) 
             return FormatResponse.getErrorResponse(msgError, 400);
-        final Boolean responseInsertStudent = insertForRegisterEntity.insertStudent(student);
-        if (!responseInsertStudent) 
-            return FormatResponse.getErrorResponse("There is a student with the same DNI. ", 400);
+        final String responseInsertStudent = insertForRegisterEntity.insertStudent(student);
+        if ("REP_NOT_EXI".equals(responseInsertStudent)) 
+            return FormatResponse.getErrorResponse("There is no representative with that DNI. ", 400);
+        if ("STU_EXI".equals(responseInsertStudent))
+            return FormatResponse.getErrorResponse("There is a student with the same DNI. ", 400);    
         return FormatResponse.getSuccessResponse(responseInsertStudent);
     }
 

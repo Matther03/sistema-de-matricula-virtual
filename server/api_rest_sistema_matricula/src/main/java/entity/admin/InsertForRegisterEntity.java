@@ -1,12 +1,16 @@
 package entity.admin;
 
+import utils.RandomString;
 import com.google.gson.JsonObject;
+import dto.student.ActivationAccountStudentDTO;
 import dto.student.RepresentativeDTO;
 import dto.student.StudentDTO;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import model.AdminModel;
+import static utils.Encrypt.doEncrypt;
+import utils.validation.Validation;
 import static utils.validation.Validation.isNullPropertyOfJson;
 
 public class InsertForRegisterEntity {
@@ -20,12 +24,13 @@ public class InsertForRegisterEntity {
         }
     }
     
-    public boolean insertStudent(final StudentDTO student) {
+    public String insertStudent(final StudentDTO student) {
         try {
             ArrayList<HashMap<String, String>> table = new AdminModel().insertStudent(student);
-            return "SUCCESS".equals(table.size() > 0 ? table.get(0).get("RES"): null);
+            String response = table.get(0).get("RES");
+            return response;
         } catch (Exception e) {
-            return false;
+            return null;
         }
     }
     
@@ -37,6 +42,50 @@ public class InsertForRegisterEntity {
             return false;
         }
     }
+    public boolean doAccountStudent(final ActivationAccountStudentDTO activationAccount) {
+        try {
+            RandomString generateToken = new RandomString();
+            final String token = generateToken.generate(25);
+            final String encryptedPassword = doEncrypt(activationAccount.getPlainPassword());
+            ArrayList<HashMap<String, String>> table = new AdminModel().doAccountStudent(
+                    activationAccount,token,encryptedPassword);
+            return "SUCCESS".equals(table.get(0).get("RES"));
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    //FALTA
+    public String activeAccountStudent(final ActivationAccountStudentDTO activationAccount) {
+        try {
+            ArrayList<HashMap<String, String>> table = new AdminModel().activeAccountStudent(activationAccount);
+            return table.get(0).get("RES");
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    //<editor-fold defaultstate="collapsed" desc="Activation for Do Account Student">
+    public String validateStudentForDoAccountStudent(JsonObject jObj, ActivationAccountStudentDTO activationAccountStudent) {
+        try {
+            if (isNullPropertyOfJson(jObj, "codeStudent") ||
+                    (!isNullPropertyOfJson(jObj, "codeStudent") &&  
+                        !isValidPropertyValueInteger(jObj.get("codeStudent").getAsInt(), 1, null)))
+                return validateRepresentativeErrorMsg("codeStudent");
+            //Validacion de contraseña ---> temporal
+            if (isNullPropertyOfJson(jObj, "password") ||
+                    (!isNullPropertyOfJson(jObj, "password") &&  
+                        !Validation.isValidPassword(jObj.get("password").getAsString())))
+                return validateRepresentativeErrorMsg("password");
+        }
+        catch (NumberFormatException ex) {
+            return "Error parsing to number | " + ex.getMessage();
+        }
+        StudentDTO student = new StudentDTO();
+        student.setCode(jObj.get("codeStudent").getAsInt());
+        activationAccountStudent.setStudent(student);
+        activationAccountStudent.setPlainPassword(jObj.get("password").getAsString());
+        return null;
+    }
+    //</editor-fold >
     
     //<editor-fold defaultstate="collapsed" desc="Validate Representative for Register">
     public String validateRepresentativeForRegister(JsonObject jObj, RepresentativeDTO representative) {

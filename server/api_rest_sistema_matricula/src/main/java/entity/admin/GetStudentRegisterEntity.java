@@ -84,4 +84,6 @@ public class GetStudentRegisterEntity {
         }
         return null;
     }
+    
+    
 }
