@@ -7,8 +7,6 @@ export const ContentFormInfoStudent = styled.form`
     flex-direction: column;
     justify-content: center;
     gap: 25px;
-    width: 64%;
-
     & .fields {
         display: flex;
         gap: 30px 10px;
