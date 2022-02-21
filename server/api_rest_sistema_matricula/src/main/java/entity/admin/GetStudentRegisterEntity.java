@@ -10,6 +10,7 @@ import java.util.HashMap;
 import model.AdminModel;
 
 public class GetStudentRegisterEntity {
+    
     //<editor-fold defaultstate="collapsed" desc="Representative">
     
     public RepresentativeDTO getRepresentative(final Integer codeStudent){
@@ -47,11 +48,11 @@ public class GetStudentRegisterEntity {
         student.setFatherSurname(row.get("father_surname"));
         student.setMotherSurname(row.get("mother_surname"));
         String str=row.get("date_of_birth");  
-        System.out.println(str);
-        Date date=Date.valueOf(str);
-        student.setDateBirth(date.getTime());
+        student.setDateBirth((Date.valueOf(str)).getTime());
         student.setDni(row.get("dni"));
         student.setAddress(row.get("direction"));
+        Boolean val = "1".equals(row.get("active"));
+        student.setActive(val);
         return student;
     }    
     //</editor-fold>

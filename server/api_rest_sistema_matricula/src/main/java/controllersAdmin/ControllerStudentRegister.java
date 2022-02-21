@@ -58,7 +58,6 @@ public class ControllerStudentRegister extends HttpServlet {
         if (students == null) 
                 return FormatResponse.getErrorResponse("Not found.", 400);
         final JsonObject data = new JsonObject();
-        System.out.println(seeSizeValue);
         if (seeSizeValue) {
             final Integer totalSize = getStudentRegisterEntity.getTotalSize();
             if (totalSize == null) {

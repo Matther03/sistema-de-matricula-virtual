@@ -3,6 +3,9 @@ package dto.admin;
 public class AdminAccountDTO {
     private String user, password;
 
+    public AdminAccountDTO() {
+    }
+    
     public AdminAccountDTO(String user, String password) {
         this.user = user;
         this.password = password;

@@ -24,6 +24,7 @@ import CustomDataTable, {
 } from "../../../../general/customDataTable/CustomDataTable";
 import DialogAlert from "../../../../general/dialogAlert/DialogAlert";
 import CustomButton from "../../../../general/customButton/CustomButton";
+import UpdateMessage from "./components/updateMessage/UpdateMessage";
 import RepresentativeDetail from "./components/representativeDetail/RepresentativeDetail";
 //#endregion
 //#region Utils
@@ -31,6 +32,7 @@ import {
     getDate, 
     getTimeMillis } from "../../../../../utils/date";
 import useDidMount from "../../../../../utils/hooks/useDidMount";
+import { typeStateResponseUpdate } from "../../../../../utils/types";
 import { handleKeyPressOnlyNumbers } from "../../../../../utils/validation";
 //#endregion
 //#region Services
@@ -52,7 +54,7 @@ const amountRows = 3;
 const rowsToDataTable = (
     tableData = [], 
     openRepresentativeDetail, 
-    desactiveStudent, 
+    handleActiveStudentField, 
     disabledValuesInputs = {
         values: [], 
         handle: null
@@ -146,7 +148,7 @@ const rowsToDataTable = (
             active: (
                 <Switch 
                     checked={data.active}
-                    onChange={() => desactiveStudent(idx)}/>
+                    onChange={() => handleActiveStudentField(idx)}/>
             )
         })
     );
@@ -162,6 +164,7 @@ const fieldsDataTable = [
     "APODERADO",
     "ACTIVO" 
 ];
+
 const StudentRoot = () => {
     //#region Extra hooks
     const didMount = useDidMount();
@@ -183,14 +186,11 @@ const StudentRoot = () => {
     });
     const [loadingRequestGetStudents, setLoadingRequestGetStudents] = useState(false);
     const [valueBeforeUpdateField, setValueBeforeUpdateField] = useState(null);
+    const [stateResponseUpdate, setStateResponseUpdate] = useState("");
     //#endregion
     //#region Effects
     useEffect(() => {
         initTable();
-        // (async () => {
-        //     const res = await updateStudent({});
-        //     console.log(res);
-        // })();
     }, []);
     useEffect(() => {
         didMount && handlerChangePageEffect();
@@ -207,6 +207,30 @@ const StudentRoot = () => {
             return null;
         }
         return payload.data;
+    }
+    const doUpdateStudent = async () => {
+        const { idx, key } = valueBeforeUpdateField;
+        const dataField = tableData[idx][key];
+        const body = {
+            codeStudent: tableData[idx].code, 
+            [key === "dateBirth" ? "dateOfBirth" : key]: dataField.value ? dataField.value : dataField
+        };
+        setStateResponseUpdate(typeStateResponseUpdate.LOADING);
+        const [payload, err] = await updateStudent(body);
+        setTimeout(() => {
+            setStateResponseUpdate("");
+        }, 5000);
+        if (err) {
+            backToFirstValue();
+            setStateResponseUpdate(typeStateResponseUpdate.UNEXPECTED_ERROR);
+            return;
+        }
+        if (!payload.data) {
+            backToFirstValue();
+            setStateResponseUpdate(typeStateResponseUpdate.ERROR);
+            return;
+        }
+        setStateResponseUpdate(typeStateResponseUpdate.SUCCESS);
     }
     const initTable = async () => {
         const data = await doGetStudents(true);
@@ -232,7 +256,6 @@ const StudentRoot = () => {
             "address": true, 
             "dateBirth": true 
         })));
-        console.log(students);
         setTableData(students.map((student, idx) => {
             return {
                 numberIdx: (amountRows * idxPage) + idx + 1, 
@@ -264,20 +287,26 @@ const StudentRoot = () => {
             name, 
             fatherSurname, 
             motherSurname, 
-            ...restData } = payload.data[0];
+            ...restData } = payload.data;
         let obj = {
             ...restData, 
             fullName: `${fatherSurname} ${motherSurname}, ${name}`
         };
         setRepresentative(obj);
     }
-    const desactiveStudent = (idx) => {
+    const handleActiveStudentField = (idx) => {
+        setValueBeforeUpdateField({
+            idx, 
+            key: "active",
+            value: tableData[idx].active 
+        })
         const copy = [...tableData];
         const row = copy[idx];
         copy[idx] = {
             ...row,
             active: !row.active
         };
+        handleShowDialog("confirmUpdate", true);
         setTableData(copy);
     }
     const handleDisabledValuesTextFields = (idx, key, value) => {
@@ -312,6 +341,10 @@ const StudentRoot = () => {
         }));
     }
     const cancelUpdateField = () => {
+        backToFirstValue();
+        handleShowDialog("confirmUpdate", false);
+    }
+    const backToFirstValue = () => {
         const copy = [...tableData];
         const { idx, key, value } = valueBeforeUpdateField;
         copy[idx] = {
@@ -320,7 +353,6 @@ const StudentRoot = () => {
         };
         setTableData(copy);
         setValueBeforeUpdateField(null);
-        handleShowDialog("confirmUpdate", false);
     }
     //#endregion
     return (
@@ -330,13 +362,14 @@ const StudentRoot = () => {
                     REGISTROS DE ALUMNOS
                 </Title>
                 <Content>
+                    <UpdateMessage stateResponseUpdate={stateResponseUpdate}/>
                     <CustomDataTable 
                         className="secondary"
                         fields={fieldsDataTable}
                         rows={rowsToDataTable(
                                 tableData, 
                                 openRepresentativeDetail,
-                                desactiveStudent, 
+                                handleActiveStudentField, 
                                 {
                                     values: disabledValuesInputs, 
                                     handle: handleDisabledValuesTextFields
@@ -387,9 +420,10 @@ const StudentRoot = () => {
                     () => <CustomButton 
                             text="Aceptar"
                             variant="outlined"
-                            onClick={() => {
-                                setValueBeforeUpdateField(null);
+                            onClick={async () => {
                                 handleShowDialog("confirmUpdate", false);
+                                await doUpdateStudent();
+                                setValueBeforeUpdateField(null);
                             }}/>,
                     () => <CustomButton 
                             text="Cancelar"

@@ -5,14 +5,21 @@ import styled from "styled-components";
 export const ContainerMessage = styled.div`
     display: flex;
     align-items: center;
-    gap: 10px;
-    & h3 {
-        margin: 0;
-        padding: 0;
-        font-weight: 400;
-        font-size: 20px;
-    }
+    gap: 5px;
     & .iconify{
         font-size: 45px;
+        &.update-result-message {
+            font-size: 25px;
+        }
+    }
+`;
+export const Message = styled.h3`
+    color: ${({ color }) => color};
+    margin: 0;
+    padding: 0;
+    font-weight: 500;
+    font-size: 20px;
+    &.update-result-message {
+        font-size: 16px;
     }
 `;

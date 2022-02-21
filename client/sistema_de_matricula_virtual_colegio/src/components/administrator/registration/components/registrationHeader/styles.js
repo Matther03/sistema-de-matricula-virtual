@@ -17,6 +17,7 @@ export const ContainerButtonAddRegister = styled.div`
     align-items: center;
     width: 100%;
     box-shadow: 0 3px 5px 0 #00000066;
+    background-color: var(--third-color);
     & button {
         display: flex;
         justify-content: space-between;
@@ -26,7 +27,6 @@ export const ContainerButtonAddRegister = styled.div`
         padding: 10px;
         border: 0;
         cursor: pointer;
-        background-color: transparent;
         transition: 0.5s;
         & .iconify, & span {
             color: var(--fifth-color);

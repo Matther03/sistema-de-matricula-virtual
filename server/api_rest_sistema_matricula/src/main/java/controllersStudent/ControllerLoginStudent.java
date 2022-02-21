@@ -2,6 +2,7 @@ package controllersStudent;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import dto.admin.AdminAccountDTO;
 import dto.student.AccountDTO;
 import dto.student.StudentDTO;
 import entity.StudentEntity;
@@ -18,7 +19,7 @@ import utils.authentication.JWTAuthentication;
 @WebServlet(name = "ControllerLoginStudent", urlPatterns = {"/api/student/login"})
 public class ControllerLoginStudent extends HttpServlet {
 
-    private JWTAuthentication jwtAuth;
+private JWTAuthentication jwtAuth;
     @Override
     public void init() { jwtAuth = new JWTAuthentication(); }
     @Override
@@ -63,6 +64,4 @@ public class ControllerLoginStudent extends HttpServlet {
         objToken.addProperty("token", token);
         return FormatResponse.getSuccessResponse(objToken);
     }
-    //</editor-fold>
-
 }
