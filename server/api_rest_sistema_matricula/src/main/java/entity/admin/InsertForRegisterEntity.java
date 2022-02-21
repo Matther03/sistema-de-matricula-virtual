@@ -20,12 +20,13 @@ public class InsertForRegisterEntity {
         }
     }
     
-    public boolean insertStudent(final StudentDTO student) {
+    public String insertStudent(final StudentDTO student) {
         try {
             ArrayList<HashMap<String, String>> table = new AdminModel().insertStudent(student);
-            return "SUCCESS".equals(table.size() > 0 ? table.get(0).get("RES"): null);
+            String response = table.get(0).get("RES");
+            return response;
         } catch (Exception e) {
-            return false;
+            return null;
         }
     }
     

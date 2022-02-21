@@ -2,6 +2,7 @@ package model;
 
 import database.ProceduresDB;
 import dto.admin.AdminAccountDTO;
+import dto.student.ActivationAccountStudentDTO;
 import dto.student.RepresentativeDTO;
 import dto.student.StudentDTO;
 import java.sql.Date;
@@ -121,8 +122,26 @@ public class AdminModel extends ModelParent {
         return doActionQuery((cnObj, prSt) -> {
             prSt = cnObj.prepareStatement(ProceduresDB.VERIFY_ACOUNT_ADMIN);
                 prSt.setString(1, adminAcount.getUser());
-                prSt.setString(2, adminAcount.getPassword());
-                System.out.println("lo que se envia al procedure: "+ adminAcount.getPassword());
+            return prSt;
+        });
+    }
+    //AUN FALTA USARLOS
+    public ArrayList<HashMap<String, String>> doAccountStudent(
+            final ActivationAccountStudentDTO activationAccount) {
+        return doActionQuery((cnObj, prSt) -> {
+            prSt = cnObj.prepareStatement(ProceduresDB.DO_ACCOUNT_STUDENT);
+                prSt.setInt(1, activationAccount.getCode());
+                prSt.setInt(2, activationAccount.getStudent().getCode());
+                prSt.setString(3, activationAccount.getToken());
+                prSt.setString(4, activationAccount.getPlainPassword());
+            return prSt;
+        });
+    }
+    public ArrayList<HashMap<String, String>> activeAccountStudent(
+            final ActivationAccountStudentDTO activationAccount) {
+        return doActionQuery((cnObj, prSt) -> {
+            prSt = cnObj.prepareStatement(ProceduresDB.ACTIVE_ACCOUNT_STUDENT);
+                prSt.setString(1, activationAccount.getToken());
             return prSt;
         });
     }

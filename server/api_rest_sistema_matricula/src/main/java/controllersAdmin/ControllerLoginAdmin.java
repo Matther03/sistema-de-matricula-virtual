@@ -23,7 +23,6 @@ public class ControllerLoginAdmin extends HttpServlet {
     @Override
     public void destroy() {  jwtAuth = null; }
     
-    //<editor-fold defaultstate="collapsed" desc="HTTP Methods">
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -31,18 +30,16 @@ public class ControllerLoginAdmin extends HttpServlet {
         final FormatResponse formatResponse = verifyAccountAdmin(body);
         HelperController.templatePrintable(formatResponse, response);
     }
-    //</editor-fold>
-    
-    //<editor-fold defaultstate="collapsed" desc="Helpers HTTP methods">
     private FormatResponse verifyAccountAdmin(final JsonObject body) {
-        // Validando respuesta
         if (body == null)
             return FormatResponse.getErrorResponse("The request body doesn't have json format", 400);
-        final JsonElement user = body.get("user"), password = body.get("password");
+        final JsonElement 
+                user = body.get("user"),
+                password = body.get("password");
+        
         if (user == null || password == null) 
             return FormatResponse.getErrorResponse("Mising parameters", 400);
         
-        // Armando dto para verificar cuenta
         final AdminAccountDTO accountToLogin = new AdminAccountDTO(
                 user.getAsString(), 
                 password.getAsString()
@@ -51,18 +48,13 @@ public class ControllerLoginAdmin extends HttpServlet {
         final boolean isValid = adminLoginEntity.isValidAccount(accountToLogin);
         if (!isValid)
             return FormatResponse.getErrorResponse("The parameters body aren't valid.", 400);
-        
-        
-        // Verificando cuenta del admin
-        final String token = adminLoginEntity.verifyAccount(accountToLogin, jwtAuth);
+        final String token = adminLoginEntity.verifyAccountAdmin(accountToLogin, jwtAuth);
         if (token == null)
             return FormatResponse.getErrorResponse("The account credentials don't match.", 401);
         
-        // Respondiendo token
         final JsonObject objToken = new JsonObject();
         objToken.addProperty("token", token);
         
         return FormatResponse.getSuccessResponse(objToken);
     }
-    //</editor-fold>
 }
