@@ -2,7 +2,8 @@
 import { 
     Routes, 
     Route, 
-    Navigate 
+    Navigate, 
+    useLocation 
 } from "react-router-dom";
 //#endregion
 //#region Styles
@@ -16,7 +17,7 @@ import StudentRoot from "./studentRoot/StudentRoot";
 import NewStudent from "./newStudent/NewStudent";
 //#endregion
 
-const informationInternalNav = (() => {
+export const informationInternalNav = (() => {
     const root = "/admin/registro/alumno";
     return [
         { path: `/admin/home`, nameRoute: "INICIO" }, 
@@ -26,9 +27,15 @@ const informationInternalNav = (() => {
 })();
 
 const Student = () => {
+    const location = useLocation();
+    const isNewStudentViewPath = () => {
+        const { pathname } = location;
+        return pathname.includes("/admin/registro/alumno/nuevo");
+    }
     return (
         <>
-            <InternalNav information={informationInternalNav}/>
+            {!isNewStudentViewPath() &&  
+                <InternalNav information={informationInternalNav}/>}
             <Container>
                 <Routes>
                     <Route
