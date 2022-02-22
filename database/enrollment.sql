@@ -66,14 +66,6 @@ CREATE TABLE payment(
     FOREIGN KEY (code_student) REFERENCES student(code_student)
 );
 
-DROP TABLE IF EXISTS register_new_student;
-CREATE TABLE register_new_student(
-    code_register INT(5) AUTO_INCREMENT,
-    code_account INT(10) NOT NULL,
-    PRIMARY KEY(code_register),
-    FOREIGN KEY (code_account) REFERENCES account(code_account)
-);
-
 DROP TABLE IF EXISTS shift;
 CREATE TABLE shift(
     code_shift TINYINT(1) AUTO_INCREMENT,
@@ -919,7 +911,7 @@ BEGIN
         UPDATE student SET active = 1 WHERE student.code_student = __code_student;
         SET __plain_password = (SELECT plain_password FROM activation_account_student WHERE activation_account_student.code_student = __code_student);
         DELETE FROM activation_account_student WHERE activation_account_student.code_student = __code_student;
-        SELECT __plain_password AS 'RES';
+        SELECT __plain_password AS 'plain_password', __code_student AS 'code_student';
     ELSE
         SELECT 'ERROR' AS 'RES';
     END IF;
