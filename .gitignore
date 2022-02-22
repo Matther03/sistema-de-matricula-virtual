@@ -8,7 +8,7 @@
 /server/api_rest_sistema_matricula/target/api_rest_sistema_matricula-1.0/WEB-INF/classes
 /server/api_rest_sistema_matricula/target/api_rest_sistema_matricula-1.0.war
 /server/api_rest_sistema_matricula/target/maven-archiver/pom.properties
-
+/server/api_rest_sistema_matricula/src/main/java/utils/email/emailPassword.txt
 
 # testing
 /coverage
