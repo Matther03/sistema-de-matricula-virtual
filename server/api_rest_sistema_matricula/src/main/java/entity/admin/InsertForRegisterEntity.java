@@ -1,6 +1,5 @@
 package entity.admin;
 
-import utils.RandomString;
 import com.google.gson.JsonObject;
 import dto.student.ActivationAccountStudentDTO;
 import dto.student.RepresentativeDTO;
@@ -9,11 +8,20 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import model.AdminModel;
-import static utils.Encrypt.doEncrypt;
-import utils.validation.Validation;
+import utils.Encrypt;
 import static utils.validation.Validation.isNullPropertyOfJson;
 
 public class InsertForRegisterEntity {
+    
+    public RepresentativeDTO getEmailRepresentative(final Integer codeStudent){
+        final ArrayList<HashMap<String,String>> table = new AdminModel().getRepresentative(codeStudent);
+        return table.size() > 0 ? getRepresentativeDTOforRowHashMap(table.get(0)) : null;
+    }
+    private RepresentativeDTO getRepresentativeDTOforRowHashMap(HashMap<String, String> row) {
+        final RepresentativeDTO representative = new RepresentativeDTO();
+            representative.setEmail(row.get("email"));
+        return representative;
+    }
     
     public boolean insertRepresentative(final RepresentativeDTO representative) {
         try {
@@ -42,27 +50,34 @@ public class InsertForRegisterEntity {
             return false;
         }
     }
-    public boolean doAccountStudent(final ActivationAccountStudentDTO activationAccount) {
+    public boolean doAccountStudent(
+            final ActivationAccountStudentDTO activationAccount) {
         try {
-            RandomString generateToken = new RandomString();
-            final String token = generateToken.generate(25);
-            final String encryptedPassword = doEncrypt(activationAccount.getPlainPassword());
+            final String encryptedPassword = Encrypt.doEncrypt(activationAccount.getPlainPassword());
             ArrayList<HashMap<String, String>> table = new AdminModel().doAccountStudent(
-                    activationAccount,token,encryptedPassword);
+                    activationAccount, 
+                    encryptedPassword);
+            
             return "SUCCESS".equals(table.get(0).get("RES"));
         } catch (Exception e) {
             return false;
         }
     }
-    //FALTA
-    public String activeAccountStudent(final ActivationAccountStudentDTO activationAccount) {
-        try {
-            ArrayList<HashMap<String, String>> table = new AdminModel().activeAccountStudent(activationAccount);
-            return table.get(0).get("RES");
-        } catch (Exception e) {
-            return null;
-        }
+    
+    final public ActivationAccountStudentDTO activeAccountStudent(final String token ) {
+            final ArrayList<HashMap<String, String>> table = new AdminModel().activeAccountStudent(token);
+            return "ERROR".equals(table.get(0).get("RES")) ? null : getActiveAccountRowHashMap(table.get(0));
     }
+    
+    private ActivationAccountStudentDTO getActiveAccountRowHashMap(HashMap<String, String> row) {
+        final ActivationAccountStudentDTO activationAccount = new ActivationAccountStudentDTO();
+            StudentDTO student = new StudentDTO();
+            student.setCode(Integer.parseInt(row.get("code_student")));
+            activationAccount.setStudent(student);
+            activationAccount.setPlainPassword(row.get("plain_password"));
+        return activationAccount;
+    }
+    
     //<editor-fold defaultstate="collapsed" desc="Activation for Do Account Student">
     public String validateStudentForDoAccountStudent(JsonObject jObj, ActivationAccountStudentDTO activationAccountStudent) {
         try {
@@ -70,11 +85,6 @@ public class InsertForRegisterEntity {
                     (!isNullPropertyOfJson(jObj, "codeStudent") &&  
                         !isValidPropertyValueInteger(jObj.get("codeStudent").getAsInt(), 1, null)))
                 return validateRepresentativeErrorMsg("codeStudent");
-            //Validacion de contraseña ---> temporal
-            if (isNullPropertyOfJson(jObj, "password") ||
-                    (!isNullPropertyOfJson(jObj, "password") &&  
-                        !Validation.isValidPassword(jObj.get("password").getAsString())))
-                return validateRepresentativeErrorMsg("password");
         }
         catch (NumberFormatException ex) {
             return "Error parsing to number | " + ex.getMessage();
@@ -82,7 +92,6 @@ public class InsertForRegisterEntity {
         StudentDTO student = new StudentDTO();
         student.setCode(jObj.get("codeStudent").getAsInt());
         activationAccountStudent.setStudent(student);
-        activationAccountStudent.setPlainPassword(jObj.get("password").getAsString());
         return null;
     }
     //</editor-fold >
@@ -268,5 +277,9 @@ public class InsertForRegisterEntity {
     }
     private String validateRepresentativeErrorMsg(final String noValidParameterName) {
         return "The " + noValidParameterName + " is not a valid parameter.";
+    }
+    
+    public boolean validateToken (final String token){
+        return isValidPropertyValueString(token,25,25);
     }
 }

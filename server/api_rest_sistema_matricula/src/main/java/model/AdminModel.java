@@ -5,7 +5,9 @@ import dto.admin.AdminAccountDTO;
 import dto.student.ActivationAccountStudentDTO;
 import dto.student.RepresentativeDTO;
 import dto.student.StudentDTO;
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -127,24 +129,23 @@ public class AdminModel extends ModelParent {
     }
 
     public ArrayList<HashMap<String, String>> doAccountStudent(
-            final ActivationAccountStudentDTO activationAccount,final String token,final String encryptedPassword) {
-        return doActionQuery((cnObj, prSt) -> {
+            final ActivationAccountStudentDTO activationAccount,
+            final String encryptedPassword) {
+        return doActionQuery((Connection cnObj, PreparedStatement prSt) -> {
             prSt = cnObj.prepareStatement(ProceduresDB.DO_ACCOUNT_STUDENT);
                 prSt.setInt(1, activationAccount.getStudent().getCode());
-                prSt.setString(2, token);
+                prSt.setString(2, activationAccount.getToken());
                 prSt.setString(3, encryptedPassword);
                 prSt.setString(4, activationAccount.getPlainPassword());
             return prSt;
         });
     }
-    
-    //AUN FALTA USARLO
+
     public ArrayList<HashMap<String, String>> activeAccountStudent(
-            final ActivationAccountStudentDTO activationAccount) {
+            final String token) {
         return doActionQuery((cnObj, prSt) -> {
             prSt = cnObj.prepareStatement(ProceduresDB.ACTIVE_ACCOUNT_STUDENT);
-                prSt.setString(1, activationAccount.getToken());
-                System.out.println("Esto se envia al procedure _ "+activationAccount.getToken());
+                prSt.setString(1, token);
             return prSt;
         });
     }
