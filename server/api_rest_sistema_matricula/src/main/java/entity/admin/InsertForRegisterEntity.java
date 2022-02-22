@@ -1,6 +1,5 @@
 package entity.admin;
 
-import utils.RandomString;
 import com.google.gson.JsonObject;
 import dto.student.ActivationAccountStudentDTO;
 import dto.student.RepresentativeDTO;
@@ -62,6 +61,7 @@ public class InsertForRegisterEntity {
             return false;
         }
     }
+    
     public String activeAccountStudent(final ActivationAccountStudentDTO activationAccount) {
         try {
             ArrayList<HashMap<String, String>> table = new AdminModel().activeAccountStudent(activationAccount);

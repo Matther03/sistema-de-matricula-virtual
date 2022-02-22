@@ -65,8 +65,8 @@ public class ControllerDoAccountStudent extends HttpServlet {
         final int codeStudent = detailsStudent.getCode();
         
         //
-
-        final RepresentativeDTO representative = insertForRegisterEntity.getEmailRepresentative(codeStudent);
+        
+        final RepresentativeDTO representative = insertForRegisterEntity.getEmailRepresentative(1);
         //Envio de Token al Representante
         final boolean emailSender =new EmailSender().send(representative.getEmail(), "Su Contraseña", activeAccount);
         if (!emailSender)
@@ -102,6 +102,8 @@ public class ControllerDoAccountStudent extends HttpServlet {
         
         //Obtención de correo del apoderado 
         final int codigo = activationAccountStudent.getStudent().getCode();
+        
+        
         final RepresentativeDTO representative = insertForRegisterEntity.getEmailRepresentative(codigo);
         //Envio de Token al Representante
         final boolean emailSender =new EmailSender().send(representative.getEmail(), "Su token", token);
