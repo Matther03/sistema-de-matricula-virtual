@@ -17,6 +17,7 @@ import utils.FormatResponse;
 import utils.HelperController;
 import utils.RandomString;
 import utils.email.EmailSender;
+import utils.email.EmailTemplate;
 
 @WebServlet(name = "ControllerDoAccountStudent", urlPatterns = {"/api/student/generate-account"})
 public class ControllerDoAccountStudent extends HttpServlet {
@@ -60,7 +61,9 @@ public class ControllerDoAccountStudent extends HttpServlet {
         
         final RepresentativeDTO representative = insertForRegisterEntity.getEmailRepresentative(codeStudent);
         //Envio de Token al Representante
-        final boolean emailSender =new EmailSender().send(representative.getEmail(), "Su Contraseña", password);
+        
+        final String content = EmailTemplate.getActivatedAccount(password) ;
+        final boolean emailSender =new EmailSender().send(representative.getEmail(), "Cuenta Activada", content);
         if (!emailSender)
             return FormatResponse.getErrorResponse("Error sending mail. ", 400);
         
@@ -82,7 +85,8 @@ public class ControllerDoAccountStudent extends HttpServlet {
             return FormatResponse.getErrorResponse(msgError, 400);
         
         RandomString generateToken = new RandomString();
-            final String password = generateToken.generate(8);
+            //final String password = generateToken.generate(9);
+            final String password = "Hola1234";
             final String token = generateToken.generate(25);
         //Validación de activacion
         
@@ -98,7 +102,8 @@ public class ControllerDoAccountStudent extends HttpServlet {
         
         final RepresentativeDTO representative = insertForRegisterEntity.getEmailRepresentative(codigo);
         //Envio de Token al Representante
-        final boolean emailSender =new EmailSender().send(representative.getEmail(), "Su token", token);
+        final String content = EmailTemplate.getDoAccount(token) ;
+        final boolean emailSender =new EmailSender().send(representative.getEmail(), "Activar Cuenta", content);
         if (!emailSender)
             return FormatResponse.getErrorResponse("Error sending mail. ", 400);
         

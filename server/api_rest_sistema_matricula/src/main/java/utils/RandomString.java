@@ -6,8 +6,8 @@ import java.util.Collections;
 
 public class RandomString {
     private String[] charGroups = { 
-        "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ", 
-        "abcdefghijklmnñopqrstuvwxyz",  
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ", 
+        "abcdefghijklmnopqrstuvwxyz",  
         "1234567890" 
     };
     public String generate(int length){

@@ -50,12 +50,19 @@ public class InsertForRegisterEntity {
             return false;
         }
     }
-    public boolean doAccountStudent(final ActivationAccountStudentDTO activationAccount,
-            final String password, final String token) {
+    public boolean doAccountStudent(
+            final ActivationAccountStudentDTO activationAccount,
+            final String password, 
+            final String token) {
         try {
             final String encryptedPassword = doEncrypt(activationAccount.getPlainPassword());
             ArrayList<HashMap<String, String>> table = new AdminModel().doAccountStudent(
-                    activationAccount,token,encryptedPassword,password);
+                    activationAccount, 
+                    token,
+                    encryptedPassword,
+                    password);
+            System.out.println(encryptedPassword + " | " + password);
+            
             return "SUCCESS".equals(table.get(0).get("RES"));
         } catch (Exception e) {
             return false;

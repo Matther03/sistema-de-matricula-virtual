@@ -37,6 +37,7 @@ public class StudentEntity {
         if (notExistsAccount) 
             return null;
         final boolean matched = Encrypt.matchWithHashedValue(password, hashedPassword);
+        System.out.println(matched);
         if (!matched)
             return null;
         return jwtAuth.getToken(dni, RoleAuthJWT.STUDENT_ROLE);
