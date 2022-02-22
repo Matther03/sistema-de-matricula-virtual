@@ -8,7 +8,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import model.AdminModel;
-import static utils.Encrypt.doEncrypt;
+import utils.Encrypt;
 import static utils.validation.Validation.isNullPropertyOfJson;
 
 public class InsertForRegisterEntity {
@@ -51,17 +51,12 @@ public class InsertForRegisterEntity {
         }
     }
     public boolean doAccountStudent(
-            final ActivationAccountStudentDTO activationAccount,
-            final String password, 
-            final String token) {
+            final ActivationAccountStudentDTO activationAccount) {
         try {
-            final String encryptedPassword = doEncrypt(activationAccount.getPlainPassword());
+            final String encryptedPassword = Encrypt.doEncrypt(activationAccount.getPlainPassword());
             ArrayList<HashMap<String, String>> table = new AdminModel().doAccountStudent(
                     activationAccount, 
-                    token,
-                    encryptedPassword,
-                    password);
-            System.out.println(encryptedPassword + " | " + password);
+                    encryptedPassword);
             
             return "SUCCESS".equals(table.get(0).get("RES"));
         } catch (Exception e) {

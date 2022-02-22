@@ -13,7 +13,8 @@ public class ControllerAuthenticationPatterns {
         "/student/register",
         "/student/representative",
         "/student/update",
-        "/student/generate-account"
+        "/student/generate-account",
+        "/student/activate-account"
     };
     public static String ROOT = "/api_rest_sistema_matricula/api";
 }

@@ -129,14 +129,14 @@ public class AdminModel extends ModelParent {
     }
 
     public ArrayList<HashMap<String, String>> doAccountStudent(
-            final ActivationAccountStudentDTO activationAccount,final String token,
-            final String encryptedPassword, final String password) {
+            final ActivationAccountStudentDTO activationAccount,
+            final String encryptedPassword) {
         return doActionQuery((Connection cnObj, PreparedStatement prSt) -> {
             prSt = cnObj.prepareStatement(ProceduresDB.DO_ACCOUNT_STUDENT);
                 prSt.setInt(1, activationAccount.getStudent().getCode());
-                prSt.setString(2, token);
+                prSt.setString(2, activationAccount.getToken());
                 prSt.setString(3, encryptedPassword);
-                prSt.setString(4, password);
+                prSt.setString(4, activationAccount.getPlainPassword());
             return prSt;
         });
     }
