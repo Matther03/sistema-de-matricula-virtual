@@ -62,13 +62,18 @@ public class InsertForRegisterEntity {
         }
     }
     
-    public String activeAccountStudent(final ActivationAccountStudentDTO activationAccount) {
-        try {
-            ArrayList<HashMap<String, String>> table = new AdminModel().activeAccountStudent(activationAccount);
-            return table.get(0).get("RES");
-        } catch (Exception e) {
-            return null;
-        }
+    final public ActivationAccountStudentDTO activeAccountStudent(final String token ) {
+            final ArrayList<HashMap<String, String>> table = new AdminModel().activeAccountStudent(token);
+            return "ERROR".equals(table.get(0).get("RES")) ? null : getActiveAccountRowHashMap(table.get(0));
+    }
+    
+    private ActivationAccountStudentDTO getActiveAccountRowHashMap(HashMap<String, String> row) {
+        final ActivationAccountStudentDTO activationAccount = new ActivationAccountStudentDTO();
+            StudentDTO student = new StudentDTO();
+            student.setCode(Integer.parseInt(row.get("code_student")));
+            activationAccount.setStudent(student);
+            activationAccount.setPlainPassword(row.get("plain_password"));
+        return activationAccount;
     }
     
     //<editor-fold defaultstate="collapsed" desc="Activation for Do Account Student">

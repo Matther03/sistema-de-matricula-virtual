@@ -140,13 +140,12 @@ public class AdminModel extends ModelParent {
             return prSt;
         });
     }
-    
-    //AUN FALTA USARLO
+
     public ArrayList<HashMap<String, String>> activeAccountStudent(
-            final ActivationAccountStudentDTO activationAccount) {
+            final String token) {
         return doActionQuery((cnObj, prSt) -> {
             prSt = cnObj.prepareStatement(ProceduresDB.ACTIVE_ACCOUNT_STUDENT);
-                prSt.setString(1, activationAccount.getToken());
+                prSt.setString(1, token);
             return prSt;
         });
     }

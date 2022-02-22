@@ -50,25 +50,17 @@ public class ControllerDoAccountStudent extends HttpServlet {
         if (!validToken)
             return FormatResponse.getErrorResponse("The token is not valid.", 400);
         
-        final ActivationAccountStudentDTO activationAccountStudent = new ActivationAccountStudentDTO();
-        activationAccountStudent.setToken(token);
-        
-        final String activeAccount = insertForRegisterEntity.activeAccountStudent(activationAccountStudent);
-        if ("ERROR".equals(activeAccount)) 
+        final ActivationAccountStudentDTO activeAccount = insertForRegisterEntity.activeAccountStudent(token);
+        if (activeAccount == null) 
             return FormatResponse.getErrorResponse("The account is active.", 400);
         
-        //
-        final StudentEntity studentEntity = new StudentEntity();
-        final StudentDTO student = new StudentDTO();
-        student.setDni(dni);
-        final StudentDTO detailsStudent = studentEntity.getDetailStudent(student);
-        final int codeStudent = detailsStudent.getCode();
+        final int codeStudent = activeAccount.getStudent().getCode();
+        final String password = activeAccount.getPlainPassword();
+   
         
-        //
-        
-        final RepresentativeDTO representative = insertForRegisterEntity.getEmailRepresentative(1);
+        final RepresentativeDTO representative = insertForRegisterEntity.getEmailRepresentative(codeStudent);
         //Envio de Token al Representante
-        final boolean emailSender =new EmailSender().send(representative.getEmail(), "Su Contraseña", activeAccount);
+        final boolean emailSender =new EmailSender().send(representative.getEmail(), "Su Contraseña", password);
         if (!emailSender)
             return FormatResponse.getErrorResponse("Error sending mail. ", 400);
         
