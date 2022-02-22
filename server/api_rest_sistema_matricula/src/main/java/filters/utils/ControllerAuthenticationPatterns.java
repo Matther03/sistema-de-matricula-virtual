@@ -11,7 +11,6 @@ public class ControllerAuthenticationPatterns {
     };
     public static String[] ADMIN_PATHS = {
         "/student/register",
-        "/student/sections",
         "/student/representative",
         "/student/update",
         "/student/account"
