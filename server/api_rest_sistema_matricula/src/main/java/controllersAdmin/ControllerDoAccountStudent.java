@@ -2,6 +2,7 @@ package controllersAdmin;
 
 import com.google.gson.JsonObject;
 import dto.student.ActivationAccountStudentDTO;
+import dto.student.RepresentativeDTO;
 
 import entity.admin.InsertForRegisterEntity;
 import java.io.IOException;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import utils.FormatResponse;
 import utils.HelperController;
+import utils.RandomString;
 
 @WebServlet(name = "ControllerDoAccountStudent", urlPatterns = {"/api/student/generate-account"})
 public class ControllerDoAccountStudent extends HttpServlet {
@@ -50,8 +52,6 @@ public class ControllerDoAccountStudent extends HttpServlet {
         if ("ERROR".equals(activeAccount)) 
             return FormatResponse.getErrorResponse("The account is active.", 400);
         return FormatResponse.getSuccessResponse(activeAccount);
-        
-        
     }
  
     
@@ -68,10 +68,23 @@ public class ControllerDoAccountStudent extends HttpServlet {
         if (msgError != null) 
             return FormatResponse.getErrorResponse(msgError, 400);
         
+        RandomString generateToken = new RandomString();
+            final String password = generateToken.generate(8);
+            final String token = generateToken.generate(25);
         //Validación de activacion
-        final Boolean responseUpdateStudent = insertForRegisterEntity.doAccountStudent(activationAccountStudent);
-        if (!responseUpdateStudent) 
+        
+        final Boolean responseDoAccount = insertForRegisterEntity.doAccountStudent(
+                activationAccountStudent, password, token);
+        if (!responseDoAccount) 
             return FormatResponse.getErrorResponse("the student code does not exist", 400);
-        return FormatResponse.getSuccessResponse(responseUpdateStudent);
+        
+        //Obtención de correo del apoderado 
+        final int codigo = activationAccountStudent.getStudent().getCode();
+        final RepresentativeDTO correo = insertForRegisterEntity.getEmailRepresentative(codigo);
+        final String correo2 = correo.getEmail();
+        
+        //Envio de Token al Representante
+        
+        return FormatResponse.getSuccessResponse(responseDoAccount);
     }
 }

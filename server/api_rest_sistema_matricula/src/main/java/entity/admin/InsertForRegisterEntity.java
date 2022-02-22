@@ -14,6 +14,16 @@ import static utils.validation.Validation.isNullPropertyOfJson;
 
 public class InsertForRegisterEntity {
     
+    public RepresentativeDTO getEmailRepresentative(final Integer codeStudent){
+        final ArrayList<HashMap<String,String>> table = new AdminModel().getRepresentative(codeStudent);
+        return table.size() > 0 ? getRepresentativeDTOforRowHashMap(table.get(0)) : null;
+    }
+    private RepresentativeDTO getRepresentativeDTOforRowHashMap(HashMap<String, String> row) {
+        final RepresentativeDTO representative = new RepresentativeDTO();
+            representative.setEmail(row.get("email"));
+        return representative;
+    }    
+    
     public boolean insertRepresentative(final RepresentativeDTO representative) {
         try {
             ArrayList<HashMap<String, String>> table = new AdminModel().insertRepresentative(representative);
@@ -41,11 +51,9 @@ public class InsertForRegisterEntity {
             return false;
         }
     }
-    public boolean doAccountStudent(final ActivationAccountStudentDTO activationAccount) {
+    public boolean doAccountStudent(final ActivationAccountStudentDTO activationAccount,
+            final String password, final String token) {
         try {
-            RandomString generateToken = new RandomString();
-            final String password = generateToken.generate(8);
-            final String token = generateToken.generate(25);
             final String encryptedPassword = doEncrypt(activationAccount.getPlainPassword());
             ArrayList<HashMap<String, String>> table = new AdminModel().doAccountStudent(
                     activationAccount,token,encryptedPassword,password);

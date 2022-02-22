@@ -147,7 +147,6 @@ public class AdminModel extends ModelParent {
         return doActionQuery((cnObj, prSt) -> {
             prSt = cnObj.prepareStatement(ProceduresDB.ACTIVE_ACCOUNT_STUDENT);
                 prSt.setString(1, activationAccount.getToken());
-                System.out.println("Esto se envia al procedure _ "+activationAccount.getToken());
             return prSt;
         });
     }

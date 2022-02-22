@@ -1,10 +1,8 @@
 package entity;
 
-import com.google.gson.JsonObject;
 import utils.delegates.DelegateReturnWithOneParameter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.regex.Pattern;
 
 public final class EntityHelper {
     public static Object[] hashMapArrayListToObjArray(
