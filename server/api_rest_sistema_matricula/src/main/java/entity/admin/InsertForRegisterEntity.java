@@ -22,7 +22,7 @@ public class InsertForRegisterEntity {
         final RepresentativeDTO representative = new RepresentativeDTO();
             representative.setEmail(row.get("email"));
         return representative;
-    }    
+    }
     
     public boolean insertRepresentative(final RepresentativeDTO representative) {
         try {
