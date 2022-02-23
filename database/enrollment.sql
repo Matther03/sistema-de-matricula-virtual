@@ -884,12 +884,14 @@ END
 DROP PROCEDURE IF EXISTS sp_do_account_student;
 DELIMITER //
 CREATE PROCEDURE sp_do_account_student(
-    IN __code_student INT(6),
+    IN __dni CHAR(8),
     IN __token CHAR(25),
     IN __encrypted_password CHAR(60),
     IN __plain_password VARCHAR(16)
 ) 
 BEGIN
+    DECLARE __code_student INT(6);
+    SET __code_student = (SELECT code_student FROM student WHERE student.dni = __dni);
     INSERT INTO account(_password,code_student) VALUES(__encrypted_password,__code_student);
     INSERT INTO activation_account_student(token,plain_password,code_student) VALUES(__token,__plain_password,__code_student);
     SELECT 'SUCCESS' AS 'RES';
