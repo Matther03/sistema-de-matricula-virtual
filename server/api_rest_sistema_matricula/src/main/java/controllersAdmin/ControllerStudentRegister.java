@@ -20,8 +20,7 @@ public class ControllerStudentRegister extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        final JsonObject body = HelperController.getRequestBody(request);
-        final FormatResponse formatResponse = getRegisterStudents(body,request);
+        final FormatResponse formatResponse = getRegisterStudents(request);
         HelperController.templatePrintable(formatResponse, response);
     }   
     @Override
@@ -40,7 +39,7 @@ public class ControllerStudentRegister extends HttpServlet {
         HelperController.templatePrintable(formatResponse, response);
     }
     
-    private FormatResponse getRegisterStudents(final JsonObject body, final HttpServletRequest request ) {
+    private FormatResponse getRegisterStudents(final HttpServletRequest request) {
         final String limitTop = request.getParameter("limitTop"),
                 seeSize = request.getParameter("seeSize");
     

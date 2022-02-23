@@ -94,13 +94,13 @@ public class AdminModel extends ModelParent {
             final StudentDTO student) {
         return doActionQuery((cnObj, prSt) -> {
             prSt = cnObj.prepareStatement(ProceduresDB.INSERT_STUDENT);
-                prSt.setString(1, student.getName());
-                prSt.setString(2, student.getFatherSurname());
-                prSt.setString(3, student.getMotherSurname());
-                prSt.setDate(4, new Date(student.getDateBirth()));
-                prSt.setString(5, student.getDni());
-                prSt.setString(6, student.getAddress());
-                prSt.setString(7, student.getRepresentative().getDni());
+            prSt.setString(1, student.getName());
+            prSt.setString(2, student.getFatherSurname());
+            prSt.setString(3, student.getMotherSurname());
+            prSt.setDate(4, new Date(student.getDateBirth()));
+            prSt.setString(5, student.getDni());
+            prSt.setString(6, student.getAddress());
+            prSt.setString(7, student.getRepresentative().getDni());
             return prSt;
         });
     }
@@ -109,12 +109,12 @@ public class AdminModel extends ModelParent {
             final RepresentativeDTO representative) {
         return doActionQuery((cnObj, prSt) -> {
             prSt = cnObj.prepareStatement(ProceduresDB.INSERT_REPRESENTATIVE);
-                prSt.setString(1, representative.getName());
-                prSt.setString(2, representative.getFatherSurname());
-                prSt.setString(3, representative.getMotherSurname());
-                prSt.setString(4, representative.getDni());
-                prSt.setString(5, representative.getEmail());
-                prSt.setString(6, representative.getPhone());
+            prSt.setString(1, representative.getName());
+            prSt.setString(2, representative.getFatherSurname());
+            prSt.setString(3, representative.getMotherSurname());
+            prSt.setString(4, representative.getDni());
+            prSt.setString(5, representative.getEmail());
+            prSt.setString(6, representative.getPhone());
             return prSt;
         });
     }
@@ -123,7 +123,7 @@ public class AdminModel extends ModelParent {
             final AdminAccountDTO adminAcount) {
         return doActionQuery((cnObj, prSt) -> {
             prSt = cnObj.prepareStatement(ProceduresDB.VERIFY_ACOUNT_ADMIN);
-                prSt.setString(1, adminAcount.getUser());
+            prSt.setString(1, adminAcount.getUser());
             return prSt;
         });
     }
@@ -133,10 +133,10 @@ public class AdminModel extends ModelParent {
             final String encryptedPassword) {
         return doActionQuery((Connection cnObj, PreparedStatement prSt) -> {
             prSt = cnObj.prepareStatement(ProceduresDB.DO_ACCOUNT_STUDENT);
-                prSt.setInt(1, activationAccount.getStudent().getCode());
-                prSt.setString(2, activationAccount.getToken());
-                prSt.setString(3, encryptedPassword);
-                prSt.setString(4, activationAccount.getPlainPassword());
+            prSt.setString(1, activationAccount.getStudent().getDni());
+            prSt.setString(2, activationAccount.getToken());
+            prSt.setString(3, encryptedPassword);
+            prSt.setString(4, activationAccount.getPlainPassword());
             return prSt;
         });
     }
@@ -145,7 +145,7 @@ public class AdminModel extends ModelParent {
             final String token) {
         return doActionQuery((cnObj, prSt) -> {
             prSt = cnObj.prepareStatement(ProceduresDB.ACTIVE_ACCOUNT_STUDENT);
-                prSt.setString(1, token);
+            prSt.setString(1, token);
             return prSt;
         });
     }

@@ -80,17 +80,12 @@ public class InsertForRegisterEntity {
     
     //<editor-fold defaultstate="collapsed" desc="Activation for Do Account Student">
     public String validateStudentForDoAccountStudent(JsonObject jObj, ActivationAccountStudentDTO activationAccountStudent) {
-        try {
-            if (isNullPropertyOfJson(jObj, "codeStudent") ||
-                    (!isNullPropertyOfJson(jObj, "codeStudent") &&  
-                        !isValidPropertyValueInteger(jObj.get("codeStudent").getAsInt(), 1, null)))
-                return validateRepresentativeErrorMsg("codeStudent");
-        }
-        catch (NumberFormatException ex) {
-            return "Error parsing to number | " + ex.getMessage();
-        }
-        StudentDTO student = new StudentDTO();
-        student.setCode(jObj.get("codeStudent").getAsInt());
+        if (isNullPropertyOfJson(jObj, "dni") ||
+                (!isNullPropertyOfJson(jObj, "dni") &&  
+                    !isValidPropertyValueString(jObj.get("dni").getAsString(), 8, 8)))
+            return validateRepresentativeErrorMsg("dni");
+        final StudentDTO student = new StudentDTO();
+        student.setDni(jObj.get("dni").getAsString());
         activationAccountStudent.setStudent(student);
         return null;
     }

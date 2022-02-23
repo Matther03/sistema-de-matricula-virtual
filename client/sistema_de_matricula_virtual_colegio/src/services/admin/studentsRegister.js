@@ -7,10 +7,23 @@ export const getStudents = async (limitTop, seeSize = false) => {
 }
 export const getRepresentative = async (codeStudent) => {
     return await doRequestAdmin(
-        `/student/representative?codeStudent=${codeStudent}`, "GET");
+        `/student/representative?codeStudent=${codeStudent}`, 
+        "GET");
 }
-export const updateStudent = async (student) => {
+export const updateStudent = async (data) => {
     return await doRequestAdmin(
-        `/student/register`, "PUT", student);
+        "/student/register", "PUT", 
+        data);
+}
+export const addStudent = async (data) => {
+    return await doRequestAdmin(
+        "/student/register", "POST", 
+        data);
+}
+export const addRepresentative = async (data) => {
+    return await doRequestAdmin(
+        "/student/insert-representative", "POST", 
+        data 
+    );
 }
 // #endregion
