@@ -22,11 +22,17 @@ export const ContainerCardLinkServiceCampus = styled(Link)`
 `;
 export const TitleCardLinkServiceCampus = styled.article`
     display: flex;
+    flex-direction: column;
     align-items: center;
     gap: 10px;
+    & .iconify {
+        font-size: 100px;
+        color: #000000;
+    }
     & h4 {
         color: #000000;
-        font-size: 32px;    
+        font-size: 24px;    
         font-weight: 600;
+        margin: 0;
     }
 `;

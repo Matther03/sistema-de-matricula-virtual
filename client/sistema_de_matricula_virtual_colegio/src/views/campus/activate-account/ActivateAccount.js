@@ -30,7 +30,8 @@ const AccountActivation = () => {
                     <footer>
                         <CustomButton
                             type="submit"
-                            text="OK"/>
+                            text="OK"
+                            />
                     </footer>
                 </SuccessInfo>
             </CardContainer>
