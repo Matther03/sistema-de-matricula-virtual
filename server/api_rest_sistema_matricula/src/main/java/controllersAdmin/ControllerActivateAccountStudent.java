@@ -1,12 +1,8 @@
 
 package controllersAdmin;
 
-import com.google.gson.JsonObject;
 import dto.student.ActivationAccountStudentDTO;
 import dto.student.RepresentativeDTO;
-import dto.student.StudentDTO;
-import entity.StudentEntity;
-
 import entity.admin.InsertForRegisterEntity;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -16,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import utils.FormatResponse;
 import utils.HelperController;
-import utils.RandomString;
 import utils.email.EmailSender;
 import utils.email.EmailTemplate;
 
@@ -46,11 +41,8 @@ public class ControllerActivateAccountStudent extends HttpServlet {
         if (activeAccount == null) 
             return FormatResponse.getErrorResponse("The token doesn't match with any register.", 400);
         
-        final int codeStudent = activeAccount.getStudent().getCode();
         final String password = activeAccount.getPlainPassword();
-   
-        
-        final RepresentativeDTO representative = insertForRegisterEntity.getEmailRepresentative(codeStudent);
+        final RepresentativeDTO representative = insertForRegisterEntity.getEmailRepresentativeByCodeStudent(activeAccount);
         //Envio de Token al Representante
         
         final String content = EmailTemplate.getActivatedAccount(password) ;

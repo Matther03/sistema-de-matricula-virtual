@@ -14,7 +14,7 @@ import Home from "../views/campus/home/Home";
 import Enrollment from '../views/campus/enrollment/Enrollment';
 import Intranet from '../views/campus/intranet/Intranet';
 import AulaVirtual from '../views/campus/aula-virtual/AulaVirtual';
-import ActivarCuenta from '../views/campus/activate-account/ActivateAccount'
+import ActivateAccount from '../views/campus/activate-account/ActivateAccount'
 import { RouteProtectedStudent } from '../components/general/RouteProtected';
 //#endregion
 //#region Utils
@@ -56,8 +56,8 @@ const Campus = () => {
                         <AulaVirtual/>
                     </RouteProtectedStudent>}/>
             <Route 
-                path="activar-cuenta"
-                element={<ActivarCuenta/>}/>
+                path="activar-cuenta/:token"
+                element={<ActivateAccount/>}/>
             <Route 
                 path="*"
                 element={<Navigate to="/campus/home" replace={true}/>}/>

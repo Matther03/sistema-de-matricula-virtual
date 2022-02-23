@@ -1,4 +1,5 @@
 import { doRequestAdmin } from "./general";
+import { doRequest } from "../helpers";
 
 // #region Main
 export const getStudents = async (limitTop, seeSize = false) => {
@@ -7,10 +8,32 @@ export const getStudents = async (limitTop, seeSize = false) => {
 }
 export const getRepresentative = async (codeStudent) => {
     return await doRequestAdmin(
-        `/student/representative?codeStudent=${codeStudent}`, "GET");
+        `/student/representative?codeStudent=${codeStudent}`, 
+        "GET");
 }
-export const updateStudent = async (student) => {
+export const updateStudent = async (data) => {
     return await doRequestAdmin(
-        `/student/register`, "PUT", student);
+        "/student/register", "PUT", 
+        data);
+}
+export const addRepresentative = async (data) => {
+    return await doRequestAdmin(
+        "/student/insert-representative", "POST", 
+        data 
+    );
+}
+export const addStudent = async (data) => {
+    return await doRequestAdmin(
+        "/student/register", "POST", 
+        data);
+}
+export const generateStudentAccount = async (data) => {
+    return await doRequestAdmin(
+        "/student/generate-account", "POST", 
+        data);
+}
+export const activateStudentAccount = async (token) => {
+    return await doRequest(
+        `/student/activate-account?token=${token}`, "GET");
 }
 // #endregion

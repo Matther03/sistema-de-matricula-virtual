@@ -13,8 +13,14 @@ import static utils.validation.Validation.isNullPropertyOfJson;
 
 public class InsertForRegisterEntity {
     
-    public RepresentativeDTO getEmailRepresentative(final Integer codeStudent){
-        final ArrayList<HashMap<String,String>> table = new AdminModel().getRepresentative(codeStudent);
+    public RepresentativeDTO getEmailRepresentative(final ActivationAccountStudentDTO activationAccountStudent){
+        final String dni = activationAccountStudent.getStudent().getDni();
+        final ArrayList<HashMap<String,String>> table = new AdminModel().getRepresentativeEmail(dni);
+        return table.size() > 0 ? getRepresentativeDTOforRowHashMap(table.get(0)) : null;
+    }
+    public RepresentativeDTO getEmailRepresentativeByCodeStudent(final ActivationAccountStudentDTO activationAccountStudent){
+        final int code = activationAccountStudent.getStudent().getCode();
+        final ArrayList<HashMap<String,String>> table = new AdminModel().getRepresentative(code);
         return table.size() > 0 ? getRepresentativeDTOforRowHashMap(table.get(0)) : null;
     }
     private RepresentativeDTO getRepresentativeDTOforRowHashMap(HashMap<String, String> row) {
@@ -80,17 +86,12 @@ public class InsertForRegisterEntity {
     
     //<editor-fold defaultstate="collapsed" desc="Activation for Do Account Student">
     public String validateStudentForDoAccountStudent(JsonObject jObj, ActivationAccountStudentDTO activationAccountStudent) {
-        try {
-            if (isNullPropertyOfJson(jObj, "codeStudent") ||
-                    (!isNullPropertyOfJson(jObj, "codeStudent") &&  
-                        !isValidPropertyValueInteger(jObj.get("codeStudent").getAsInt(), 1, null)))
-                return validateRepresentativeErrorMsg("codeStudent");
-        }
-        catch (NumberFormatException ex) {
-            return "Error parsing to number | " + ex.getMessage();
-        }
-        StudentDTO student = new StudentDTO();
-        student.setCode(jObj.get("codeStudent").getAsInt());
+        if (isNullPropertyOfJson(jObj, "dni") ||
+                (!isNullPropertyOfJson(jObj, "dni") &&  
+                    !isValidPropertyValueString(jObj.get("dni").getAsString(), 8, 8)))
+            return validateRepresentativeErrorMsg("dni");
+        final StudentDTO student = new StudentDTO();
+        student.setDni(jObj.get("dni").getAsString());
         activationAccountStudent.setStudent(student);
         return null;
     }

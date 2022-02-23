@@ -11,156 +11,281 @@ import {
 //#endregion
 //#region Styles
 import { 
-    ContentFormInfoStudent,
-    CustomInputDate
-} from './styles';
+	CustomInputDate } from "./styles";
+import { 
+	Container,
+	Content, 
+	ContentGroup, 
+	StyledIcon } from "../components/styles";
 //#endregion
 //#region Components
 import CustomTextField from '../../../../../../general/customTextField/CustomTextField';
 import CustomButton from '../../../../../../general/customButton/CustomButton';
+import PopupMessage from "../../../../../../general/popupMessage/PopupMessage";
 //#endregion
 //#region Utils
-import { fieldsHaveErrors } from "../../../../../../../utils/validation";
+import { 
+	fieldsHaveErrors, 
+	handleKeyPressOnlyNumbers, 
+	regex } from "../../../../../../../utils/validation";
+import { getTimeMillis } from "../../../../../../../utils/date";
+//#endregion
+//#region Services
+import {
+	addStudent 
+} from "../../../../../../../services/admin/studentsRegister";
 //#endregion
 
+const regexForm = {
+	dni: regex.dni, 
+	name: regex.name,
+	fatherSurname: regex.surname,
+	motherSurname: regex.surname, 
+	address: regex.address,
+    dateBirth: regex.date 
+}
+const IconField = ({ icon }) => {
+	return (
+		<InputAdornment position="start">
+			<StyledIcon icon={icon}/>
+		</InputAdornment>
+	);
+}
+const ResolveMessage = ({ show, error = true, message }) => {
+	return (
+		show && 
+		<PopupMessage
+			className="form-new-student-message"
+			color={error ? "var(--seventh-color)" : "var(--verification)"} 
+			message={message}
+			iconName={error ? "clarity:error-line" : "bi:check-circle-fill"}/>
+	);
+}
+const typeStateResponse = {
+	ADDED: "ADDED", 
+	EXISTS: "EXISTS",
+	ERROR: "ERROR"
+};
+
 const FormInfoStudent = ({
-    nextForm
+    nextForm, 
+    dniRepresentative 
 }) => {
     //#region States
     const [form, setForm] = useState({
         dni: "",
-        fatherSurname: "",
         name: "",
+        fatherSurname: "",
         motherSurname: "",
-        address: "",
-        dateBirth: ""
+		address: "",
+        dateBirth: { 
+            strValue: "",
+            value: 0
+        }
     });
-    const [showNoMatchMessageLogin, setShowNoMatchMessageLogin] = useState(false);
     const [errors, setErrors] = useState({
         dni: false,
-        fatherSurname: false,
         name: false,
-        motherSurname: false,
-        address: false,
-        dateBirth: false
-    })
+        fatherSurname: false,
+        motherSurname: false, 
+		address: false, 
+        dateBirth: false 
+    });
+	const [showErrorMessage, setShowErrorMessage] = useState(false);
+	const [currentField, setCurrentField] = useState(null);
+	const [loadingSubmitRequest, setLoadingSubmitRequest] = useState(false);
+	const [stateResponse, setStateResponse] = useState("");
     //#endregion
+    //#region Effects
+	useEffect(() => {
+		// Iniciando valores de error en el form
+		Object.keys(errors).forEach(key => validateField(key));
+	}, []);
+	useEffect(() => {
+		if (!currentField)
+			return;
+		validateField(currentField);
+	}, [form[currentField]]);
+	//#endregion
     //#region Functions
-    const handleChangeTextField = (e, field) => {
-        const { value } = e.target;
+    const validateField = (field) => {
+        setErrors(prev => ({
+            ...prev,
+            [field]: !regexForm[field].test(field === "dateBirth" ? form[field].strValue : form[field])
+        }));
+    }
+    const resetFlow = () => {
+		if (!showErrorMessage) return;
+		setShowErrorMessage(false);
+		setStateResponse("");
+	}
+    const handleChangeField = (value, field) => {
+        resetFlow();
+        setCurrentField(field);
+        if (field !== "dateBirth") {
+            setForm(prev => ({
+                ...prev,
+                [field]: value
+            }));
+            return;
+        }
         setForm(prev => ({
             ...prev,
-            [field]: value
+            [field]: {
+                strValue: value, 
+                value: getTimeMillis(value)
+            }
         }));
-        showNoMatchMessageLogin && setShowNoMatchMessageLogin(false);
-    }
-    const handleDateValue = (e) => {
-        console.log(e.target.value)
-        const date = new Date(e.target.value.replace(/-/g,"/"));
-        //date.setMinutes(date.getMinutes()+date.getTimezoneOffset())
-        
-        const dateParsed = new Date(date.getTime());
-        console.log(dateParsed.getDate()+"/"+dateParsed.getMonth()+"/"+dateParsed.getFullYear());   
-        //const year = date.getFullYear();
-        //const month = String(date.getMonth()+1).padStart(2,'0');
-        //const todayDate = String(date.getDate()).padStart(2,'0');
-        //const datePattern = year + '-' + month + '-' + todayDate;
     }
     //#endregion
-
-	const handleDoRequest = (e) => {
+	const getResolveMessage = () => {
+		return ({
+			[typeStateResponse.EXISTS]: `El estudiante con dni ${form.dni}, ya está registrado`, 
+			[typeStateResponse.ERROR]: "Ocurrió un error inesperado al enviar los datos" 
+		})[stateResponse];
+	}
+	const handleDoRequestSubmit = async (e) => {
         e.preventDefault();
-		nextForm();
+        const { dateBirth, ...restForm } = form;
+        setLoadingSubmitRequest(true);
+        const [payload, err] = await addStudent({
+            ...restForm, 
+            dateOfBirth: dateBirth.value, 
+            dniRepresentative
+        });
+		setLoadingSubmitRequest(false);
+		setShowErrorMessage(true);
+        if (err || !payload.data) {
+			setStateResponse(typeStateResponse.ERROR);
+			return;
+		}
+        const { stateInsert } = payload.data;
+        if (stateInsert === "STU_EXI") {
+            setStateResponse(typeStateResponse.EXISTS);
+            return;
+        }
+		// nextForm();
+        setShowErrorMessage(false);
+		setStateResponse(typeStateResponse.ADDED);
+		nextForm({
+            fullName: `${form.fatherSurname} ${form.motherSurname}, ${form.name}`, 
+            dni: form.dni,
+            address: form.address, 
+            dateBirth: form.dateBirth.strValue
+        });
 	}
 
     return (
-		<ContentFormInfoStudent onSubmit={handleDoRequest}>
-            <section className="fields">
-                <LoginTextFields
-                    textFields={{
-                        "dni": {
-                            type: "text", 
-                            label: "Número de DNI",
-                            helperText: "Deben haber 8 dígitos numéricos",
-                            //onKeyPress: handleKeyPressOnlyNumbers,
-                            length: [8, 8] 
-                        }, 
-                        "fatherSurname": {
-                            type: "text",
-                            label: "Apellido Paterno",
-                            helperText: "Debe tener 25 caracteres como máximo",
-                            length: [1, 25]
-                        },
-                        "name": {
-                            type: "text",
-                            label: "Nombres",
-                            helperText: "Debe tener 50 caracteres como máximo",
-                            length: [1, 50]
-                        },
-                        "motherSurname": {
-                            type: "text",
-                            label: "Apellido Materno",
-                            helperText: "Debe tener 25 caracteres como máximo",
-                            length: [1, 25]
-                        },
-                        "address": {
-                            type: "text",
-                            label: "Dirección",
-                            helperText: "Debe tener 50 caracteres como máximo",
-                            length: [1, 50] 
-                        }
-                    }}
-                    handleChangeTextField={handleChangeTextField}
-                    form={form}
-                    errors={errors}/>
+        <Container onSubmit={handleDoRequestSubmit}>
+			<Content className="fields">
+				<ContentGroup>
+					<Fields 
+						textFields={{
+							dni: {
+								type: "text",
+								label: "Número de DNI",
+								helperText: "Deben haber 8 dígitos numéricos",
+								length: [8, 8],
+								onKeyPress: handleKeyPressOnlyNumbers, 
+								icon: <IconField icon="bxs:id-card"/>
+							},
+							fatherSurname: {
+								type: "text",
+								label: "Apellido Paterno",
+								helperText: "Debe haber 1 y 25 caracteres",
+								length: [1, 25],
+								icon: <IconField icon="bi:person-square"/>
+							},
+                            address: {
+								type: "text",
+								label: "Dirección",
+								helperText: "Debe haber entre 5 y 50 caracteres como máximo",
+								length: [8, 50], 
+								icon: <IconField icon="entypo:address"/>
+							}, 
+						}}
+						handleChangeField={handleChangeField}
+						form={form}
+						errors={errors}/> 
+				</ContentGroup>
+				<ContentGroup>
+					<Fields
+						textFields={{
+							name: {
+								type: "text",
+								label: "Nombres",
+								helperText: "Debe haber 1 y 50 caracteres",
+								length: [1, 50],
+								icon: <IconField icon="bi:person-square"/>
+							},
+							motherSurname: {
+								type: "text",
+								label: "Apellido Materno",
+								helperText: "Debe haber 1 y 25 caracteres",
+								length: [1, 25],
+								icon: <IconField icon="bi:person-square"/>
+							} 
+						}}
+						handleChangeField={handleChangeField}
+						form={form}
+						errors={errors}/>
                     <CustomInputDate 
                         type="date" 
-                        id="date-picker"
-                        dateFormat="aaaa-mm-dd" 
-                        onChange={(e) => handleDateValue(e)}
-                        min="2000-01-01" max="2029-12-31"/>
-            </section>
-            <footer>
-                <CustomButton
-                    className="secondary"
-                    type="submit"
-                    disabled={fieldsHaveErrors(errors)}
-                    text="Siguiente"
-                    /*loading={loadingLoginRequest}*//>
-            </footer>
-        </ContentFormInfoStudent>
+                        value={form.dateBirth.strValue}
+                        onChange={(e) => handleChangeField(e.target.value, "dateBirth")}
+                        min="2005-01-01"
+                        max="2010-12-31"/>
+				</ContentGroup>
+			</Content>
+			<footer>
+				<ResolveMessage 
+					show={showErrorMessage}
+					error={true}
+					message={getResolveMessage(stateResponse)}/>
+				<CustomButton
+					className="secondary"
+					type="submit"
+					disabled={fieldsHaveErrors(errors) || loadingSubmitRequest}
+					text="Siguiente"
+					loading={loadingSubmitRequest}
+				/>
+			</footer>
+		</Container>
     );
 }    
 
-const LoginTextFields = ({ 
-    textFields, 
-    handleChangeTextField, 
-    form,
-    errors
+
+const Fields = ({
+	textFields,
+	handleChangeField,
+	form,
+	errors,
 }) => {
-return (
-    <>
-        {Object.entries(textFields).map(([key, textField], idx)=> (
-            <CustomTextField 
-                key={idx}
-                className="registration"
-                type={textField.type}
-                label={textField.label}
-                value={form[key]}
-                onChange={(e) => handleChangeTextField(e, key)}
-                onKeyPress={textField.onKeyPress && textField.onKeyPress}
-                error={errors[key]}
-                helperText={errors[key] && textField.helperText}
-                inputProps={{
-                    minLength: textField.length[0] && textField.length[0],
-                    maxLength: textField.length[1] && textField.length[1]
-                }} 
-                InputProps={textField.iconEnd && {
-                    endAdornment: textField.iconEnd
-                }}/>
-        ))}
-    </>
-);
-}
+	return (
+		<>
+			{Object.entries(textFields).map(([key, textField], idx) => (
+				<CustomTextField
+					key={idx}
+					className="registration"
+					type={textField.type}
+					label={textField.label}
+					value={form[key]}
+					onChange={(e) => handleChangeField(e.target.value, key)}
+					onKeyPress={textField.onKeyPress && textField.onKeyPress}
+					error={errors[key]}
+					helperText={errors[key] && textField.helperText}
+					inputProps={{
+						minLength: textField.length[0] && textField.length[0],
+						maxLength: textField.length[1] && textField.length[1],
+					}}
+					InputProps={
+						textField.icon && {
+							startAdornment: textField.icon,
+						}
+					}/>
+			))}
+		</>
+	);
+};
 
 export default FormInfoStudent;

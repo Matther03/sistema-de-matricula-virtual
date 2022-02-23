@@ -10,5 +10,7 @@ export const StyledTextField = styled(TextField)`
     &.registration {
         width: 400px;
     }
-    
+    &.css-1u3bzj6-MuiFormControl-root-MuiTextField-root{
+        width: 100% !important;
+    }
 `;

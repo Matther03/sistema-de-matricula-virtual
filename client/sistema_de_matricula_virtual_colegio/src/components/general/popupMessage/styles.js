@@ -11,6 +11,9 @@ export const ContainerMessage = styled.div`
         &.update-result-message {
             font-size: 25px;
         }
+        &.form-new-student-message {
+            font-size: 20px;
+        }
     }
 `;
 export const Message = styled.h3`
@@ -21,5 +24,8 @@ export const Message = styled.h3`
     font-size: 20px;
     &.update-result-message {
         font-size: 16px;
+    }
+    &.form-new-student-message {
+        font-size: 14px;
     }
 `;

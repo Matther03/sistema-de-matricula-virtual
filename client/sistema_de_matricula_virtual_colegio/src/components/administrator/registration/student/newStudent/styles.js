@@ -16,5 +16,5 @@ export const Container = styled.section`
 `;
 export const Content = styled.section`
     align-self: center;
-    width: min-content;
+    width: 100%;
 `;

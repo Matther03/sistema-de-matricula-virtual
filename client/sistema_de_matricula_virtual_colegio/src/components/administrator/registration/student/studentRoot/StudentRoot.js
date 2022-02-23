@@ -199,13 +199,10 @@ const StudentRoot = () => {
     //#region Functions
     const doGetStudents = async (seeSize) => {
         setLoadingRequestGetStudents(true);
-        const [payload, err] = await getStudents(idxPage*amountRows, seeSize);
+        const [payload, err] = await getStudents(idxPage * amountRows, seeSize);
         setLoadingRequestGetStudents(false);
         if (err || !payload.data)
-        {
-            console.log(err);
             return null;
-        }
         return payload.data;
     }
     const doUpdateStudent = async () => {

@@ -22,20 +22,36 @@ import { typeStateViewNewStudent } from "../../../../../utils/types";
 const NewStudent = () => {
     //#region States
     const [stateView, setStateView] = useState(typeStateViewNewStudent.INFO_REPRESENTATIVE);
-
+    const [helperData, setHelperData] = useState({
+        dniRepresentative: "42324424", 
+        student: {
+            fullName: "-", 
+            dni: "-", 
+            address: "-",
+            dateBirth: "-"
+        }
+    });
     const itemsView = {
         [typeStateViewNewStudent.INFO_REPRESENTATIVE]: (
                 <FormInfoRepresentative 
                     nextForm={
-                        () => changeStateView(typeStateViewNewStudent.INFO_STUDENT)}/>
+                        (dniRepresentative) => {
+                            setHelperData(prev => ({ ...prev, dniRepresentative }));
+                            changeStateView(typeStateViewNewStudent.INFO_STUDENT);
+                        }}/>
             ), 
         [typeStateViewNewStudent.INFO_STUDENT]: (
                 <FormInfoStudent 
+                    dniRepresentative={helperData.dniRepresentative}
                     nextForm={
-                        () => changeStateView(typeStateViewNewStudent.GENERATE_ACCOUNT)}/>
+                        (student) => {
+                            setHelperData(prev => ({ ...prev, student }));
+                            changeStateView(typeStateViewNewStudent.GENERATE_ACCOUNT);
+                        }}/>
             ), 
         [typeStateViewNewStudent.GENERATE_ACCOUNT]: (
-                <FormGenerateAccount/>
+                <FormGenerateAccount 
+                    dataStudent={helperData.student}/>
             )
     }
     const changeStateView = (state) => {

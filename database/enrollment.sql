@@ -767,6 +767,23 @@ BEGIN
     WHERE student.code_student = __code_student;
 END//
 
+DROP PROCEDURE IF EXISTS sp_get_representative_email_by_student_dni;
+DELIMITER //
+CREATE PROCEDURE sp_get_representative_email_by_student_dni(
+    IN __dni CHAR(8) 
+)
+BEGIN
+    DECLARE __code_student INT(6);
+    SET __code_student = (SELECT code_student FROM student WHERE student.dni = __dni);
+    SELECT  
+        representative.email 
+    FROM
+        student
+    INNER JOIN representative
+        ON  student.code_representative = representative.code_representative 
+    WHERE student.code_student = __code_student;
+END//
+
 
 DROP PROCEDURE IF EXISTS sp_get_amount_register_student;
 DELIMITER //

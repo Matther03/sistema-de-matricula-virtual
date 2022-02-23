@@ -2,7 +2,13 @@
 export const regex = {
     user: /^.{8,16}$/, 
     dni: /^[0-9]{8}$/, 
-    password: /^.{8,16}$/
+    password: /^.{8,16}$/, 
+    name: /^.{1,50}$/, 
+    surname: /^.{1,25}$/, 
+    address: /^.{8,50}$/, 
+    phone: /^[0-9]{9}$/, 
+    email: /^[0-9a-zA-Z_.]{1,30}@.{1,10}\..{1,8}$/, 
+    date: /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/, 
 };
 export const typeStateRequestLogin = {
     NO_MATCH: "NO_MATCH",

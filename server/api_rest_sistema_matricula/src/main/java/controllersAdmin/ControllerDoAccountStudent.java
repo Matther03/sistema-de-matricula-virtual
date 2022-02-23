@@ -3,9 +3,6 @@ package controllersAdmin;
 import com.google.gson.JsonObject;
 import dto.student.ActivationAccountStudentDTO;
 import dto.student.RepresentativeDTO;
-import dto.student.StudentDTO;
-import entity.StudentEntity;
-
 import entity.admin.InsertForRegisterEntity;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -52,14 +49,11 @@ public class ControllerDoAccountStudent extends HttpServlet {
         final Boolean responseDoAccount = insertForRegisterEntity.doAccountStudent(
                 activationAccountStudent);
         if (!responseDoAccount) 
-            return FormatResponse.getErrorResponse("The student code does not exist", 400);
+            return FormatResponse.getErrorResponse("The code student does not exist", 400);
         
         
         //Obtención de correo del apoderado 
-        final int codigo = activationAccountStudent.getStudent().getCode();
-        
-        
-        final RepresentativeDTO representative = insertForRegisterEntity.getEmailRepresentative(codigo);
+        final RepresentativeDTO representative = insertForRegisterEntity.getEmailRepresentative(activationAccountStudent);
         //Envio de Token al Representante
         final String content = EmailTemplate.getDoAccount(activationAccountStudent.getToken()) ;
         final boolean emailSender =new EmailSender().send(representative.getEmail(), "Activar Cuenta", content);

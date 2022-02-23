@@ -1,5 +1,6 @@
 //#region Libraries
 import styled from "styled-components";
+import { Link } from 'react-router-dom';
 //#endregion
 
 export const ContainerSectionActivation = styled.section`
@@ -30,6 +31,9 @@ export const CardContainer = styled.article`
     @media (max-width: 740px){
         width: 95%;
     }
+`;
+export const CustomButtonLink = styled(Link)`
+    text-decoration: none !important;
 `;
 export const SuccessInfo = styled.article`
     display: flex;
