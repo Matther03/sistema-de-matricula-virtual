@@ -13,7 +13,7 @@ import {
 import LogoutBtn from "../../../components/administrator/components/logoutBtn/LogoutBtn";
 import CardLinkServiceAdmin from "../../../components/administrator/home/components/cardLinkServiceAdmin/CardLinkServiceAdmin";
 //#endregion
-
+const iconList = ["ph:student-light", "la:chalkboard-teacher", "carbon:course"]
 const Home = ({
     infoRoutes = []
 }) => {
@@ -28,7 +28,8 @@ const Home = ({
                         <CardLinkServiceAdmin 
                             key={idx}
                             to={route.path}
-                            text={route.nameRoute}/>
+                            text={route.nameRoute}
+                            icon={iconList[idx]}/>
                     ))}
                 </ContainerLinks>
             </Content>
