@@ -43,7 +43,7 @@ const FormGenerateAccount = ({ dataStudent }) => {
         setSuccessfullyResponse(true);
         setTimeout(() => {
             navigate("/admin/registro/alumno");
-        }, 3000);
+        }, 5000);
     }
     //#endregion
     return (
