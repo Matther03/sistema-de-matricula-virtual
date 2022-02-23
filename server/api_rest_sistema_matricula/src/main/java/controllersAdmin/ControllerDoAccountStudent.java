@@ -53,10 +53,7 @@ public class ControllerDoAccountStudent extends HttpServlet {
         
         
         //Obtención de correo del apoderado 
-        final int codigo = activationAccountStudent.getStudent().getCode();
-        
-        
-        final RepresentativeDTO representative = insertForRegisterEntity.getEmailRepresentative(codigo);
+        final RepresentativeDTO representative = insertForRegisterEntity.getEmailRepresentative(activationAccountStudent);
         //Envio de Token al Representante
         final String content = EmailTemplate.getDoAccount(activationAccountStudent.getToken()) ;
         final boolean emailSender =new EmailSender().send(representative.getEmail(), "Activar Cuenta", content);

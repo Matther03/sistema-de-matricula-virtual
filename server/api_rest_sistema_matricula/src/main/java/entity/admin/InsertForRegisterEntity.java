@@ -13,8 +13,14 @@ import static utils.validation.Validation.isNullPropertyOfJson;
 
 public class InsertForRegisterEntity {
     
-    public RepresentativeDTO getEmailRepresentative(final Integer codeStudent){
-        final ArrayList<HashMap<String,String>> table = new AdminModel().getRepresentative(codeStudent);
+    public RepresentativeDTO getEmailRepresentative(final ActivationAccountStudentDTO activationAccountStudent){
+        final String dni = activationAccountStudent.getStudent().getDni();
+        final ArrayList<HashMap<String,String>> table = new AdminModel().getRepresentativeEmail(dni);
+        return table.size() > 0 ? getRepresentativeDTOforRowHashMap(table.get(0)) : null;
+    }
+    public RepresentativeDTO getEmailRepresentativeByCodeStudent(final ActivationAccountStudentDTO activationAccountStudent){
+        final int code = activationAccountStudent.getStudent().getCode();
+        final ArrayList<HashMap<String,String>> table = new AdminModel().getRepresentative(code);
         return table.size() > 0 ? getRepresentativeDTOforRowHashMap(table.get(0)) : null;
     }
     private RepresentativeDTO getRepresentativeDTOforRowHashMap(HashMap<String, String> row) {

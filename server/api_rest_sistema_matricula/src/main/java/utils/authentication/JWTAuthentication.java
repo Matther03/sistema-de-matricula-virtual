@@ -12,6 +12,7 @@ import java.util.Date;
 
 public class JWTAuthentication {
     final String SECRET_KEY = getSecretKey();
+    final private static long EXPIRATION_ROOT = 20*60000;
     
     public String getToken(String username, RoleAuthJWT role) {
         final String token = Jwts
@@ -19,7 +20,7 @@ public class JWTAuthentication {
                     .setSubject(username)
                     .claim("role", role.toString())
                     .setIssuedAt(new Date(System.currentTimeMillis()))
-                    .setExpiration(new Date(System.currentTimeMillis() + 1800000))
+                    .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_ROOT))
                     .signWith(
                         SignatureAlgorithm.HS512,
                         SECRET_KEY.getBytes())

@@ -185,7 +185,7 @@ const FormLogin = () => {
                 icons="ci:error-outline"
                 buttons={[
                     () => <a 
-                        href="http://localhost/sitio_web_colegio/html/admision.html"
+                        href="http://victor-manuel-maurtua.edu.pe.devel/admision"
                         target="_blank">
                         <CustomButton
                             variant="outlined"

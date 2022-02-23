@@ -33,6 +33,14 @@ public class AdminModel extends ModelParent {
             return prSt;
         });
     }
+    public ArrayList<HashMap<String, String>> getRepresentativeEmail(
+        final String studentDni) {
+        return doActionQuery((cnObj, prSt) -> {
+            prSt = cnObj.prepareStatement(ProceduresDB.GET_REPRESENTATIVE_EMAIL);
+            prSt.setString(1, studentDni);
+            return prSt;
+        });
+    }
     
     public ArrayList<HashMap<String, String>> getTeacher(            
         final Integer codeStudent) {

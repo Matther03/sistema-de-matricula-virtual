@@ -160,7 +160,6 @@ const FormInfoStudent = ({
 			return;
 		}
         const { stateInsert } = payload.data;
-        console.log(stateInsert);
         if (stateInsert === "STU_EXI") {
             setStateResponse(typeStateResponse.EXISTS);
             return;
@@ -168,7 +167,12 @@ const FormInfoStudent = ({
 		// nextForm();
         setShowErrorMessage(false);
 		setStateResponse(typeStateResponse.ADDED);
-		nextForm(form.dni);
+		nextForm({
+            fullName: `${form.fatherSurname} ${form.motherSurname}, ${form.name}`, 
+            dni: form.dni,
+            address: form.address, 
+            dateBirth: form.dateBirth.strValue
+        });
 	}
 
     return (

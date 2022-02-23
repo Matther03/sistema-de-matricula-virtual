@@ -14,6 +14,7 @@ public class ProceduresDB {
     //ADMIN
     public static final String GET_REGISTER_STUDENT = "CALL sp_get_register_student(?,?);";
     public static final String GET_REPRESENTATIVE = "CALL sp_get_representative(?);";
+    public static final String GET_REPRESENTATIVE_EMAIL = "CALL sp_get_representative_email_by_student_dni(?)";
     public static final String GET_TEACHER = "CALL sp_get_form_teacher(?)";
     public static final String GET_TEACHER_CLASSROOM = "CALL sp_get_teacher_classroom(?)";
     public static final String GET_AMOUNT_REGISTER = "CALL sp_get_amount_register_student;";

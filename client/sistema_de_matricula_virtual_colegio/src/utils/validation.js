@@ -10,16 +10,6 @@ export const regex = {
     email: /^[0-9a-zA-Z_.]{1,30}@.{1,10}\..{1,8}$/, 
     date: /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/, 
 };
-
-/*
-    dni: "",
-    fatherSurname: "",
-    name: "",
-    motherSurname: "",
-    address: "",
-    phone: "",
-    email: "",
-*/
 export const typeStateRequestLogin = {
     NO_MATCH: "NO_MATCH",
     INVALID_DATA: "INVALID_DATA", 
