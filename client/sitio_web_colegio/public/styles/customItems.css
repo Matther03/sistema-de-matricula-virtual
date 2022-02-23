@@ -1,9 +1,9 @@
 * {
     font-family: 'Barlow Semi Condensed', sans-serif;
+    scroll-behavior: smooth;
 }
 body {
     display: block;
-    flex-direction: column;
     max-width: 120rem;
     margin-left: auto;
     margin-right: auto;
@@ -27,48 +27,46 @@ ul {
     --light-color: #EEEEEE;
     --dark-color:#3C3C3C;
 }
-/*--HEADER--*/
-header {
+/*Navegación*/
+#header-home {
     top: 0;
     left: 0;
     display: flex;
     width: 100%;
     flex-direction: column;
     user-select: none;
+    position: fixed;
+    z-index: 5000;
 }
-/*Navegación*/
-header .low-header {
+#header-home > .low-header {
     display: flex;
     width: 100%;
     background-color: var(--light-color);
     justify-content: space-between;
+    align-items: center;
     z-index: 10000;
 }
-header .low-header.sticky {
-    position: fixed;
-}
-header .low-header nav ul{
+#header-home > .low-header nav ul{
     display: flex;
-    justify-content: space-between;
     margin: 0;
-    flex-wrap: wrap;
 }
-header .low-header nav ul li a {
+#header-home > .low-header nav ul li a {
     display: block;
-    padding: 20px 35px;
+    padding: 20px 20px;
     transition: 0.35s;
     font-weight: 600;
     font-size: 20px;
     color: var(--main-color);
     box-sizing: border-box;
 }
-header .low-header nav ul li a:hover{
+#header-home > .low-header nav ul li a:hover{
     color: #16469D90;
 }
-header .low-header .low-header-btn-container {
+#header-home .low-header-btn-container {
+    display: inline-block;
     padding: 10px 80px;
 }
-header .low-header button {
+#header-home .low-header-btn-container {
     cursor: pointer;
     padding: 10px 30px;
     background-color: var(--main-color);
@@ -80,112 +78,118 @@ header .low-header button {
     transition: 0.35s;
     flex-wrap: wrap;
 }
-header .low-header button:active {
+#header-home .low-header-btn-container:active {
     transform: scale(.9);
 }
-header .low-header button:hover {
+#header-home .low-header-btn-container:hover {
     background-color: #16469D90;
 }
-header .low-header #menu-btn {
+#header-home > .low-header #container-responsive-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+    padding: 10px 0;
+}
+#header-home > .low-header #container-responsive-btn .icon-container {
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    display: none;
-    padding: 10px 0;
-}
-header .low-header #menu-btn .icon-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     width: 45px;
     height: 45px;
     border-radius: 50%;
     border: solid var(--dark-color);
     transition: 0.3s;
 }
-header .low-header #menu-btn .icon-container:hover {
+#header-home > .low-header #container-responsive-btn .icon-container:hover {
     background-color: #b9b6b6;
 }
-header .low-header #menu-btn .icon-container:active {
+#header-home > .low-header #container-responsive-btn .icon-container:active {
     transition: 0.1s;
     transform: scale(.9);
     background-color: var(--main-color);
     color: var(--light-color);
 }
-header .iconify {
+#header-home > .iconify {
     width: 20px;
     height: 20px;
 }
-@media screen and (max-width: 1088px) {
-    header .low-header nav ul li a {
-        padding: 20px 20px;
+@media screen and (max-width: 980px) {
+    #header-home .low-header nav ul li a {
+        padding: 20px 12px;
     }
-    header .low-header .low-header-btn-container {
-        padding: 10px 40px;
-    }
+    
 }
 @media screen and (max-width: 888px) {
-    header .low-header nav {
+    #header-home .low-header .title-logo {
         display: none;
     }
-    header .low-header .low-header-btn-container {
+    #header-home .low-header nav {
         display: none;
     }
-    header .low-header {
+    #header-home .low-header .low-header-btn-container {
+        display: none;
+    }
+    #header-home .low-header {
+        display: unset;
         justify-content: center;
         align-items: center;
     }
-    header .low-header #menu-btn {
+    #header-home .low-header #container-responsive-btn {
         display: flex;
     }
-    header{
+    #header-home{
         position: fixed;
-        z-index: 9999;
+        z-index: 9000;
     } 
-    header .low-header.sticky {
+    #header-home .low-header.sticky {
         position: relative;
     }
-    main {
+    #main-index {
         margin-top: 174px;
     }
 }
 /*Menú responsive del header*/
-header #responsive-menu {
+#header-home #responsive-menu {
     display: flex;
     flex-direction: column;
     text-align: center;
     background-color: var(--light-color);
-    display: none;
     width: 100%;
-    z-index: 9997;
+    z-index: 0;
+    transition: 0.3s;
+    transform: translateY(-800px);
 }
-header #responsive-menu.sticky {
+#header-home #responsive-menu.sticky {
     position: fixed;
-    margin-top: 174px;
+    margin-top: 172px;
 }
-header #responsive-menu nav ul{
+#header-home #responsive-menu nav ul{
     display: flex;
     flex-direction: column;
     padding: 10px 0;
     margin: 0;
 }
-header #responsive-menu nav ul li{
+#header-home #responsive-menu nav ul li{
     padding: 20px 0;
 }
-header #responsive-menu nav ul li a{
+#header-home #responsive-menu nav ul li:hover{
+    background-color: #c4c4c470;
+}
+#header-home #responsive-menu nav ul li a{
     transition: 0.35s;
     font-weight: 600;
     font-size: 20px;
     color: var(--main-color);
 }
-header #responsive-menu nav ul li a:hover{
+#header-home #responsive-menu nav ul li a:hover{
     color: #16469D90;
 }
-header #responsive-menu div {
+#header-home #responsive-menu div {
     padding: 10px 0;
 }
-header #responsive-menu button {
+#header-home #responsive-menu button {
     cursor: pointer;
     padding: 10px 30px;
     background-color: var(--main-color);
@@ -197,12 +201,13 @@ header #responsive-menu button {
     transition: 0.35s;
     flex-wrap: wrap;
 }
-header #responsive-menu button:hover {
+#header-home #responsive-menu button:hover {
     background-color: #16469D90;
 }
 @media screen and (max-width: 888px) {
-    header #responsive-menu.show {
+    #header-home #responsive-menu.show {
         display: flex;
+        transform: translateY(0);
     }
 }
 /*--Swiper--*/

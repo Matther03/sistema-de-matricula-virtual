@@ -1,25 +1,18 @@
 #requirements ul {
     list-style: disc;
 }
-/*--Header--*/
-#header-admission .low-header .slogan {
+.title-logo {
     display: flex;
     align-items: center;
-    padding: 5px 120px;
-    gap: 30px;
+    padding: 5px 60px;
+    gap: 10px;
 }
-#header-admission .slogan img {
-    height: 60px;
-}
-#header-admission .slogan h4 {
+.title-logo h2 {
     font-size: 20px;
     font-weight: normal;
 }
-#header-admission .low-header nav{
-    padding: 0 100px;
-}
-#header-admission .low-header nav ul li a {
-    padding: 31px 35px;
+#header-home .low-header img {
+    height: 60px;
 }
 /*--Sección bienvenidos--*/
 #welcome {
@@ -135,7 +128,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 60px 300px;
+    padding: 60px 60px;
     margin-top: 50px;
 }
 #process h1 {
@@ -149,29 +142,10 @@
     flex-direction: column;
     gap: 30px;
     margin-top: 70px;
-    padding: 0 70px;
 }
 #process .steps .row-steps {
     display: flex;
     gap: 30px;
-}
-@media (max-width:1680px) {
-    #process {
-        padding: 60px 200px;
-    }
-    #process .steps {
-        padding: 0;
-    }
-}
-@media (max-width:1564px) {
-    #process {
-        padding: 60px 100px;
-    }
-}
-@media (max-width:1564px) {
-    #process {
-        padding: 60px 60px;
-    }
 }
 @media (max-width:1145px) {
     #process {
@@ -195,7 +169,7 @@
     width: 100%;
     height: 98.88px;
     gap: 30px;
-    padding: 0 70px 0 35px;
+    padding: 0 70px 0 26px;
     position: relative;
 }
 #process .singular-step::after {
@@ -239,19 +213,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 100px 400px;
+    padding: 100px 100px;
     margin-top: 50px;
     background-color: var(--light-color);
-}
-@media (max-width: 1670px) {
-    #more-info {
-        padding: 100px 200px;
-    }
-}
-@media (max-width: 1300px) {
-    #more-info {
-        padding: 100px 100px;
-    }
 }
 @media (max-width: 1100px) {
     #more-info {

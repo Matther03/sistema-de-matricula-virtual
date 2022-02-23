@@ -8,6 +8,7 @@
     padding: 10px 0;
     box-sizing: border-box;
     background-color: #fff;
+    z-index: 9001;
 }
 #header-home .top-header img {
     height: 80px;
@@ -17,16 +18,19 @@
     font-weight: 700;
     font-size: 25px;
 }
+.low-header #login-btn-container {
+    padding: 0 40px;
+}
 /*--Main--*/
 /*--Sección matrícula--*/
-.inscription {
+#inscription {
     display: flex;
     justify-content: center;
     padding: 140px 0;
     gap: 60px;
 }
 @media (max-width: 1240px) {
-    .inscription {
+    #inscription {
         flex-wrap: wrap;
     }
 }
@@ -74,44 +78,44 @@
     margin-top: 50px;
     padding: 0 10px;
 }
-.inscription-btn-container button {
+.inscription-btn-container a {
     display: flex;
     justify-content: center;
     align-items: center;
     border-style: none;
     border-radius: 6px;
-    padding: 20px;
+    padding: 5px;
     height: 57px;
     width: 322px;
     color: var(--light-color);
-    font-size: 20px;
+    font-size: 22px;
     font-weight: medium;
     cursor: pointer;
     transition: 0.35s;
 }
-.inscription-btn-container button:first-child {
+.inscription-btn-container a:first-child {
     background-color: var(--secondary-color);
 }
-.inscription-btn-container button:first-child:hover {
+.inscription-btn-container a:first-child:hover {
     background-color: #EE304295;
 }
-.inscription-btn-container button:last-child {
+.inscription-btn-container a:last-child {
     background-color: var(--main-color);
 }
-.inscription-btn-container button:last-child:hover {
+.inscription-btn-container a:last-child:hover {
     background-color: #16469D90;
 }
-.inscription-btn-container button:active {
+.inscription-btn-container a:active {
     transform: scale(.95);
 }
 /*--Sección ¿quiénes?--*/
-.about-us {
+#about-us {
     display: flex;
     flex-direction: column;
     background-color: var(--light-color);
     padding: 90px 0;
 }
-.about-us h1 {
+#about-us h1 {
     color: var(--main-color);
     margin: 0;
     text-align: left;
@@ -142,6 +146,9 @@
         width: 70%;
     }
 }
+.login-btn-container {
+    padding: 0 20px;
+}
 .info-about-us img {
     width: 430px;
     height: 250px;
@@ -159,14 +166,14 @@
     margin: 0;
 }
 /*--Sección talleres--*/
-.workshop {
+#workshop {
     display: flex;
     flex-direction: column;
     padding: 90px 0;
     margin-bottom: 80px;
     gap: 50px;
 }
-.workshop h1 {
+#workshop h1 {
     color: var(--main-color);
     margin: 0;
     text-align: left;

@@ -1,11 +1,11 @@
-const arrowBtn = document.getElementById('menu-btn');
 const responsiveMenu = document.getElementById('responsive-menu');
 const themeIcon = document.querySelector('#theme-icon');
+
 let change = true;
 let menuIcons = themeIcon.querySelectorAll('.iconify');
 menuIcons[1].style.display = 'none';
 
-arrowBtn.addEventListener('click', () => {
+themeIcon.addEventListener('click', () => {
     responsiveMenu.classList.toggle('show');
 
     menuIcons = themeIcon.querySelectorAll('.iconify');
